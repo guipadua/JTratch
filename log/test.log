@@ -1,0 +1,868 @@
+11:19:17.066 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:20:37.739 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:20:37.752 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:20:37.752 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:20:37.753 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:20:37.753 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:20:37.841 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:20:38.892 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:20:38.898 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:20:38.899 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:21:33.777 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:21:33.804 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:21:33.804 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:21:33.807 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:21:33.807 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:21:33.908 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:21:34.866 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:21:34.878 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:21:34.879 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:24:19.215 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:24:19.229 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:24:19.229 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:24:19.231 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:24:19.231 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:24:19.332 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:24:20.374 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:24:20.387 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:24:20.388 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:25:36.943 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:25:36.944 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:25:36.944 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:25:52.466 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:25:52.466 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 0
+11:25:52.466 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:25:52.466 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:25:54.748 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:25:54.755 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:25:54.755 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+11:28:05.185 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:28:05.200 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:28:05.200 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:28:05.202 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:28:05.202 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:28:05.287 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:28:06.351 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:28:06.359 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:28:06.360 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:28:06.363 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:28:06.363 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:28:06.363 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:28:06.372 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:28:06.372 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 0
+11:28:06.372 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:28:06.372 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:28:08.472 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:28:08.478 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:28:08.478 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+11:29:14.891 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:29:14.902 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:29:14.903 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:29:14.904 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:29:14.904 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:29:14.969 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:29:15.785 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:29:15.792 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:29:15.793 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:29:15.797 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:29:15.798 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:29:15.798 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:29:15.802 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:29:15.802 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 0
+11:29:15.802 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:29:15.802 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:29:15.802 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:29:15.809 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:29:15.810 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+11:30:16.254 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:30:16.268 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:30:16.268 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:30:16.269 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:30:16.269 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:30:16.328 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:30:17.146 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:30:17.153 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:30:17.154 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:30:17.155 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:30:17.156 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:30:17.156 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:30:17.159 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:30:17.159 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+11:30:17.159 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:30:17.159 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:30:17.159 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:30:17.165 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:30:17.165 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+11:31:08.706 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:31:08.725 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:31:08.725 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:31:08.727 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:31:08.727 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:31:08.787 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:31:09.832 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:31:09.845 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:31:09.846 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:31:09.850 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:31:09.851 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:31:09.851 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:31:09.857 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:31:09.857 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 0
+11:31:09.857 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:31:09.858 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:31:09.858 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:31:09.871 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:31:09.872 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+11:34:06.534 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:34:06.546 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:34:06.547 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:34:06.548 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:34:06.548 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:34:06.608 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:34:07.467 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:34:07.476 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:34:07.476 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:34:07.479 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:34:07.479 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:34:07.479 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:34:07.483 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:34:07.484 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 0
+11:34:07.484 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:34:07.484 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:34:07.484 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:34:07.491 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:34:07.491 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+11:34:09.721 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:34:09.738 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:34:09.738 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:34:09.740 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:34:09.740 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:34:09.807 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:34:10.829 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:34:10.838 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:34:10.839 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:46:48.396 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:46:48.396 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:46:48.397 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:46:51.315 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:46:51.315 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 0
+11:46:51.315 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:46:51.315 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:46:53.416 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:46:53.422 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:46:53.422 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+11:47:06.508 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:47:06.527 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:47:06.527 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:47:06.529 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:47:06.529 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:47:06.586 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:47:07.358 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:47:07.366 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:47:07.368 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:47:07.373 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:47:07.373 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:47:07.373 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:47:07.377 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:47:07.377 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+11:47:07.377 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:47:07.377 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:47:07.377 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:47:07.385 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:47:07.385 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+11:48:01.458 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+11:48:01.470 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+11:48:01.470 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+11:48:01.472 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+11:48:01.472 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+11:48:01.534 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+11:48:02.285 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+11:48:02.292 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+11:48:02.293 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+11:48:02.295 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+11:48:02.296 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+11:48:02.296 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+11:48:02.301 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+11:48:02.301 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+11:48:02.301 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+11:48:02.301 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+11:48:02.301 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+11:48:02.309 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+11:48:02.309 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+12:18:33.997 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:18:34.009 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:18:34.009 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:18:34.010 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:18:34.010 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:18:34.075 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:18:34.893 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:18:34.901 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 350
+12:18:34.903 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:18:34.905 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:18:34.906 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:18:34.906 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:18:34.911 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+12:18:34.911 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+12:18:34.912 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 350
+12:18:34.912 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 3
+12:18:34.912 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+12:18:34.917 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+12:18:34.918 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+12:24:36.261 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:24:36.274 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:24:36.274 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:24:36.275 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:24:36.275 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:24:36.346 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:24:37.131 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:24:37.140 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 373
+12:24:37.140 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:24:37.142 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:24:37.143 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:24:37.143 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:24:37.143 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+12:24:37.148 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+12:24:37.148 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+12:24:37.148 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 373
+12:24:37.148 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+12:24:37.148 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+12:24:37.156 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+12:24:37.156 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+12:27:21.577 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:27:21.591 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:27:21.591 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:27:21.592 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:27:21.592 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:27:21.662 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:27:22.705 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:27:22.716 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 373
+12:27:22.717 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:27:34.325 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:27:34.326 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:27:34.326 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:27:34.326 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+12:27:34.333 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+12:27:34.333 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+12:27:34.333 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 373
+12:27:34.333 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+12:27:35.617 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+12:27:35.626 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+12:27:35.626 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+12:28:15.910 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:28:15.933 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:28:15.933 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:28:15.934 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:28:15.934 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:28:16.010 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:28:16.990 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:28:16.999 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 373
+12:28:17.000 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:28:17.006 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:28:17.007 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:28:17.007 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:28:17.007 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+12:28:17.016 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+12:28:17.016 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+12:28:17.016 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 373
+12:28:17.016 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+12:28:36.221 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:28:36.238 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:28:36.238 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:28:36.240 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:28:36.240 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:28:36.317 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:28:37.389 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:28:37.399 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 373
+12:28:37.400 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:29:05.489 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:29:05.489 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:29:05.490 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:29:14.331 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+12:29:14.338 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+12:29:14.338 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+12:29:14.338 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 373
+12:29:14.338 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+12:30:36.118 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+12:30:36.126 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+12:30:36.126 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+12:32:48.526 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:32:48.538 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:32:48.538 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:32:48.539 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:32:48.540 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:32:48.605 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:32:49.624 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:32:49.634 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+12:32:49.634 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:33:20.560 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:33:20.560 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:33:20.560 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:33:31.132 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+12:33:31.139 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+12:33:31.139 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+12:33:31.139 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 371
+12:33:31.139 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+12:34:04.154 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+12:34:04.162 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+12:34:04.162 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+12:34:09.538 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:34:09.550 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:34:09.550 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:34:09.551 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:34:09.551 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:34:09.632 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:34:10.625 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:34:10.642 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+12:34:10.643 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:34:42.823 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:34:50.175 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:34:50.175 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:35:09.508 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+12:36:18.035 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+12:36:18.035 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+12:36:18.035 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 371
+12:36:18.035 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+12:36:28.349 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+12:36:28.357 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+12:36:28.357 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+12:39:16.478 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:39:16.493 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:39:16.493 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:39:16.494 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:39:16.495 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:39:16.589 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:39:18.403 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:39:18.424 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+12:39:18.425 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:39:18.436 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+12:39:39.866 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+12:39:43.659 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+12:40:15.181 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:40:22.909 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:40:22.910 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:40:22.910 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 206
+12:40:25.541 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+12:40:34.885 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+12:44:25.146 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+12:44:25.164 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+12:44:25.165 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+12:44:25.168 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+12:44:25.168 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+12:44:25.265 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+12:44:26.529 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+12:44:26.541 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+12:44:26.543 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+12:44:34.380 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+12:44:40.732 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+12:44:40.732 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+12:44:40.733 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+12:44:44.420 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+12:44:44.420 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+12:44:46.972 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 206
+12:44:46.973 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+12:44:46.973 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+12:44:54.013 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 237
+12:45:08.015 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+12:45:08.015 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+12:45:08.016 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 371
+12:45:08.016 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+12:45:09.631 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+12:45:09.639 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+12:45:09.640 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+14:01:14.149 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+14:01:14.175 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+14:01:14.176 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+14:01:14.178 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+14:01:14.178 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+14:01:14.280 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+14:01:15.764 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+14:01:15.778 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+14:01:15.779 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+14:01:29.784 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:01:29.784 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:01:29.785 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:01:29.789 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+14:01:33.552 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+14:12:45.228 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+14:12:45.244 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+14:12:45.244 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+14:12:45.247 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+14:12:45.247 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+14:12:45.350 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+14:12:46.688 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+14:12:46.703 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+14:12:46.704 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+14:12:46.710 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:12:50.579 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+14:12:50.580 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+14:14:55.729 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+14:14:55.750 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+14:14:55.750 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+14:14:55.754 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+14:14:55.754 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+14:14:55.844 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+14:14:57.110 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+14:14:57.128 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+14:14:57.134 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+14:14:57.147 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:15:53.760 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:15:54.820 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:15:57.528 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:15:58.488 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+14:15:58.489 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+14:17:19.323 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+14:17:19.323 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+14:17:19.324 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 206
+14:17:24.479 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+14:17:25.765 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+14:17:25.766 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 237
+14:17:27.524 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+14:17:27.525 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+14:17:27.525 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 371
+14:17:27.525 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+14:17:29.405 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+14:17:29.413 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+14:17:29.413 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+14:21:45.451 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+14:21:45.475 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+14:21:45.476 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+14:21:45.478 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+14:21:45.479 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+14:21:45.590 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+14:21:46.730 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+14:21:46.742 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+14:21:46.743 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+14:21:46.769 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:21:54.231 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:21:56.167 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:21:57.363 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+14:21:57.363 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+14:21:59.082 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+14:21:59.082 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+14:21:59.082 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 206
+14:22:00.160 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+14:22:01.272 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+14:22:01.272 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 237
+14:22:02.076 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+14:22:02.076 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+14:22:02.076 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 371
+14:22:02.076 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+14:22:05.192 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+14:26:24.808 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+14:26:24.808 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+14:26:29.385 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+14:26:29.401 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+14:26:29.401 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+14:26:29.404 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+14:26:29.404 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+14:26:29.497 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+14:26:30.644 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+14:26:30.663 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 371
+14:26:30.664 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+14:26:30.672 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:26:33.736 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:26:34.736 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:26:37.067 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+14:26:37.068 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+14:26:40.408 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 205
+14:26:40.408 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 209
+14:26:40.409 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 206
+14:26:40.409 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+14:26:40.409 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 236
+14:26:40.409 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 237
+14:26:40.418 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+14:26:40.418 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+14:26:40.418 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 371
+14:26:40.418 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+14:26:43.760 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+14:26:43.770 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+14:26:43.770 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+14:45:01.700 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+14:45:01.720 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+14:45:01.721 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+14:45:01.723 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+14:45:01.723 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+14:45:01.823 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+14:45:02.924 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+14:45:02.937 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 372
+14:45:02.938 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+14:45:02.940 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:02.941 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:02.941 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:02.942 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+14:45:02.942 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+14:45:02.942 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+14:45:02.942 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+14:45:02.943 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+14:45:02.943 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+14:45:02.943 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+14:45:02.945 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+14:45:02.946 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+14:45:02.951 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+14:45:02.951 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+14:45:02.951 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 372
+14:45:02.951 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+14:45:02.951 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+14:45:02.958 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+14:45:02.958 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+14:45:05.647 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+14:45:05.666 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+14:45:05.668 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+14:45:05.670 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+14:45:05.671 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+14:45:05.759 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+14:45:07.011 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+14:45:07.024 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 372
+14:45:07.027 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+14:45:07.030 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:07.030 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:07.031 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:07.033 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+14:45:07.037 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+14:45:07.038 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+14:45:07.038 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+14:45:07.038 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+14:45:07.039 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+14:45:07.039 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+14:45:07.039 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+14:45:07.039 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+14:45:07.044 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+14:45:07.045 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+14:45:07.045 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 372
+14:45:07.045 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+14:45:07.045 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+14:45:07.054 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+14:45:07.054 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+14:45:19.624 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+14:45:19.644 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+14:45:19.644 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+14:45:19.646 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+14:45:19.646 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+14:45:19.715 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+14:45:20.852 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+14:45:20.866 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 372
+14:45:20.867 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+14:45:20.876 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:20.876 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:20.876 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+14:45:20.878 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+14:45:20.878 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+14:45:20.879 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+14:45:20.879 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+14:45:20.879 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+14:45:20.879 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+14:45:20.880 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+14:45:20.880 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+14:45:20.880 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+14:45:20.885 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+14:45:20.885 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+14:45:20.886 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 372
+14:45:20.886 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 4
+14:45:20.886 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+14:45:20.893 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+14:45:20.894 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+15:50:16.113 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+15:50:16.128 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+15:50:16.128 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+15:50:16.130 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+15:50:16.130 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+15:50:16.220 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+15:50:17.351 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+15:50:17.363 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 412
+15:50:17.365 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+15:50:17.367 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+15:50:17.367 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+15:50:17.367 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+15:50:17.368 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+15:50:17.368 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+15:50:17.369 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+15:50:17.369 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+15:50:17.369 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+15:50:17.369 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+15:50:17.369 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+15:50:17.370 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+15:50:17.370 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+15:50:17.370 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+15:50:17.371 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+15:50:17.376 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+15:50:17.376 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+15:50:17.376 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 412
+15:50:17.376 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 6
+15:50:17.376 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+15:50:17.386 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+15:50:17.386 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+15:50:36.841 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+15:50:36.855 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+15:50:36.856 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+15:50:36.857 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+15:50:36.857 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+15:50:36.932 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+15:50:38.076 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+15:50:38.104 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 412
+15:50:38.107 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+15:50:38.113 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+15:50:38.113 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+15:50:38.113 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+15:54:14.702 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+15:54:14.702 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+15:54:14.703 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+15:55:16.395 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+15:55:16.396 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+15:55:16.396 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+15:55:16.396 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+15:55:47.765 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+15:55:47.765 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+15:55:51.491 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+15:56:10.600 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+15:56:31.738 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+15:56:31.738 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+15:56:31.738 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 412
+15:56:31.738 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 6
+15:56:31.738 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+15:56:31.773 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+15:56:31.773 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+16:43:13.026 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+16:43:13.056 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+16:43:13.057 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+16:43:13.059 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+16:43:13.059 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+16:43:13.165 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+16:43:14.305 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+16:43:14.328 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+16:43:14.329 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+16:43:14.337 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+16:43:14.337 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+16:43:14.337 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+16:43:48.848 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+16:43:48.848 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+16:43:48.848 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+16:43:52.696 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+16:43:52.696 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+16:43:52.696 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+16:43:52.697 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+16:43:59.808 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+16:43:59.808 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+16:44:04.928 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+16:44:18.025 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+16:44:18.913 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 298
+16:44:19.718 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 316
+16:44:20.422 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+16:44:20.423 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+16:44:20.423 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 438
+16:44:20.423 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 8
+16:44:20.423 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+16:44:20.436 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+16:44:20.437 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+16:54:15.747 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+16:54:15.768 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+16:54:15.769 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+16:54:15.773 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+16:54:15.773 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+16:54:15.893 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+16:54:17.045 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+16:54:17.064 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+16:54:17.066 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+16:54:17.071 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+16:54:17.071 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+16:54:17.071 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+16:54:21.442 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+16:54:21.443 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+16:54:21.443 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+16:54:32.323 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+16:54:32.323 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+16:54:32.323 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+16:54:32.324 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+16:54:34.163 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+16:54:34.163 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+16:54:36.275 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+16:54:49.636 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+17:02:39.811 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+17:02:39.830 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+17:02:39.831 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+17:02:39.833 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+17:02:39.833 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+17:02:39.908 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+17:02:41.155 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+17:02:41.170 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+17:02:41.171 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+17:02:41.173 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:02:41.174 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:02:41.174 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:04:21.656 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+17:04:21.671 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+17:04:21.671 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+17:04:21.673 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+17:04:21.674 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+17:04:21.779 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+17:04:23.062 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+17:04:23.077 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+17:04:23.079 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+17:04:23.081 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:04:23.082 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:04:23.082 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:04:34.289 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+17:04:34.289 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+17:04:34.289 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+17:04:34.290 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+17:04:34.290 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+17:04:34.290 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+17:04:34.290 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+17:04:34.290 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+17:04:34.292 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+17:04:34.293 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+17:04:34.293 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+17:04:34.293 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 298
+17:04:34.294 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 316
+17:04:34.297 [main] TRACE ca.concordia.jtratch.visitors.JavadocVisitor - Visiting a AST node of type 29 at line 47
+17:06:10.523 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+17:06:10.549 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+17:06:10.550 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+17:06:10.551 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+17:06:10.552 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+17:06:10.670 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+17:06:11.923 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+17:06:11.935 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+17:06:11.937 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+17:06:11.939 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:06:11.940 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:06:11.940 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:06:11.954 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+17:06:11.954 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+17:06:11.954 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+17:06:11.955 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+17:06:11.955 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+17:06:11.955 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+17:06:11.955 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+17:06:11.955 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+17:06:11.956 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+17:06:11.956 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+17:06:11.956 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+17:06:11.956 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 298
+17:06:11.956 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 316
+17:06:11.971 [main] TRACE ca.concordia.jtratch.visitors.JavadocVisitor - Visiting a AST node of type 29 at line 47
+17:49:08.112 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+17:49:08.145 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+17:49:08.145 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+17:49:08.147 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+17:49:08.147 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+17:49:08.236 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+17:49:09.380 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+17:49:09.398 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+17:49:09.399 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+17:49:09.405 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:49:09.405 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+17:49:09.405 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+09:11:14.870 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+09:11:14.893 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+09:11:14.894 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+09:11:14.896 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+09:11:14.896 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+09:11:15.054 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+09:11:16.461 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+09:54:48.488 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+09:54:48.511 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+09:54:48.511 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+09:54:48.514 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+09:54:48.514 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+09:54:48.624 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+09:56:56.238 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+09:56:56.254 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+09:56:56.254 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+09:56:56.256 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+09:56:56.257 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+09:56:56.331 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+10:00:48.366 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+10:00:48.393 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+10:00:48.394 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+10:00:48.396 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+10:00:48.396 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+10:00:48.500 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+10:01:08.918 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+10:01:08.938 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+10:01:08.938 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+10:01:08.941 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+10:01:08.941 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+10:01:09.042 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+10:01:10.327 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+10:01:17.741 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+10:01:17.744 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+10:01:17.748 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:01:17.748 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:01:17.748 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:01:19.565 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+10:01:19.565 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+10:01:19.565 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+10:09:08.651 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+10:09:08.651 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+10:09:08.652 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+10:09:08.652 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+10:10:28.200 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+10:10:28.200 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+10:11:00.260 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+10:11:00.260 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+10:11:00.260 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 298
+10:11:00.260 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 316
+10:11:17.028 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+10:11:17.028 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+10:11:17.028 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 438
+10:11:17.028 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 8
+10:11:17.029 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+10:11:17.041 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+10:11:17.041 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+10:11:33.247 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+10:11:33.267 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+10:11:33.268 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+10:11:33.272 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+10:11:33.272 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+10:11:33.378 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+10:11:34.936 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+10:11:37.819 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+10:11:37.820 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+10:11:37.831 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:11:37.831 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:11:37.831 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:11:37.832 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+10:11:37.833 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+10:11:37.833 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+10:11:37.833 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+10:11:37.833 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+10:11:37.833 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+10:11:37.833 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+10:11:37.834 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+10:11:37.834 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+10:11:37.834 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+10:11:37.834 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+10:11:37.834 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 298
+10:11:37.835 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 316
+10:11:52.838 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumExceptionType: 3
+10:11:52.838 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLoggedCatchBlock: 2
+10:11:52.838 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumLOC: 438
+10:11:52.838 [main] TRACE ca.concordia.jtratch.pattern.CodeStatistics - NumCatchBlock: 8
+10:11:52.838 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing CatchBlock features into file...
+10:11:52.866 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Writing done.
+10:11:52.866 [main] TRACE ca.concordia.jtratch.JTratch - Exiting application.
+10:20:59.246 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Reading Config file...
+10:20:59.262 [main] TRACE ca.concordia.jtratch.pattern.CatchDic - Config file read succesfully.
+10:20:59.262 [main] TRACE ca.concordia.jtratch.JTratch - Entering application at/Users/gbp/Documents/workspace/JTratch
+10:20:59.265 [main] TRACE ca.concordia.jtratch.CodeWalker - Input mode: ByFolder
+10:20:59.265 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading from folder: /Users/gbp/Documents/test-data/short-files
+10:20:59.398 [main] TRACE ca.concordia.jtratch.CodeWalker - Loading 1 *.java files.
+10:21:00.837 [main] TRACE ca.concordia.jtratch.CodeAnalyzer - Processing AST for File:/Users/gbp/Documents/test-data/short-files/Test.java
+10:21:09.197 [main] DEBUG ca.concordia.jtratch.CodeAnalyzer - NumLOC: 438
+10:21:09.198 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 126
+10:21:09.203 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:21:09.203 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:21:09.203 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 127
+10:21:09.204 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 181
+10:21:09.204 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 53 at line 182
+10:21:09.205 [main] TRACE ca.concordia.jtratch.visitors.ThrowStatementVisitor - Visiting a AST node of type 41 at line 183
+10:21:09.205 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 206
+10:21:09.205 [main] TRACE ca.concordia.jtratch.visitors.TryVisitor - Visiting a AST node of type 54 at line 210
+10:21:09.205 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 207
+10:21:09.206 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 208
+10:21:09.206 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 237
+10:21:09.206 [main] TRACE ca.concordia.jtratch.visitors.MethodInvocationVisitor - Visiting a AST node of type 32 at line 238
+10:21:09.206 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 260
+10:21:09.206 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 283
+10:21:09.207 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 298
+10:21:09.207 [main] TRACE ca.concordia.jtratch.visitors.CatchVisitor - Visiting a AST node of type 12 at line 316
+10:21:09.211 [main] TRACE ca.concordia.jtratch.visitors.LineCommentVisitor - Visiting a AST node of type 63 at line 284
