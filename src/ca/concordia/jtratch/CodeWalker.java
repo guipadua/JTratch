@@ -2,8 +2,12 @@ package ca.concordia.jtratch;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 //Import log4j classes.
@@ -20,7 +24,12 @@ public class CodeWalker {
         {
             case "ByFolder":
                 CodeAnalyzer.AnalyzeAllTrees(LoadByFolder(filePath));
-                break;
+                
+                logger.trace("------------------------------------------------------");
+                
+                CodeAnalyzer.AnalyzeAllTreesAndComments(LoadByFolder(filePath));
+                
+        		break;
             case "ByTxtFile":
                 LoadByTxtFile(filePath);
                 break;
@@ -31,22 +40,22 @@ public class CodeWalker {
         }
     }
 
-    public static String [] LoadByFolder(String folderPath)
+    public static List<String> LoadByFolder(String folderPath)
     {
     	logger.trace("Loading from folder: " + folderPath);
         
-    	String [] sourceFilePaths = null;
+    	List<String> sourceFilePaths = new ArrayList<String>();
     	
     	try {
     		
-			sourceFilePaths = Files.walk(Paths.get(folderPath))
-					.map(String::valueOf)
-					.filter(line -> line.endsWith(".java"))
-					.collect(Collectors.toList()).toArray( new String [] {});
+			sourceFilePaths = Files	.walk(Paths.get(folderPath))
+									.map(String::valueOf)
+									.filter(line -> line.endsWith(".java"))
+									.collect(Collectors.toList());
     		
-    		logger.trace("Loading " + sourceFilePaths.length + " *.java files.");
+    		logger.trace("Loading " + sourceFilePaths.size() + " *.java files.");
             
-    		
+    		    		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,6 +85,7 @@ public class CodeWalker {
         */
     }
     
+   
     public static void LoadByTxtFile(String folderPath)
     {
     	logger.error("LoadByTxtFile not implemented!");

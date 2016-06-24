@@ -18,6 +18,8 @@ public class CommonFeature {
 
         OperationFeatures.put("Line", 0);
         OperationFeatures.put("LOC", 0);
+        OperationFeatures.put("CatchStart", 0);
+        OperationFeatures.put("CatchLength", 0);
         
         OperationFeatures.put("Logged", 0);
         OperationFeatures.put("Abort", 0);

@@ -31,8 +31,11 @@ public boolean visit(CatchClause node) {
 	Integer startLine = tree.getLineNumber(tryBlock.getStartPosition() + 1);
 	Integer endLine = tree.getLineNumber(tryBlock.getStartPosition() + tryBlock.getLength() + 1);
 	
-    catchBlockInfo.OperationFeatures.put("Line", startLine);
+	catchBlockInfo.OperationFeatures.put("Line", startLine);
     catchBlockInfo.OperationFeatures.put("LOC", endLine - startLine + 1);
+	
+    catchBlockInfo.OperationFeatures.put("CatchStart", node.getStartPosition());
+    catchBlockInfo.OperationFeatures.put("CatchLength", node.getLength());
 	
     catchBlockInfo.FilePath = filePath;
     catchBlockInfo.MetaInfo.put("Line", startLine.toString());
@@ -116,6 +119,13 @@ public boolean visit(CatchClause node) {
     if (node.getException().getType().toString().equalsIgnoreCase("exception"))
     	catchBlockInfo.OperationFeatures.put("CatchException", 1);
     
+  //CatchException
+    if (node.getException().getType().toString().equalsIgnoreCase("exception"))
+    	catchBlockInfo.OperationFeatures.put("CatchException", 1);
+    
+    
+    
+    
     /*
     *Pending analysis still to be implemented - c# code:
     *Some will potentially need resolve binding = true
@@ -189,6 +199,12 @@ public void setFilePath(String sourceFilePath) {
 
 public List<CatchBlock> getCatchBlockList() {
 	return catches;
+}
+
+
+public void setFileData(StringBuilder fileData) {
+	// TODO Auto-generated method stub
+	
 }
   
 } 

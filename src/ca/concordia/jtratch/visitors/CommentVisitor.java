@@ -16,6 +16,7 @@ import ca.concordia.jtratch.utility.IOFile;
 public class CommentVisitor extends ASTVisitor{
 	private static final Logger logger = LogManager.getLogger(CommentVisitor.class.getName());
 	private CompilationUnit tree;
+	private String pcatchString;
 	
 	List<String> toDoComments = new ArrayList<String>();
 	List<String> otherComments = new ArrayList<String>();
@@ -24,7 +25,7 @@ public class CommentVisitor extends ASTVisitor{
 	public boolean visit(LineComment node) {
 		logger.trace("Visiting a AST node of type "+ node.getNodeType() + " at line " + tree.getLineNumber(node.getStartPosition()));
 		
-		String updatedComment = IOFile.DeleteSpace(node.toString());
+		String updatedComment = IOFile.DeleteSpace(pcatchString);
         
 		updatedComment = updatedComment.replaceAll("<.*>", "");
         updatedComment = updatedComment.replaceAll("{.*}", "");
@@ -44,7 +45,7 @@ public class CommentVisitor extends ASTVisitor{
 	public boolean visit(BlockComment node) {
 		logger.trace("Visiting a AST node of type "+ node.getNodeType() + " at line " + tree.getLineNumber(node.getStartPosition()));
 		
-		String updatedComment = IOFile.DeleteSpace(node.toString());
+		String updatedComment = IOFile.DeleteSpace(pcatchString);
         
 		updatedComment = updatedComment.replaceAll("<.*>", "");
         updatedComment = updatedComment.replaceAll("{.*}", "");
@@ -63,7 +64,7 @@ public class CommentVisitor extends ASTVisitor{
 	@Override
 	public boolean visit(Javadoc node) {
 		logger.trace("Visiting a AST node of type "+ node.getNodeType() + " at line " + tree.getLineNumber(node.getStartPosition()));
-		String updatedComment = IOFile.DeleteSpace(node.toString());
+		String updatedComment = IOFile.DeleteSpace(pcatchString);
         
 		updatedComment = updatedComment.replaceAll("<.*>", "");
         updatedComment = updatedComment.replaceAll("{.*}", "");
@@ -86,6 +87,11 @@ public class CommentVisitor extends ASTVisitor{
 	}
 	public List<String> getOtherComments() {
 		return otherComments;
+	}
+
+	public void setCatchString(String catchString) {
+		pcatchString = catchString;
+		
 	}
 	
 	
