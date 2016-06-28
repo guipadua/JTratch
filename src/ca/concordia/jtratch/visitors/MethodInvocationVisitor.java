@@ -7,15 +7,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import ca.concordia.jtratch.utility.Config;
 
 public class MethodInvocationVisitor extends ASTVisitor{
 	private static final Logger logger = LogManager.getLogger(MethodInvocationVisitor.class.getName());
 	private CompilationUnit tree;
+	private String originator;
 	
 	List<String> loggingStatements = new ArrayList<String>();
 	List<String> abortStatements = new ArrayList<String>();
+	List<String> defaultStatements = new ArrayList<String>();
+	List<String> otherStatements = new ArrayList<String>();
+	List<String> exceptionTypes = new ArrayList<>();
+	
+	public MethodInvocationVisitor (String originator) {
+		this.originator = originator;
+			
+	}
 	
 	@Override
 	public boolean visit(MethodInvocation node) {
@@ -23,15 +33,36 @@ public class MethodInvocationVisitor extends ASTVisitor{
 		
 		String nodeName = node.getName().toString();
 		
-		if (IsLoggingStatement(nodeName))
-			loggingStatements.add(node.toString());
+		if(this.originator=="catch"){
+			
+			if (IsLoggingStatement(nodeName))
+				loggingStatements.add(node.toString());
 
-		if (IsAbortStatement(nodeName))
-			abortStatements.add(node.toString());
+			if (IsAbortStatement(nodeName))
+				abortStatements.add(node.toString());
+			
+			if (IsDefaultStatement(nodeName))
+				defaultStatements.add(node.toString());
+			
+			if(!IsLoggingStatement(nodeName) && !IsAbortStatement(nodeName) && !IsDefaultStatement(nodeName)){
+				otherStatements.add(node.toString());
+			}
+		
+		} else if(this.originator=="try"){
+			if(node.getAST().hasResolvedBindings())
+			{
+				for( ITypeBinding type : node.resolveMethodBinding().getExceptionTypes())
+				{
+					exceptionTypes.add(type.getName());
+				}
+			}
+			
+		}
 		
 		return super.visit(node);
 		
 	}
+	
 	public void setTree(CompilationUnit cu) {
 		tree = cu;
 		
@@ -42,6 +73,18 @@ public class MethodInvocationVisitor extends ASTVisitor{
 	
 	public List<String> getAbortStatements() {
 		return abortStatements;
+	}
+	
+	public List<String> getDefaultStatements() {
+		return defaultStatements;
+	}
+	
+	public List<String> getOtherStatements() {
+		return abortStatements;
+	}
+	
+	public List<String> getExceptionTypes() {
+		return exceptionTypes;
 	}
 	
 	/// <summary>
@@ -91,5 +134,26 @@ public class MethodInvocationVisitor extends ASTVisitor{
         }
         return false;
     }
-		
+	
+	static public boolean IsDefaultStatement(String statement)
+	{
+        if (statement == null) return false;
+
+//        for (String notlogmethod : Config.NotLogMethods)
+//        {
+//            if (notlogmethod == "") break;
+//            if (statement.indexOf(notlogmethod) > -1)
+//            {
+//                return false;
+//            }
+//        }
+        for (String defaultmethod : Config.DefaultMethods)
+        {
+            if (statement.indexOf(defaultmethod) > -1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

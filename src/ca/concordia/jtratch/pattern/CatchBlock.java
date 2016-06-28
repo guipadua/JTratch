@@ -18,11 +18,15 @@ public class CatchBlock extends CommonFeature {
         OperationFeatures.put("ToDo", 0);
         OperationFeatures.put("LogOnly", 0);
         OperationFeatures.put("CatchException", 0);
+        OperationFeatures.put("SpecificHandler", 0);
         OperationFeatures.put("RecoverFlag", 0);
         OperationFeatures.put("OtherOperation", 0);
         MetaInfo.put("RecoverFlag", "-recoverflag");
         MetaInfo.put("OtherOperation", "-otheroperation");
         MetaInfo.put("CatchBlock", "-catchblock");
+        MetaInfo.put("TryBlock", "-tryblock");
+        MetaInfo.put("FinallyBlock", "-finallyblock");
+        
         MetaKeys = new ArrayList<String>(MetaInfo.keySet());
     }
 

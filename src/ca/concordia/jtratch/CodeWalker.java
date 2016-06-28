@@ -23,7 +23,7 @@ public class CodeWalker {
         switch (inputMode)
         {
             case "ByFolder":
-                CodeAnalyzer.AnalyzeAllTrees(LoadByFolder(filePath));
+                //CodeAnalyzer.AnalyzeAllTrees(LoadByFolder(filePath));
                 
                 logger.trace("------------------------------------------------------");
                 
@@ -46,20 +46,21 @@ public class CodeWalker {
         
     	List<String> sourceFilePaths = new ArrayList<String>();
     	
-    	try {
     		
-			sourceFilePaths = Files	.walk(Paths.get(folderPath))
-									.map(String::valueOf)
-									.filter(line -> line.endsWith(".java"))
-									.collect(Collectors.toList());
+			try {
+				sourceFilePaths = Files	.walk(Paths.get(folderPath))
+										.map(String::valueOf)
+										.filter(line -> line.endsWith(".java"))
+										.collect(Collectors.toList());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		
     		logger.trace("Loading " + sourceFilePaths.size() + " *.java files.");
             
     		    		
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
     	
     	return sourceFilePaths;
     	

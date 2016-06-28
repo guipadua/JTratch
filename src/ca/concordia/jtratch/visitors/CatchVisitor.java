@@ -26,10 +26,10 @@ public boolean visit(CatchClause node) {
     
 	catchBlockInfo.ExceptionType = node.getException().getType().toString();
 	
-    TryStatement tryBlock = (TryStatement) node.getParent();
+    TryStatement tryStatement = (TryStatement) node.getParent();
 
-	Integer startLine = tree.getLineNumber(tryBlock.getStartPosition() + 1);
-	Integer endLine = tree.getLineNumber(tryBlock.getStartPosition() + tryBlock.getLength() + 1);
+	Integer startLine = tree.getLineNumber(tryStatement.getStartPosition() + 1);
+	Integer endLine = tree.getLineNumber(tryStatement.getStartPosition() + tryStatement.getLength() + 1);
 	
 	catchBlockInfo.OperationFeatures.put("Line", startLine);
     catchBlockInfo.OperationFeatures.put("LOC", endLine - startLine + 1);
@@ -42,7 +42,12 @@ public boolean visit(CatchClause node) {
     catchBlockInfo.MetaInfo.put("FilePath", filePath);
     
     
-    /*------------------------BEGIN Inner Visitors----------------------*/
+    /* ---------------------------
+     * BEGIN CatchClause node Inner Visitors
+     * Inner visitors might modify this parent node.
+     * Example: TryVisitor will remove the inner try so that its content doesn't affect the other metrics.
+     *  
+     */
     
     //Treatment for TryStatement
     //Collection of data for statements of: Recover
@@ -60,26 +65,33 @@ public boolean visit(CatchClause node) {
     }
     
     catchBlockInfo.MetaInfo.put("CatchBlock", node.toString());
-    
+        
     //Treatment for MethodInvocation
     //Collection of data for statements of: logging, abort, 
     //Other possible items to be collected: throw (check if it can happen and not fall under ThrowStatement type)
-    MethodInvocationVisitor methodInvocationVisitor = new MethodInvocationVisitor();
-    methodInvocationVisitor.setTree(tree);
-    node.accept(methodInvocationVisitor);
+    MethodInvocationVisitor catchMethodInvocationVisitor = new MethodInvocationVisitor("catch");
+    catchMethodInvocationVisitor.setTree(tree);
+    node.accept(catchMethodInvocationVisitor);
     
     //Logging
-    if (!methodInvocationVisitor.getLoggingStatements().isEmpty())
+    if (!catchMethodInvocationVisitor.getLoggingStatements().isEmpty())
     {
-    	catchBlockInfo.MetaInfo.put("Logged", methodInvocationVisitor.getLoggingStatements().toString());
+    	catchBlockInfo.MetaInfo.put("Logged", catchMethodInvocationVisitor.getLoggingStatements().toString());
         catchBlockInfo.OperationFeatures.put("Logged", 1);
     }
     
     //Abort
-    if (!methodInvocationVisitor.getAbortStatements().isEmpty())
+    if (!catchMethodInvocationVisitor.getAbortStatements().isEmpty())
     {
-    	catchBlockInfo.MetaInfo.put("Abort", methodInvocationVisitor.getAbortStatements().toString());
+    	catchBlockInfo.MetaInfo.put("Abort", catchMethodInvocationVisitor.getAbortStatements().toString());
         catchBlockInfo.OperationFeatures.put("Abort", 1);
+    }
+    
+    //Default (example: eclipse IDE default: printStackTrace )
+    if (!catchMethodInvocationVisitor.getDefaultStatements().isEmpty())
+    {
+    	catchBlockInfo.MetaInfo.put("Default", catchMethodInvocationVisitor.getAbortStatements().toString());
+        catchBlockInfo.OperationFeatures.put("Default", 1);
     }
     
     //Treatment for ThrowStatement
@@ -107,8 +119,23 @@ public boolean visit(CatchClause node) {
     	catchBlockInfo.MetaInfo.put("Return", returnStatementVisitor.getReturnStatements().toString());
         catchBlockInfo.OperationFeatures.put("Return", 1);
     }
+    
+    //Treatment for ContinueStatement
+    //Collection of data for statements of: throw 
+    ContinueStatementVisitor continueStatementVisitor = new ContinueStatementVisitor();
+    continueStatementVisitor.setTree(tree);
+    node.accept(continueStatementVisitor);
+    
+    //Return
+    if (!continueStatementVisitor.getContinueStatements().isEmpty())
+    {
+    	catchBlockInfo.MetaInfo.put("Continue", continueStatementVisitor.getContinueStatements().toString());
+        catchBlockInfo.OperationFeatures.put("Continue", 1);
+    }
         
-    /*------------------------END Inner Visitors----------------------*/
+    /* 
+     * END CatchClause node Inner Visitors
+     * ---------------------------*/
   
     //EmptyBlock
     //It counts if only comments on it - use with comment related metrics
@@ -119,10 +146,21 @@ public boolean visit(CatchClause node) {
     if (node.getException().getType().toString().equalsIgnoreCase("exception"))
     	catchBlockInfo.OperationFeatures.put("CatchException", 1);
     
-  //CatchException
-    if (node.getException().getType().toString().equalsIgnoreCase("exception"))
-    	catchBlockInfo.OperationFeatures.put("CatchException", 1);
+    catchBlockInfo.MetaInfo.put("TryBlock", tryStatement.getBody().toString());
     
+    if (tryStatement.getFinally() != null)    
+    	catchBlockInfo.MetaInfo.put("FinallyBlock", tryStatement.getFinally().toString());
+   
+    if(node.getAST().hasResolvedBindings())
+	{
+	    MethodInvocationVisitor tryMethodInvocationVisitor = new MethodInvocationVisitor("try");
+	    tryMethodInvocationVisitor.setTree(tree);
+	    tryStatement.getBody().accept(tryMethodInvocationVisitor);
+	    
+	    //SpecificHandler
+	    if (tryMethodInvocationVisitor.getExceptionTypes().contains(node.getException().getType().toString()))
+	    	catchBlockInfo.OperationFeatures.put("SpecificHandler", 1);
+	}
     
     
     

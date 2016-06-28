@@ -23,19 +23,23 @@ public class CommonFeature {
         
         OperationFeatures.put("Logged", 0);
         OperationFeatures.put("Abort", 0);
+        OperationFeatures.put("Default", 0);
         OperationFeatures.put("Thrown", 0);
         OperationFeatures.put("SetLogicFlag", 0);
         OperationFeatures.put("Return", 0);
+        OperationFeatures.put("Continue", 0);
         OperationFeatures.put("NumMethod", 0);
         OperationFeatures.put("NumExceptions", 0);
         MetaInfo.put("FilePath", "-filepath");
         MetaInfo.put("Line", "-line");
         MetaInfo.put("Logged", "-logged");
         MetaInfo.put("Abort", "-abort");
+        MetaInfo.put("Default", "-default");
         //MetaInfo.put("CatchException", "-CatchException");
         MetaInfo.put("Thrown", "-thrown");
         MetaInfo.put("SetLogicFlag", "-setlogicflag");
         MetaInfo.put("Return", "-return");
+        MetaInfo.put("Continue", "-continue");
     }
 	
 }

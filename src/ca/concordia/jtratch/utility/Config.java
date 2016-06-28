@@ -21,6 +21,7 @@ public class Config {
     static public Integer AssertConditionIndex;
     static public Boolean Orthogonal;
 	static public String[] AbortMethods;
+	static public String[] DefaultMethods;
     private static final Logger logger = LogManager.getLogger(CatchDic.class.getName());
 	
     static public void Load(String FileName)
@@ -47,7 +48,7 @@ public class Config {
 			else throw new IOException();
 			AssertConditionIndex = Integer.parseInt(linesIterator.next().split("%")[0]);
 			AbortMethods = linesIterator.next().split("%")[0].split(",");
-			
+			DefaultMethods = linesIterator.next().split("%")[0].split(",");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
