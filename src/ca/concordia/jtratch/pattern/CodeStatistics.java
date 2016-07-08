@@ -14,6 +14,8 @@ import ca.concordia.jtratch.utility.Tuple;
 public class CodeStatistics extends TreeStatistics {
 	public List<Tuple<CompilationUnit, TreeStatistics>> TreeStats;
     public CatchDic CatchBlocks;
+    public ThrowsDic ThrowsBlocks;
+    
     //public CallDic APICalls;
     
     private static final Logger logger = LogManager.getLogger(CodeStatistics.class.getName());
@@ -22,6 +24,7 @@ public class CodeStatistics extends TreeStatistics {
     {
         TreeStats = codeStatsList;
         CatchBlocks = new CatchDic();
+        ThrowsBlocks = new ThrowsDic();
         //APICalls = new CallDic();
         CodeStats = new HashMap<String, Integer>();
         for (Tuple<CompilationUnit, TreeStatistics> treetuple : codeStatsList)
@@ -30,6 +33,10 @@ public class CodeStatistics extends TreeStatistics {
             if (treetuple.Item2.CatchBlockList != null)
             {
                 CatchBlocks.Add(treetuple.Item2.CatchBlockList);
+            }
+            if (treetuple.Item2.ThrowsBlockList != null)
+            {
+            	ThrowsBlocks.Add(treetuple.Item2.ThrowsBlockList);
             }
             //if (treetuple.Item2.APICallList != null)
             //{
@@ -40,8 +47,9 @@ public class CodeStatistics extends TreeStatistics {
                 Dic.MergeDic1(CodeStats, treetuple.Item2.CodeStats);
             }
         }
-        CodeStats.put("NumExceptionType",CatchBlocks.size());
+        CodeStats.put("NumExceptionTypeCatch",CatchBlocks.size());
         CodeStats.put("NumLoggedCatchBlock",CatchBlocks.NumLogged);
+        CodeStats.put("NumExceptionTypeThrows",ThrowsBlocks.size());
         //CodeStats["NumCallType"] = APICalls.Count;
         //CodeStats["NumAPICall"] = APICalls.NumAPICall;
         //CodeStats["NumLoggedAPICall"] = APICalls.NumLogged;
@@ -54,6 +62,8 @@ public class CodeStatistics extends TreeStatistics {
         	logger.trace(entry.getKey() + ": " + entry.getValue());
         }
         CatchBlocks.PrintToFile();
+        ThrowsBlocks.PrintToFile();
+        
         //APICalls.PrintToFile();
     }
 }

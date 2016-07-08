@@ -5,10 +5,15 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TryStatement;
+import org.eclipse.jdt.core.dom.Type;
 
 import ca.concordia.jtratch.pattern.CatchBlock;
 
@@ -23,8 +28,26 @@ public boolean visit(CatchClause node) {
 	
 	logger.trace("Visiting a AST node of type "+ node.getNodeType() + " at line " + tree.getLineNumber(node.getStartPosition()));
 	CatchBlock catchBlockInfo = new CatchBlock();
-    
-	catchBlockInfo.ExceptionType = node.getException().getType().toString();
+//    node.getAST() getException().resolveBinding()
+//	
+//    node.getAST().hasBindingsRecovery()
+//
+//    node.getAST().hasResolvedBindings()
+//    node.getException().getType().
+   
+	if ( node.getException().getType().resolveBinding() != null || node.getException().resolveBinding() != null)
+	{
+		logger.trace("exception succesfully binded");
+	}
+	
+    SingleVariableDeclaration exceptionType = node.getException();
+	
+    if(exceptionType.getType().resolveBinding() != null)
+    	catchBlockInfo.ExceptionType = exceptionType.getType().resolveBinding().getQualifiedName();
+    else
+    	catchBlockInfo.ExceptionType = exceptionType.getType().toString();
+	
+    catchBlockInfo.OperationFeatures.put("Checked", IsChecked(exceptionType));
 	
     TryStatement tryStatement = (TryStatement) node.getParent();
 
@@ -34,8 +57,8 @@ public boolean visit(CatchClause node) {
 	catchBlockInfo.OperationFeatures.put("Line", startLine);
     catchBlockInfo.OperationFeatures.put("LOC", endLine - startLine + 1);
 	
-    catchBlockInfo.OperationFeatures.put("CatchStart", node.getStartPosition());
-    catchBlockInfo.OperationFeatures.put("CatchLength", node.getLength());
+    catchBlockInfo.OperationFeatures.put("Start", node.getStartPosition());
+    catchBlockInfo.OperationFeatures.put("Length", node.getLength());
 	
     catchBlockInfo.FilePath = filePath;
     catchBlockInfo.MetaInfo.put("Line", startLine.toString());
@@ -53,9 +76,13 @@ public boolean visit(CatchClause node) {
     //Collection of data for statements of: Recover
     //Other possible items to be collected: (LogAdvisor do it a bit different)
     //***Remove try-catch-finally block inside for the other analysis!
+    
+    AST updatedAST = AST.newAST(AST.JLS8);
+    CatchClause updatedCatchBlock = (CatchClause) node.copySubtree(updatedAST, node);
+    
     TryVisitor tryVisitor = new TryVisitor();
     tryVisitor.setTree(tree);
-    node.accept(tryVisitor);
+    updatedCatchBlock.accept(tryVisitor);
     
     //RecoverFlag - (based on inner try blocks)
     if (!tryVisitor.getTryStatements().isEmpty())
@@ -64,20 +91,36 @@ public boolean visit(CatchClause node) {
         catchBlockInfo.OperationFeatures.put("RecoverFlag", 1);
     }
     
-    catchBlockInfo.MetaInfo.put("CatchBlock", node.toString());
+    /*
+     * Flagging inner catch
+     * CatchClause node type is 12
+     * CatchClause(12) is a child of a TryStatement (54), which is a child of a Block (8), which we wanna know the parent.
+     * If 12, then it's an inner catch
+     */
+    if (node.getParent().getParent().getParent().getNodeType() == 12)
+    {
+    	catchBlockInfo.OperationFeatures.put("InnerCatch", 1);
+    	catchBlockInfo.OperationFeatures.put("ParentStartLine", tree.getLineNumber(node.getParent().getParent().getParent().getParent().getStartPosition() + 1));
+    }
+    	
         
     //Treatment for MethodInvocation
     //Collection of data for statements of: logging, abort, 
     //Other possible items to be collected: throw (check if it can happen and not fall under ThrowStatement type)
     MethodInvocationVisitor catchMethodInvocationVisitor = new MethodInvocationVisitor("catch");
     catchMethodInvocationVisitor.setTree(tree);
-    node.accept(catchMethodInvocationVisitor);
+    updatedCatchBlock.accept(catchMethodInvocationVisitor);
     
     //Logging
     if (!catchMethodInvocationVisitor.getLoggingStatements().isEmpty())
     {
+    	//Logged
     	catchBlockInfo.MetaInfo.put("Logged", catchMethodInvocationVisitor.getLoggingStatements().toString());
         catchBlockInfo.OperationFeatures.put("Logged", 1);
+        
+        //MultiLog
+        if (catchMethodInvocationVisitor.getLoggingStatements().size() > 1)
+        	catchBlockInfo.OperationFeatures.put("MultiLog", 1);
     }
     
     //Abort
@@ -98,7 +141,7 @@ public boolean visit(CatchClause node) {
     //Collection of data for statements of: throw 
     ThrowStatementVisitor throwStatementVisitor = new ThrowStatementVisitor();
     throwStatementVisitor.setTree(tree);
-    node.accept(throwStatementVisitor);
+    updatedCatchBlock.accept(throwStatementVisitor);
     
     //Thrown
     if (!throwStatementVisitor.getThrowStatements().isEmpty())
@@ -111,7 +154,7 @@ public boolean visit(CatchClause node) {
     //Collection of data for statements of: throw 
     ReturnStatementVisitor returnStatementVisitor = new ReturnStatementVisitor();
     returnStatementVisitor.setTree(tree);
-    node.accept(returnStatementVisitor);
+    updatedCatchBlock.accept(returnStatementVisitor);
     
     //Return
     if (!returnStatementVisitor.getReturnStatements().isEmpty())
@@ -124,9 +167,9 @@ public boolean visit(CatchClause node) {
     //Collection of data for statements of: throw 
     ContinueStatementVisitor continueStatementVisitor = new ContinueStatementVisitor();
     continueStatementVisitor.setTree(tree);
-    node.accept(continueStatementVisitor);
+    updatedCatchBlock.accept(continueStatementVisitor);
     
-    //Return
+    //Continue
     if (!continueStatementVisitor.getContinueStatements().isEmpty())
     {
     	catchBlockInfo.MetaInfo.put("Continue", continueStatementVisitor.getContinueStatements().toString());
@@ -139,29 +182,43 @@ public boolean visit(CatchClause node) {
   
     //EmptyBlock
     //It counts if only comments on it - use with comment related metrics
-    if (node.getBody().statements().isEmpty())
+    if (updatedCatchBlock.getBody().statements().isEmpty())
     	catchBlockInfo.OperationFeatures.put("EmptyBlock", 1);
     
     //CatchException
-    if (node.getException().getType().toString().equalsIgnoreCase("exception"))
+    if (updatedCatchBlock.getException().getType().toString().equalsIgnoreCase("exception"))
     	catchBlockInfo.OperationFeatures.put("CatchException", 1);
     
     catchBlockInfo.MetaInfo.put("TryBlock", tryStatement.getBody().toString());
+    catchBlockInfo.MetaInfo.put("ParentNodeType", tryStatement.getParent().getParent().getClass().getName());
+    catchBlockInfo.OperationFeatures.put("ParentNodeType", tryStatement.getParent().getParent().getNodeType());
     
-    if (tryStatement.getFinally() != null)    
+    //ASTNode.nodeClassForType(nodeType)
+    
+    //FinallyThrowing
+    if (tryStatement.getFinally() != null)
+    {
     	catchBlockInfo.MetaInfo.put("FinallyBlock", tryStatement.getFinally().toString());
-   
-    if(node.getAST().hasResolvedBindings())
+    	ThrowStatementVisitor throwStatementVisitorFinally = new ThrowStatementVisitor();
+    	throwStatementVisitorFinally.setTree(tree);
+    	updatedCatchBlock.accept(throwStatementVisitorFinally);
+    	tryStatement.getFinally().accept(throwStatementVisitorFinally);
+    	
+    	//FinallyThrowing
+    	if (! throwStatementVisitorFinally.getThrowStatements().isEmpty())
+    		catchBlockInfo.OperationFeatures.put("FinallyThrowing", 1);
+    }
+    	
+    //if(updatedCatchBlock.getAST().hasResolvedBindings())
 	{
 	    MethodInvocationVisitor tryMethodInvocationVisitor = new MethodInvocationVisitor("try");
 	    tryMethodInvocationVisitor.setTree(tree);
 	    tryStatement.getBody().accept(tryMethodInvocationVisitor);
 	    
 	    //SpecificHandler
-	    if (tryMethodInvocationVisitor.getExceptionTypes().contains(node.getException().getType().toString()))
+	    if (tryMethodInvocationVisitor.getExceptionTypes().contains(updatedCatchBlock.getException().getType().toString()))
 	    	catchBlockInfo.OperationFeatures.put("SpecificHandler", 1);
 	}
-    
     
     
     /*
@@ -182,11 +239,6 @@ public boolean visit(CatchClause node) {
     //    catchBlockInfo.MetaInfo["OtherOperation"] = otherOperation.ToString();
     //    catchBlockInfo.OperationFeatures["OtherOperation"] = 1;
     //}
-
-    if (IsToDo(updatedCatchBlock))
-    {
-        catchBlockInfo.OperationFeatures["ToDo"] = 1;       
-    }
 
     //if (IsLogOnly(updatedCatchBlock, model))
     //{
@@ -226,7 +278,37 @@ public boolean visit(CatchClause node) {
   }
 
    
-  public void setTree (CompilationUnit cu){
+  private Integer IsChecked(SingleVariableDeclaration exceptionType) {
+	  if (exceptionType.resolveBinding() != null)
+	  {
+		  return findExceptionSuperType(exceptionType.resolveBinding().getType().getSuperclass());
+	  } else if (exceptionType.getType().resolveBinding() != null)
+	  {
+		  return findExceptionSuperType(exceptionType.getType().resolveBinding().getSuperclass());
+	  }	  
+	  
+	return null;
+}
+
+  private Integer findExceptionSuperType(ITypeBinding typeBinding) {
+		
+	  if (typeBinding == null) { return null; }
+	  
+	  if (typeBinding.getQualifiedName().equals("java.lang.RuntimeException"))
+	  {
+		  return 0;
+	  } else if (typeBinding.getQualifiedName().equals("java.lang.Exception"))
+	  {
+		  return 1;
+	  }
+	  else
+	  {
+		  return findExceptionSuperType(typeBinding.getSuperclass());
+	  }
+}
+  
+
+public void setTree (CompilationUnit cu){
 	  tree = cu;
   }
 

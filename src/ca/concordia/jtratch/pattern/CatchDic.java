@@ -67,6 +67,7 @@ public class CatchDic extends HashMap<String, CatchList> {
 
     public void PrintToFile()
     {
+    	
     	logger.trace("Writing CatchBlock features into file...");
     	Charset charset = Charset.forName("UTF-8");
     	Path file = Paths.get(IOFile.CompleteFileName("CatchBlock.txt"));
@@ -108,11 +109,11 @@ public class CatchDic extends HashMap<String, CatchList> {
             	for (CatchBlock catchblock : catchList)
             	{
             		catchId++;
-            		bw.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintFeatures());
+            		bw.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintFeatures(catchblock.ExceptionType));
             		bw.newLine();
             		metaBW.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintMetaInfo());
             		metaBW.newLine();
-            		csvBW.write(catchId + "," + catchblock.PrintCSV());
+            		csvBW.write(catchId + "," + catchblock.PrintCSV(catchblock.ExceptionType));
             		csvBW.newLine();
             		
             	}

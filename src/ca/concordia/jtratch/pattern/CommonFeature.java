@@ -3,10 +3,13 @@ package ca.concordia.jtratch.pattern;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.concordia.jtratch.utility.IOFile;
+
 public class CommonFeature {
 
 	public Map<String, Integer> OperationFeatures;
     //public Map<String, Integer> TextFeatures; //TextFeatures is only on the API call
+	public String FilePath;
     public Map<String, String> MetaInfo;
 
     public static final String Splitter = "\t";
@@ -18,28 +21,51 @@ public class CommonFeature {
 
         OperationFeatures.put("Line", 0);
         OperationFeatures.put("LOC", 0);
-        OperationFeatures.put("CatchStart", 0);
-        OperationFeatures.put("CatchLength", 0);
+        OperationFeatures.put("Start", 0);
+        OperationFeatures.put("Length", 0);
         
-        OperationFeatures.put("Logged", 0);
-        OperationFeatures.put("Abort", 0);
-        OperationFeatures.put("Default", 0);
-        OperationFeatures.put("Thrown", 0);
-        OperationFeatures.put("SetLogicFlag", 0);
-        OperationFeatures.put("Return", 0);
-        OperationFeatures.put("Continue", 0);
-        OperationFeatures.put("NumMethod", 0);
-        OperationFeatures.put("NumExceptions", 0);
         MetaInfo.put("FilePath", "-filepath");
         MetaInfo.put("Line", "-line");
-        MetaInfo.put("Logged", "-logged");
-        MetaInfo.put("Abort", "-abort");
-        MetaInfo.put("Default", "-default");
-        //MetaInfo.put("CatchException", "-CatchException");
-        MetaInfo.put("Thrown", "-thrown");
-        MetaInfo.put("SetLogicFlag", "-setlogicflag");
-        MetaInfo.put("Return", "-return");
-        MetaInfo.put("Continue", "-continue");
+        
+        
     }
-	
+    public String PrintFeatures(String type) 
+    {
+        //List<String> features = new ArrayList<String>();
+        
+        String features = "";
+        
+        for (Map.Entry<String, Integer> entry : OperationFeatures.entrySet()) 
+        {
+        	features += (entry.getKey() + ":" + entry.getValue() + Splitter);
+		}
+        features += (type + Splitter);
+        
+        //TextFeatures.forEach((key,value) -> features += (key + ":" + value + Splitter));
+        
+        return features;
+    }
+
+    public String PrintCSV(String type)
+    {
+        String csv = "";
+        csv += (FilePath + ",");
+        for (Map.Entry<String, Integer> entry : OperationFeatures.entrySet())
+        {
+            csv += (entry.getKey() + ":" + entry.getValue() + ",");
+        }
+        csv += (type);
+        
+        return csv;
+    }
+
+    public String PrintMetaInfo()
+    {
+        String metaInfo = "";
+        for (Map.Entry<String, String> entry : MetaInfo.entrySet())
+        {
+            metaInfo += (IOFile.DeleteSpace(entry.getValue()) + Splitter);
+        }
+        return metaInfo;
+    }
 }

@@ -8,6 +8,7 @@ public class TreeStatistics {
 	public HashMap<String, Integer> CodeStats;
     public List<CatchBlock> CatchBlockList;
     //public List<APICall> APICallList;
+	public List<ThrowsBlock> ThrowsBlockList;
 
     public TreeStatistics()
     {
@@ -23,6 +24,7 @@ public class TreeStatistics {
         //CodeStats.Add("NumLoggedMethod", 0);
         //CodeStats.Add("NumLoggedFile", 0);
         CodeStats.put("NumCatchBlock", 0);
+        CodeStats.put("NumThrowsBlock", 0);
         CodeStats.put("NumLoggedCatchBlock", 0);
         CodeStats.put("NumExceptionType", 0);          
         //CodeStats.Add("NumCallType", 0);

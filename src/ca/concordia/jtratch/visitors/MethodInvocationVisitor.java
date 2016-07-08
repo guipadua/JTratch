@@ -1,7 +1,9 @@
 package ca.concordia.jtratch.visitors;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +22,7 @@ public class MethodInvocationVisitor extends ASTVisitor{
 	List<String> abortStatements = new ArrayList<String>();
 	List<String> defaultStatements = new ArrayList<String>();
 	List<String> otherStatements = new ArrayList<String>();
-	List<String> exceptionTypes = new ArrayList<>();
+	Set<String> exceptionTypes = new HashSet<>();
 	
 	public MethodInvocationVisitor (String originator) {
 		this.originator = originator;
@@ -49,11 +51,12 @@ public class MethodInvocationVisitor extends ASTVisitor{
 			}
 		
 		} else if(this.originator=="try"){
-			if(node.getAST().hasResolvedBindings())
+			if(node.resolveMethodBinding() != null)
 			{
 				for( ITypeBinding type : node.resolveMethodBinding().getExceptionTypes())
 				{
 					exceptionTypes.add(type.getName());
+					//type.getSuperclass()
 				}
 			}
 			
@@ -83,7 +86,7 @@ public class MethodInvocationVisitor extends ASTVisitor{
 		return abortStatements;
 	}
 	
-	public List<String> getExceptionTypes() {
+	public Set<String> getExceptionTypes() {
 		return exceptionTypes;
 	}
 	
