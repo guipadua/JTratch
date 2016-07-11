@@ -30,8 +30,10 @@ public class JTratch {
 	public static void main(String[] args) {
 		final String inputMode = args[0];
 		final String filePath = args[1];
+		final String mavenRepo = args[2];
 		
 		IOFile.FolderPath = filePath;
+		IOFile.MavenRepo = mavenRepo;
 		
 		//Load Config file
 		Config.Load("Config.txt");

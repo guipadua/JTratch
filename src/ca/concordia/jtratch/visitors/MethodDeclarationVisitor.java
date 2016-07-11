@@ -28,8 +28,11 @@ public class MethodDeclarationVisitor extends ASTVisitor{
 		
 		if (size != 0)
 		{
-			List<Type> typeList = new ArrayList<Type>();
-			typeList = node.thrownExceptionTypes();
+			logger.trace("There are thrown exceptions - size is: " + size);
+			
+			List<Type> typeList = node.thrownExceptionTypes();
+			
+			//node.thrownExceptionTypes().stream(). forEach(type -> typeList.add(type.toString()));
 			
 			typeList.forEach( type ->
 					{
@@ -64,12 +67,15 @@ public class MethodDeclarationVisitor extends ASTVisitor{
 				        throwsBlockInfo.MetaInfo.put("ThrowsBlock", node.toString());
 				    					        
 				        throwsList.add(throwsBlockInfo);
+				        
+				        logger.trace("throws block info registered.");
 				    
 				    }
 					
 					);
-		    
-		}
+			
+		} else
+			logger.trace("There are NO thrown exceptions - size is: " + size);
 		
 		return super.visit(node);
 		

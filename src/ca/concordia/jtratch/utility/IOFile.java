@@ -2,6 +2,7 @@ package ca.concordia.jtratch.utility;
 
 public class IOFile {
 	public static String FolderPath;
+	public static String MavenRepo;
     
     public static String CompleteFileName(String tail)
     {

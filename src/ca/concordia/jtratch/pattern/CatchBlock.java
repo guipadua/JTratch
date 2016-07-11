@@ -11,7 +11,11 @@ public class CatchBlock extends CommonFeature {
     public CatchBlock() 
     {
     	OperationFeatures.put("Checked", 0);
-		OperationFeatures.put("Logged", 0);
+    	OperationFeatures.put("Binded", 0);
+    	OperationFeatures.put("RecoveredBinding", -1);
+    	
+		
+    	OperationFeatures.put("Logged", 0);
 		OperationFeatures.put("MultiLog", 0);
 		
 		OperationFeatures.put("Abort", 0);

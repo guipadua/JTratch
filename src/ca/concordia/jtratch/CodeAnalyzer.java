@@ -1,5 +1,6 @@
 package ca.concordia.jtratch;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -34,6 +35,7 @@ final class CodeAnalyzer {
 		logger.trace("Running AnalyzeAllTrees.");
 		
 		String[] sourceFilePaths = sourceFilePathList.toArray(new String [] {});
+		String[] sourceFolder = { IOFile.FolderPath }; 
 		
 		ASTParser parser = ASTParser.newParser(AST.JLS8);
 		
@@ -42,12 +44,19 @@ final class CodeAnalyzer {
 		//classpath empty - maybe will be required if desired to combine binary calls together
 		//using default encodings
 		
-		parser.setEnvironment(null, sourceFilePaths, null, false);
+		parser.setResolveBindings(true); 
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		
-		//this has to be activated for using bindings, however the setEnvironment above will need the classpath array to work
-		parser.setResolveBindings(false); 
-		parser.setStatementsRecovery(true);
-		parser.setBindingsRecovery(true);	
+		parser.setBindingsRecovery(true);
+		//parser.setStatementsRecovery(true);
+		
+		Map options = JavaCore.getOptions();
+		parser.setCompilerOptions(options);
+		
+		String unitName = "bogus_unit_name";
+		parser.setUnitName(unitName);
+ 
+		parser.setEnvironment(getClassJarList(), sourceFolder, null, true);
 		
 		final String[] emptyArray = new String[0];
 		
@@ -56,24 +65,9 @@ final class CodeAnalyzer {
 		FileASTRequestor fileASTRequestor = new FileASTRequestor() { 
 			@Override
 			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
-				logger.trace("Processing AST for File:" + sourceFilePath);
-				TreeStatistics stats = new TreeStatistics();
-				CatchVisitor catchVisitor = new CatchVisitor();
-				//parser.
-				stats.CodeStats.put("NumLOC", ast.toString().split(System.getProperty("line.separator")).length);
-				logger.debug("NumLOC: " + stats.CodeStats.get("NumLOC"));
 				
-				catchVisitor.setTree(ast);
-				catchVisitor.setFilePath(sourceFilePath);
-				ast.accept(catchVisitor);
-				
-				stats.CodeStats.put("NumCatchBlock", catchVisitor.getCatchBlockList().size());
-				stats.CatchBlockList = catchVisitor.getCatchBlockList();
-				
-				//logger.debug("List of catches: "+ catchVisitor.getCatches().toString());
-				
-				codeStatsList.add(new Tuple<CompilationUnit, TreeStatistics>(ast,stats));
-	    	}
+				codeStatsList.add(processCompilation(ast, sourceFilePath, new StringBuilder()));
+			}
 				
 		};
 		
@@ -99,11 +93,7 @@ final class CodeAnalyzer {
 		
 		List<Tuple<CompilationUnit, TreeStatistics>> codeStatsList = new ArrayList<Tuple<CompilationUnit, TreeStatistics>>();
 		
-		//TODO: change to parallel stream to make it faster
-		//sourceFilePathList.stream().forEach(sourceFilePath -> codeStatsList.add(AnalyzeATreeAndComments(sourceFilePath)));
-		
 		sourceFilePathList.parallelStream().forEach(sourceFilePath -> codeStatsList.add(AnalyzeATreeAndComments(sourceFilePath)));
-		
 		
 		// statistics
         //int numFiles = treeAndModelDic.Count;
@@ -121,10 +111,6 @@ final class CodeAnalyzer {
 	
 	public static Tuple<CompilationUnit, TreeStatistics> AnalyzeATreeAndComments(String sourceFilePath)
     {
-		logger.trace("Processing AST for File:" + sourceFilePath);
-		
-		Tuple<CompilationUnit, TreeStatistics> codeStatsTuple = new Tuple<CompilationUnit, TreeStatistics>(null, null) ;
-		
 		Charset charset = Charset.forName("UTF-8");
     	StringBuilder fileData = new StringBuilder();
     	CompilationUnit ast = null;
@@ -138,53 +124,7 @@ final class CodeAnalyzer {
 			e.printStackTrace();
 		}
 		
-		logger.trace("Is Binding Recovery Activated? : " + ast.getAST().hasBindingsRecovery());
-		
-		TreeStatistics stats = new TreeStatistics();
-		stats.CodeStats.put("NumLOC", ast.toString().split(System.getProperty("line.separator")).length);
-		logger.debug("NumLOC: " + stats.CodeStats.get("NumLOC"));
-		
-		//Visiting Catch blocks (and its parent try from the inside)
-		CatchVisitor catchVisitor = new CatchVisitor();
-		catchVisitor.setTree(ast);
-		catchVisitor.setFilePath(sourceFilePath);
-		ast.accept(catchVisitor);
-		
-		stats.CodeStats.put("NumCatchBlock", catchVisitor.getCatchBlockList().size());
-		stats.CatchBlockList = catchVisitor.getCatchBlockList();
-		
-		//Based on the catch list, finding if there are todo, fixme inside them
-		for ( CatchBlock catchblock : stats.CatchBlockList)
-		{
-			int start = catchblock.OperationFeatures.get("Start");
-			int end = start + catchblock.OperationFeatures.get("Length");
-			
-			String catchString = fileData.substring(start, end);
-			if (!catchString.isEmpty())
-			{
-				//TODO can't guarantee this is really a comment block.
-				if (catchString.toLowerCase().contains("todo") || catchString.toLowerCase().contains("fixme")){
-					catchblock.OperationFeatures.put("ToDo", 1);
-				}
-			}
-			
-		}
-		
-		//Visiting method declarations for throw analysis
-		MethodDeclarationVisitor methodDeclarationVisitor = new MethodDeclarationVisitor();
-		methodDeclarationVisitor.setTree(ast);
-		methodDeclarationVisitor.setFilePath(sourceFilePath);
-		ast.accept(methodDeclarationVisitor);
-		
-		stats.CodeStats.put("NumThrowsBlock", methodDeclarationVisitor.getThrowsBlockList().size());
-		stats.ThrowsBlockList = methodDeclarationVisitor.getThrowsBlockList();
-		
-		//logger.debug("List of catches: "+ catchVisitor.getCatches().toString());
-		codeStatsTuple = new Tuple<CompilationUnit, TreeStatistics>(ast,stats);
-		
-		logger.trace("Single Tree read successfully.");
-				
-		return codeStatsTuple;
+		return processCompilation(ast, sourceFilePath, fileData);
 
     }
 //		for (Comment comment : (List<Comment>) ast.getCommentList()) {
@@ -198,27 +138,83 @@ final class CodeAnalyzer {
 //	    	//catchBlockInfo.OperationFeatures.put("ToDo", 1);
 //	    }
 
+	private static Tuple<CompilationUnit, TreeStatistics> processCompilation(CompilationUnit ast, String sourceFilePath, StringBuilder fileData) {
+		logger.info("Processing AST for File:" + sourceFilePath);
+		logger.info("Is Binding Recovery Activated? : " + ast.getAST().hasBindingsRecovery());
+		
+		TreeStatistics stats = new TreeStatistics();
+		stats.CodeStats.put("NumLOC", ast.toString().split(System.getProperty("line.separator")).length);
+		logger.info("NumLOC: " + stats.CodeStats.get("NumLOC"));
+		
+		/*
+		 * Visiting Catch blocks (and its parent try from the inside)
+		 */
+		CatchVisitor catchVisitor = new CatchVisitor();
+		catchVisitor.setTree(ast);
+		catchVisitor.setFilePath(sourceFilePath);
+		ast.accept(catchVisitor);
+		
+		stats.CodeStats.put("NumCatchBlock", catchVisitor.getCatchBlockList().size());
+		stats.CatchBlockList = catchVisitor.getCatchBlockList();
+		
+		logger.info("Catch blocks visited successfully - number of blocks on this file is:" + stats.CatchBlockList.size() );
+			
+		/*
+		 * Based on the catch list, finding if there are todo, fixme inside them
+		 */
+		
+		if (fileData.length() == 0)
+		{
+			Charset charset = Charset.forName("UTF-8");
+	    	
+			try {
+				Files.lines(Paths.get(sourceFilePath), charset)
+						.forEachOrdered(line -> fileData.append(line + System.getProperty("line.separator")));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		for ( CatchBlock catchblock : stats.CatchBlockList)
+		{
+			int start = catchblock.OperationFeatures.get("Start");
+			int end = start + catchblock.OperationFeatures.get("Length");
+			
+			String catchString = fileData.substring(start, end);
+			if (!catchString.isEmpty())
+			{
+				//TODO can't guarantee this is really a comment block.
+				if (catchString.toLowerCase().contains("todo") || catchString.toLowerCase().contains("fixme")){
+					catchblock.OperationFeatures.put("ToDo", 1);
+				}
+			}
+		}
+		
+		/*
+		 * //Visiting method declarations for throw analysis
+		 */
+		MethodDeclarationVisitor methodDeclarationVisitor = new MethodDeclarationVisitor();
+		methodDeclarationVisitor.setTree(ast);
+		methodDeclarationVisitor.setFilePath(sourceFilePath);
+		ast.accept(methodDeclarationVisitor);
+		
+		stats.CodeStats.put("NumThrowsBlock", methodDeclarationVisitor.getThrowsBlockList().size());
+		stats.ThrowsBlockList = methodDeclarationVisitor.getThrowsBlockList();
+		
+		logger.info("Throws blocks visited successfully - number of blocks on this file is: " + stats.ThrowsBlockList.size() );
+		
+		
+		logger.info("Single Tree read successfully.");
+		return new Tuple<CompilationUnit, TreeStatistics>(ast,stats);
+		
+	}
+
 	private static CompilationUnit getCUFromPath(String sourceFilePath, char[] fileCharData) throws IOException {
 		
 		ASTParser parser = ASTParser.newParser(AST.JLS8);
     	
-		String[] sourceFolder = { IOFile.FolderPath, "/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/src.zip" };
-		List<String> classFileJarsList = new ArrayList<String>();
-		
-		classFileJarsList = Files	.walk(Paths.get(IOFile.FolderPath))
-									.map(String::valueOf)
-									.filter(line -> line.endsWith(".jar"))
-									.collect(Collectors.toList());
-		
-		classFileJarsList.addAll(Files	.walk(Paths.get("/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib"))
-									.map(String::valueOf)
-									.filter(line -> line.endsWith(".jar"))
-									.collect(Collectors.toList()));
-		
-		//classFileJarsList.add("/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib");
-		
-		String[] classFileJars = classFileJarsList.toArray(new String [0]);// toArray(new String [] {});
-		
 		parser.setResolveBindings(true); 
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		
@@ -231,10 +227,52 @@ final class CodeAnalyzer {
 		String unitName = Paths.get(sourceFilePath).getFileName().toString();
 		parser.setUnitName(unitName);
  
-		parser.setEnvironment(classFileJars, sourceFolder, new String[] { "UTF-8", "UTF-8"}, true);
+		String[] sourceFolder = { IOFile.FolderPath }; 
+		
+		parser.setEnvironment(getClassJarList(), sourceFolder, null, true);
 		parser.setSource(fileCharData);
 		
 		return (CompilationUnit) parser.createAST(null);
+		
+	}
+	
+	private static String[] getClassJarList(){
+		
+		List<String> classFileJarsList = new ArrayList<String>();
+		
+		try {
+			classFileJarsList = Files	.walk(Paths.get(IOFile.FolderPath))
+										.map(String::valueOf)
+										.filter(line -> line.endsWith(".jar"))
+										.collect(Collectors.toList());
+			logger.info("Class list with own jars only: " + classFileJarsList.size());
+			
+//			//Obtain the list of JARs from the local JVM - NOT NEEDED if setEnvironment parameter to include current VM is TRUE.
+//			classFileJarsList.addAll(Files	.walk(Paths.get("/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib"))
+//										.map(String::valueOf)
+//										.filter(line -> line.endsWith(".jar"))
+//										.collect(Collectors.toList()));
+//			logger.info("Class list with JRE lib: " + classFileJarsList.size());
+//			
+			File mavenRepo = new File(IOFile.MavenRepo);
+			
+			if (mavenRepo.exists())
+			{
+				classFileJarsList.addAll(Files	.walk(mavenRepo.toPath())
+												.map(String::valueOf)
+												.filter(line -> line.endsWith(".jar"))
+												.collect(Collectors.toList()));
+				logger.info("Class list with M2_REPO: " + classFileJarsList.size());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			
+		String[] classFileJars = classFileJarsList.toArray(new String [0]);// toArray(new String [] {});
+		
+		return classFileJars;
 		
 	}
 	    

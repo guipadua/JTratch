@@ -2,12 +2,10 @@ package ca.concordia.jtratch;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 //Import log4j classes.
@@ -23,11 +21,15 @@ public class CodeWalker {
         switch (inputMode)
         {
             case "ByFolder":
-                //CodeAnalyzer.AnalyzeAllTrees(LoadByFolder(filePath));
+            	logger.trace("Before method 1 - createASTs");
+                CodeAnalyzer.AnalyzeAllTrees(LoadByFolder(filePath));
+                logger.trace("After method 1 - createASTs");
                 
                 logger.trace("------------------------------------------------------");
-                
-                CodeAnalyzer.AnalyzeAllTreesAndComments(LoadByFolder(filePath));
+                                
+//                logger.trace("Before method 2 - createAST");
+//                CodeAnalyzer.AnalyzeAllTreesAndComments(LoadByFolder(filePath));
+//                logger.trace("After method 2 - createAST");
                 
         		break;
             case "ByTxtFile":
@@ -50,6 +52,7 @@ public class CodeWalker {
 			try {
 				sourceFilePaths = Files	.walk(Paths.get(folderPath))
 										.map(String::valueOf)
+										.filter(line -> line.contains("/src/main/java"))
 										.filter(line -> line.endsWith(".java"))
 										.collect(Collectors.toList());
 			} catch (IOException e) {

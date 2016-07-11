@@ -13,7 +13,6 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TryStatement;
-import org.eclipse.jdt.core.dom.Type;
 
 import ca.concordia.jtratch.pattern.CatchBlock;
 
@@ -43,10 +42,16 @@ public boolean visit(CatchClause node) {
     SingleVariableDeclaration exceptionType = node.getException();
 	
     if(exceptionType.getType().resolveBinding() != null)
+    {
     	catchBlockInfo.ExceptionType = exceptionType.getType().resolveBinding().getQualifiedName();
-    else
+    	catchBlockInfo.OperationFeatures.put("Binded", 1);
+    	catchBlockInfo.OperationFeatures.put("RecoveredBinding", exceptionType.getType().resolveBinding().isRecovered() ? 1 : 0 );
+    } else 
+    {	
     	catchBlockInfo.ExceptionType = exceptionType.getType().toString();
-	
+    	catchBlockInfo.OperationFeatures.put("Binded", 0);
+    }
+    
     catchBlockInfo.OperationFeatures.put("Checked", IsChecked(exceptionType));
 	
     TryStatement tryStatement = (TryStatement) node.getParent();
@@ -78,7 +83,7 @@ public boolean visit(CatchClause node) {
     //***Remove try-catch-finally block inside for the other analysis!
     
     AST updatedAST = AST.newAST(AST.JLS8);
-    CatchClause updatedCatchBlock = (CatchClause) node.copySubtree(updatedAST, node);
+    CatchClause updatedCatchBlock = (CatchClause) ASTNode.copySubtree(updatedAST, node);
     
     TryVisitor tryVisitor = new TryVisitor();
     tryVisitor.setTree(tree);
@@ -279,12 +284,33 @@ public boolean visit(CatchClause node) {
 
    
   private Integer IsChecked(SingleVariableDeclaration exceptionType) {
+	  
 	  if (exceptionType.resolveBinding() != null)
 	  {
-		  return findExceptionSuperType(exceptionType.resolveBinding().getType().getSuperclass());
+		  if (exceptionType.resolveBinding().getType().getQualifiedName().equals("java.lang.RuntimeException"))
+		  {
+			  return 0;
+		  } else if (exceptionType.resolveBinding().getType().getQualifiedName().equals("java.lang.Exception"))
+		  {
+			  return 1;
+		  } else if (exceptionType.resolveBinding().getType().getQualifiedName().equals("java.lang.Throwable"))
+		  {
+			  return 2;
+		  } else
+			  return findExceptionSuperType(exceptionType.resolveBinding().getType().getSuperclass());
 	  } else if (exceptionType.getType().resolveBinding() != null)
 	  {
-		  return findExceptionSuperType(exceptionType.getType().resolveBinding().getSuperclass());
+		  if (exceptionType.getType().resolveBinding().getQualifiedName().equals("java.lang.RuntimeException"))
+		  {
+			  return 0;
+		  } else if (exceptionType.getType().resolveBinding().getQualifiedName().equals("java.lang.Exception"))
+		  {
+			  return 1;
+		  } else if (exceptionType.getType().resolveBinding().getQualifiedName().equals("java.lang.Throwable"))
+		  {
+			  return 2;
+		  } else
+			  return findExceptionSuperType(exceptionType.getType().resolveBinding().getSuperclass());
 	  }	  
 	  
 	return null;
