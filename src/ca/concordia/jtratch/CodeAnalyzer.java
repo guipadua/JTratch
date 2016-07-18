@@ -258,6 +258,7 @@ final class CodeAnalyzer {
 			
 			if (mavenRepo.exists())
 			{
+				//TODO: this is getting the whole local maven repository. It could actually be done using the classpath file to only use the proper classes.
 				classFileJarsList.addAll(Files	.walk(mavenRepo.toPath())
 												.map(String::valueOf)
 												.filter(line -> line.endsWith(".jar"))

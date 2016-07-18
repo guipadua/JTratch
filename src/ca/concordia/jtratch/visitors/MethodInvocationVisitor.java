@@ -1,9 +1,9 @@
 package ca.concordia.jtratch.visitors;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +11,7 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+
 import ca.concordia.jtratch.utility.Config;
 
 public class MethodInvocationVisitor extends ASTVisitor{
@@ -18,15 +19,13 @@ public class MethodInvocationVisitor extends ASTVisitor{
 	private CompilationUnit tree;
 	private String originator;
 	
-	List<String> loggingStatements = new ArrayList<String>();
-	List<String> abortStatements = new ArrayList<String>();
-	List<String> defaultStatements = new ArrayList<String>();
-	List<String> otherStatements = new ArrayList<String>();
-	Set<String> exceptionTypes = new HashSet<>();
+	private List<String> loggingStatements = new ArrayList<String>();
+	private List<String> abortStatements = new ArrayList<String>();
+	private List<String> defaultStatements = new ArrayList<String>();
+	private List<String> otherStatements = new ArrayList<String>();
 	
 	public MethodInvocationVisitor (String originator) {
 		this.originator = originator;
-			
 	}
 	
 	@Override
@@ -50,17 +49,7 @@ public class MethodInvocationVisitor extends ASTVisitor{
 				otherStatements.add(node.toString());
 			}
 		
-		} else if(this.originator=="try"){
-			if(node.resolveMethodBinding() != null)
-			{
-				for( ITypeBinding type : node.resolveMethodBinding().getExceptionTypes())
-				{
-					exceptionTypes.add(type.getName());
-					//type.getSuperclass()
-				}
-			}
-			
-		}
+		} 
 		
 		return super.visit(node);
 		
@@ -84,10 +73,6 @@ public class MethodInvocationVisitor extends ASTVisitor{
 	
 	public List<String> getOtherStatements() {
 		return abortStatements;
-	}
-	
-	public Set<String> getExceptionTypes() {
-		return exceptionTypes;
 	}
 	
 	/// <summary>
@@ -159,4 +144,5 @@ public class MethodInvocationVisitor extends ASTVisitor{
         }
         return false;
     }
+	
 }
