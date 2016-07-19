@@ -29,27 +29,32 @@ public class CatchBlock extends CommonFeature {
 		OperationFeatures.put("MultiLog", 0);
 		OperationFeatures.put("Abort", 0);
 		OperationFeatures.put("Default", 0);
+		OperationFeatures.put("GetCause", 0);
 		OperationFeatures.put("OtherInvocation", 0);
 		
 		MetaInfo.put("Logged", "-logged");
         MetaInfo.put("Abort", "-abort");
         MetaInfo.put("Default", "-default");
+        MetaInfo.put("GetCause", "-getcause");
         MetaInfo.put("OtherInvocation", "-otherinvocation");
         
-		//Other specific visitors:
-		OperationFeatures.put("Thrown", 0);
+        //Throw visitor
+        OperationFeatures.put("NumThrown", 0);
+        MetaInfo.put("Thrown", "-thrown");
+        OperationFeatures.put("NumThrowNew", 0);
+        OperationFeatures.put("NumThrowWrapCurrentException", 0);
+		
+        //Other specific visitors:
 		OperationFeatures.put("Return", 0);
 		OperationFeatures.put("Continue", 0);
-		MetaInfo.put("Thrown", "-thrown");
-        MetaInfo.put("Return", "-return");
+		MetaInfo.put("Return", "-return");
         MetaInfo.put("Continue", "-continue");
         
 		//Some catch block info
         OperationFeatures.put("EmptyBlock", 0);
 		OperationFeatures.put("CatchException", 0);
 		MetaInfo.put("TryBlock", "-tryblock");
-		MetaInfo.put("CatchBlock", "-catchblock");
-        OperationFeatures.put("ParentNodeType", 0);
+		OperationFeatures.put("ParentNodeType", 0);
         MetaInfo.put("ParentNodeType", "-parentnodetype");
         MetaInfo.put("ParentMethodOrType", "-parentmethodortype");
         
@@ -70,7 +75,9 @@ public class CatchBlock extends CommonFeature {
     	
     	//Comments info - not in the Catch Visitor
     	OperationFeatures.put("ToDo", 0);
-		
+    	MetaInfo.put("CatchBlock", "-catchblock");
+        
+    	
     	/* // Not in Use right now:
         OperationFeatures.put("SetLogicFlag", 0);
         MetaInfo.put("SetLogicFlag", "-setlogicflag");

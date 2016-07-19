@@ -183,6 +183,9 @@ final class CodeAnalyzer {
 			int end = start + catchblock.OperationFeatures.get("Length");
 			
 			String catchString = fileData.substring(start, end);
+			
+			catchblock.MetaInfo.put("CatchBlock", catchString );
+			
 			if (!catchString.isEmpty())
 			{
 				//TODO can't guarantee this is really a comment block.

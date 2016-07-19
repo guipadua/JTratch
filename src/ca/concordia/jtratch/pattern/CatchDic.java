@@ -46,7 +46,7 @@ public class CatchDic extends HashMap<String, CatchList> {
             {
                 this.get(exception).NumLogged++;
                 NumLogged++;
-                if (catchBlock.OperationFeatures.get("Thrown") == 1)
+                if (catchBlock.OperationFeatures.get("NumThrown") > 0)
                 {
                     this.get(exception).NumLoggedAndThrown++;
                     NumLoggedAndThrown++;
@@ -57,7 +57,7 @@ public class CatchDic extends HashMap<String, CatchList> {
                     NumLoggedNotThrown++;
                 }
             }
-            if (catchBlock.OperationFeatures.get("Thrown") == 1)
+            if (catchBlock.OperationFeatures.get("NumThrown") > 0)
             {
                 this.get(exception).NumThrown++;
                 NumThrown++;

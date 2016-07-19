@@ -1,15 +1,12 @@
 package ca.concordia.jtratch.visitors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 
 import ca.concordia.jtratch.utility.Config;
@@ -23,6 +20,7 @@ public class MethodInvocationVisitor extends ASTVisitor{
 	private List<String> abortStatements = new ArrayList<String>();
 	private List<String> defaultStatements = new ArrayList<String>();
 	private List<String> otherStatements = new ArrayList<String>();
+	private List<String> getCauseStatements = new ArrayList<String>();;
 	
 	public MethodInvocationVisitor (String originator) {
 		this.originator = originator;
@@ -45,7 +43,10 @@ public class MethodInvocationVisitor extends ASTVisitor{
 			if (IsDefaultStatement(nodeName))
 				defaultStatements.add(node.toString());
 			
-			if(!IsLoggingStatement(nodeName) && !IsAbortStatement(nodeName) && !IsDefaultStatement(nodeName)){
+			if (IsGetCause(nodeName))
+				getCauseStatements.add(node.toString());
+			
+			if(!IsLoggingStatement(nodeName) && !IsAbortStatement(nodeName) && !IsDefaultStatement(nodeName) && !IsGetCause(nodeName)){
 				otherStatements.add(node.toString());
 			}
 		
@@ -72,7 +73,11 @@ public class MethodInvocationVisitor extends ASTVisitor{
 	}
 	
 	public List<String> getOtherStatements() {
-		return abortStatements;
+		return otherStatements;
+	}
+	
+	public List<String> getGetCauseStatements() {
+		return getCauseStatements;
 	}
 	
 	/// <summary>
@@ -145,4 +150,15 @@ public class MethodInvocationVisitor extends ASTVisitor{
         return false;
     }
 	
+	static public boolean IsGetCause(String statement)
+    {
+        if (statement == null) return false;
+
+        if (statement.indexOf("getCause") > -1)
+        {
+            return true;
+        }
+    
+        return false;
+    }
 }

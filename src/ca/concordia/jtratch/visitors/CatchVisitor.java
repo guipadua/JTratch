@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -129,20 +130,27 @@ public boolean visit(CatchClause node) {
     //Default (example: eclipse IDE default: printStackTrace )
     if (!catchMethodInvocationVisitor.getDefaultStatements().isEmpty())
     {
-    	catchBlockInfo.MetaInfo.put("Default", catchMethodInvocationVisitor.getAbortStatements().toString());
+    	catchBlockInfo.MetaInfo.put("Default", catchMethodInvocationVisitor.getDefaultStatements().toString());
         catchBlockInfo.OperationFeatures.put("Default", 1);
     }
     
-    //Other
-    if (!catchMethodInvocationVisitor.getDefaultStatements().isEmpty())
+    //GetCause
+    if (!catchMethodInvocationVisitor.getGetCauseStatements().isEmpty())
     {
-    	catchBlockInfo.MetaInfo.put("OtherInvocation", catchMethodInvocationVisitor.getAbortStatements().toString());
+    	catchBlockInfo.MetaInfo.put("GetCause", catchMethodInvocationVisitor.getGetCauseStatements().toString());
+        catchBlockInfo.OperationFeatures.put("GetCause", 1);
+    }
+    
+    //Other
+    if (!catchMethodInvocationVisitor.getOtherStatements().isEmpty())
+    {
+    	catchBlockInfo.MetaInfo.put("OtherInvocation", catchMethodInvocationVisitor.getOtherStatements().toString());
         catchBlockInfo.OperationFeatures.put("OtherInvocation", 1);
     }
     
     //Treatment for ThrowStatement
     //Collection of data for statements of: throw 
-    ThrowStatementVisitor throwStatementVisitor = new ThrowStatementVisitor();
+    ThrowStatementVisitor throwStatementVisitor = new ThrowStatementVisitor(exceptionType.getName());
     throwStatementVisitor.setTree(tree);
     updatedCatchBlock.accept(throwStatementVisitor);
     
@@ -150,8 +158,12 @@ public boolean visit(CatchClause node) {
     if (!throwStatementVisitor.getThrowStatements().isEmpty())
     {
     	catchBlockInfo.MetaInfo.put("Thrown", throwStatementVisitor.getThrowStatements().toString());
-        catchBlockInfo.OperationFeatures.put("Thrown", 1);
+        catchBlockInfo.OperationFeatures.put("NumThrown", throwStatementVisitor.getThrowStatements().size());
+        catchBlockInfo.OperationFeatures.put("NumThrowNew", throwStatementVisitor.getNumThrowNew());
+        catchBlockInfo.OperationFeatures.put("NumThrowWrapCurrentException", throwStatementVisitor.getNumThrowWrapCurrentException());
     }
+    
+    //updatedCatchBlock.getException().
     
     //Treatment for ReturnStatement
     //Collection of data for statements of: throw 
@@ -193,7 +205,6 @@ public boolean visit(CatchClause node) {
     	catchBlockInfo.OperationFeatures.put("CatchException", 1);
     
     catchBlockInfo.MetaInfo.put("TryBlock", tryStatement.getBody().toString());
-    catchBlockInfo.MetaInfo.put("CatchBlock", updatedCatchBlock.getBody().toString());
     
     catchBlockInfo.MetaInfo.put("ParentNodeType", findParent(tryStatement).getClass().getName());
     catchBlockInfo.OperationFeatures.put("ParentNodeType", findParent(tryStatement).getNodeType());
@@ -202,16 +213,23 @@ public boolean visit(CatchClause node) {
     //ASTNode.nodeClassForType(nodeType)
     
     //FinallyThrowing
-    if (tryStatement.getFinally() != null)
+    Block finallyBlock = tryStatement.getFinally();
+    if (finallyBlock != null)
     {
-    	catchBlockInfo.MetaInfo.put("FinallyBlock", tryStatement.getFinally().toString());
-    	ThrowStatementVisitor throwStatementVisitorFinally = new ThrowStatementVisitor();
+    	catchBlockInfo.MetaInfo.put("FinallyBlock", finallyBlock.toString());
+    	
+    	ThrowStatementVisitor throwStatementVisitorFinally = new ThrowStatementVisitor(exceptionType.getName());
     	throwStatementVisitorFinally.setTree(tree);
     	updatedCatchBlock.accept(throwStatementVisitorFinally);
-    	tryStatement.getFinally().accept(throwStatementVisitorFinally);
+    	finallyBlock.accept(throwStatementVisitorFinally);
     	
+    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionType.getType().resolveBinding());
+    	finallyPossibleExceptionsCustomVisitor.setTree(tree);
+    	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
+        
     	//FinallyThrowing
-    	if (! throwStatementVisitorFinally.getThrowStatements().isEmpty())
+    	if (! throwStatementVisitorFinally.getThrowStatements().isEmpty() 
+    			|| finallyPossibleExceptionsCustomVisitor.getNumPossibleExceptions() > 0)
     		catchBlockInfo.OperationFeatures.put("FinallyThrowing", 1);
     }
     
@@ -228,7 +246,7 @@ public boolean visit(CatchClause node) {
         
         catchBlockInfo.OperationFeatures.put("NumMethodsNotBinded",tryPossibleExceptionsCustomVisitor.getNumMethodsNotBinded()); 
         
-        catchBlockInfo.OperationFeatures.put("NumExceptions", tryPossibleExceptionsCustomVisitor.getPossibleExceptions());
+        catchBlockInfo.OperationFeatures.put("NumExceptions", tryPossibleExceptionsCustomVisitor.getNumPossibleExceptions());
         
     	catchBlockInfo.OperationFeatures.put("NumSpecificHandler", tryPossibleExceptionsCustomVisitor.getNumSpecificHandler());
     	catchBlockInfo.OperationFeatures.put("NumSubsumptionHandler", tryPossibleExceptionsCustomVisitor.getNumSubsumptionHandler());

@@ -17,7 +17,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 	private static final Logger logger = LogManager.getLogger(PossibleExceptionsCustomVisitor.class.getName());
 	private CompilationUnit tree;
 	private ITypeBinding exceptionType;
-	private int possibleExceptions = 0;
+	private int numPossibleExceptions = 0;
 	
 	private Map<String,List<String>> invokedMethods = new HashMap<String,List<String>>();
 	private Map<String,Integer> invokedMethodsBinded = new HashMap<String,Integer>();
@@ -77,7 +77,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 					exceptionTypeNames.put(type.getName(),3);
 					this.numOtherHandler++;
 				}
-				this.possibleExceptions++;
+				this.numPossibleExceptions++;
 			}
 			invokedMethodsBinded.put(nodeString, 1);
 		} else
@@ -127,8 +127,8 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 			return IsSuperType(subType, referenceType.getSuperclass());
 	  			
 	  }
-    public int getPossibleExceptions() {
-		return possibleExceptions;
+    public int getNumPossibleExceptions() {
+		return numPossibleExceptions;
 	}
     public int getNumSpecificHandler() {
 		return numSpecificHandler;
