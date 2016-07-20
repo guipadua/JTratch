@@ -36,7 +36,7 @@ public class CodeWalker {
                 LoadByTxtFile(filePath);
                 break;
             default:
-                logger.trace("Invalid input mode. (Select ByFolder/ByTxtFile)");
+                logger.error("Invalid input mode. (Select ByFolder/ByTxtFile)");
                 System.in.read();
                 return;
         }
@@ -44,7 +44,7 @@ public class CodeWalker {
 
     public static List<String> LoadByFolder(String folderPath)
     {
-    	logger.trace("Loading from folder: " + folderPath);
+    	logger.info("Loading from folder: " + folderPath);
         
     	List<String> sourceFilePaths = new ArrayList<String>();
     	
@@ -60,7 +60,7 @@ public class CodeWalker {
 				e.printStackTrace();
 			}
     		
-    		logger.trace("Loading " + sourceFilePaths.size() + " *.java files.");
+    		logger.info("Loading " + sourceFilePaths.size() + " *.java files.");
             
     		    		
 	
@@ -68,11 +68,11 @@ public class CodeWalker {
     	return sourceFilePaths;
     	
     	/*
-    	logger.trace("Loading from folder: " + folderPath);
+    	logger.info("Loading from folder: " + folderPath);
         IEnumerable<String> FileNames = Directory.EnumerateFiles(folderPath, "*.cs",
             SearchOption.AllDirectories);
         int numFiles = FileNames.Count();
-        logger.trace("Loading " + numFiles + " *.cs files.");
+        logger.info("Loading " + numFiles + " *.cs files.");
         // parallelization
         var treeAndModelList = FileNames.AsParallel()
             .Select(fileName => LoadSourceFile(fileName))

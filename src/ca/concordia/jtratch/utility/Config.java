@@ -18,44 +18,42 @@ public class Config {
 	static public String[] LogMethods; // "WriteError"
     static public String[] NotLogMethods; // "TraceUtil.If"
     static public Integer LogLevelArgPos; // ="2"
-    static public Integer AssertConditionIndex;
-    static public Boolean Orthogonal;
-	static public String[] AbortMethods;
+    static public String[] AbortMethods;
 	static public String[] DefaultMethods;
     private static final Logger logger = LogManager.getLogger(CatchDic.class.getName());
 	
     static public void Load(String FileName)
     {
-    	logger.trace("Reading Config file...");
+    	logger.info("Reading Config file...");
     	Charset charset = Charset.forName("UTF-8");
     	Path file = Paths.get(IOFile.CompleteFileName(FileName));
     	
     	List<String> allLines = new ArrayList<String>();
     	try {
 			allLines = Files.readAllLines(file, charset);
-			
+    	} catch (IOException e) {
+			// use the default:
+    		logger.warn("File not found: using default hardcoded values.");
+    		
+    		allLines.add("info,warn,error,trace,debug,fatal%	 	LogMethods");
+    		allLines.add("println,print% NotLogMethods");
+    		allLines.add("0%					LogLevelIndex");
+    		allLines.add("abort,exit%	 	AbortMethods");
+    		allLines.add("printStackTrace%	 	DefaultMethods");
+    			
+		} finally {
 			Iterator<String> linesIterator = allLines.iterator();
 			
 			LogMethods = linesIterator.next().split("%")[0].split(",");
 			NotLogMethods = linesIterator.next().split("%")[0].split(",");
 			LogLevelArgPos = Integer.parseInt(linesIterator.next().split("%")[0]);
-			String temp = linesIterator.next().split("%")[0];
-			
-			if (temp.equals("O"))
-				Orthogonal = true;
-			else if (temp.equals("N"))
-				Orthogonal = false;
-			else throw new IOException();
-			AssertConditionIndex = Integer.parseInt(linesIterator.next().split("%")[0]);
 			AbortMethods = linesIterator.next().split("%")[0].split(",");
 			DefaultMethods = linesIterator.next().split("%")[0].split(",");
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			logger.error("Illegal Configure File Format.");
-		} finally {
-			logger.trace("Config file read succesfully.");
-		}
+			logger.info("Config file read succesfully.");
+		}	
+			
+			
+		
     }
 }

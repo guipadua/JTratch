@@ -37,9 +37,11 @@ public class JTratch {
 		
 		//Load Config file
 		Config.Load("Config.txt");
-				
-		logger.trace("Entering application at" + System.getProperty("user.dir"));
+		
+		logger.info("Entering application at " + System.getProperty("user.dir") + " for folder: " + filePath);
         
+		System.out.println("Starting JTratch at " + System.getProperty("user.dir") + " for folder: " + filePath + ". See the log folder");
+		
 		CodeWalker walker = new CodeWalker();
         try {
 			walker.LoadByInputMode(inputMode, filePath);
@@ -49,7 +51,8 @@ public class JTratch {
 		}
 
         
-		logger.trace("Exiting application.");
+		logger.info("Exiting application." + " for folder: " + filePath);
+		System.out.println("Exiting JTratch at " + filePath + ". See the log folder");
 
 	}
 

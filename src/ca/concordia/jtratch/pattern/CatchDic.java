@@ -17,7 +17,10 @@ import ca.concordia.jtratch.utility.IOFile;
 
 public class CatchDic extends HashMap<String, CatchList> {
 	public int NumCatch = 0;
-    public int NumLogged = 0;
+	public int NumBinded = 0;
+	public int NumRecoveredBinding = 0;
+	public int NumMethodsNotBinded = 0;
+	public int NumLogged = 0;
     public int NumThrown = 0;
     public int NumLoggedAndThrown = 0;
     public int NumLoggedNotThrown = 0;
@@ -62,13 +65,28 @@ public class CatchDic extends HashMap<String, CatchList> {
                 this.get(exception).NumThrown++;
                 NumThrown++;
             }
+            if (catchBlock.OperationFeatures.get("Binded") == 1)
+            {
+                this.get(exception).NumBinded++;
+                NumBinded++;
+            }
+            if (catchBlock.OperationFeatures.get("RecoveredBinding") == 1)
+            {
+                this.get(exception).NumRecoveredBinding++;
+                NumRecoveredBinding++;
+            }
+            if (catchBlock.OperationFeatures.get("NumMethodsNotBinded") > 0)
+            {
+                this.get(exception).NumMethodsNotBinded++;
+                NumMethodsNotBinded++;
+            }
         }
     }
 
     public void PrintToFile()
     {
     	
-    	logger.trace("Writing CatchBlock features into file...");
+    	logger.info("Writing CatchBlock features into file...");
     	Charset charset = Charset.forName("UTF-8");
     	Path file = Paths.get(IOFile.CompleteFileName("CatchBlock.txt"));
     	Path fileMeta = Paths.get(IOFile.CompleteFileName("CatchBlock_Meta.txt"));
@@ -149,7 +167,7 @@ public class CatchDic extends HashMap<String, CatchList> {
     		bw.close();
     		metaBW.close();
     		csvBW.close();
-    		logger.trace("Writing done.");
+    		logger.info("Writing done.");
         	
     	} catch (IOException e) {
 			// TODO Auto-generated catch block

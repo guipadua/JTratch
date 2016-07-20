@@ -14,6 +14,17 @@ public class TreeStatistics {
     {
         CodeStats = new HashMap<String, Integer>();
         CodeStats.put("NumLOC", 0);
+        CodeStats.put("NumCatchBlock", 0);
+        CodeStats.put("NumThrowsBlock", 0);
+        
+        CodeStats.put("NumLoggedCatchBlock", 0);
+        CodeStats.put("NumExceptionTypeCatch", 0);          
+        CodeStats.put("NumExceptionTypeThrows", 0);
+        
+        CodeStats.put("NumBinded", 0);
+        CodeStats.put("NumRecoveredBinding", 0);          
+        CodeStats.put("NumMethodsNotBinded", 0);
+        
         //CodeStats.Add("NumLoggedLOC", 0);
         //CodeStats.Add("NumCall", 0);
         //CodeStats.Add("NumLogging", 0);
@@ -23,10 +34,6 @@ public class TreeStatistics {
         //CodeStats.Add("NumExceptions", 0);
         //CodeStats.Add("NumLoggedMethod", 0);
         //CodeStats.Add("NumLoggedFile", 0);
-        CodeStats.put("NumCatchBlock", 0);
-        CodeStats.put("NumThrowsBlock", 0);
-        CodeStats.put("NumLoggedCatchBlock", 0);
-        CodeStats.put("NumExceptionType", 0);          
         //CodeStats.Add("NumCallType", 0);
         //CodeStats.Add("NumAPICall", 0);
         //CodeStats.Add("NumLoggedAPICall", 0);

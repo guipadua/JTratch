@@ -42,7 +42,7 @@ public class ThrowsDic extends HashMap<String, ThrowsList> {
 
     public void PrintToFile()
     {
-    	logger.trace("Writing ThrowsBlock features into file...");
+    	logger.info("Writing ThrowsBlock features into file...");
     	Charset charset = Charset.forName("UTF-8");
     	Path file = Paths.get(IOFile.CompleteFileName("ThrowsBlock.txt"));
     	Path fileMeta = Paths.get(IOFile.CompleteFileName("ThrowsBlock_Meta.txt"));
@@ -113,7 +113,7 @@ public class ThrowsDic extends HashMap<String, ThrowsList> {
     		bw.close();
     		metaBW.close();
     		csvBW.close();
-    		logger.trace("Writing done.");
+    		logger.info("Writing done.");
         	
     	} catch (IOException e) {
 			// TODO Auto-generated catch block

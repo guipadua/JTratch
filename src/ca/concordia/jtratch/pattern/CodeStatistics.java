@@ -50,6 +50,11 @@ public class CodeStatistics extends TreeStatistics {
         CodeStats.put("NumExceptionTypeCatch",CatchBlocks.size());
         CodeStats.put("NumLoggedCatchBlock",CatchBlocks.NumLogged);
         CodeStats.put("NumExceptionTypeThrows",ThrowsBlocks.size());
+        
+        CodeStats.put("NumBinded",CatchBlocks.NumBinded);
+        CodeStats.put("NumRecoveredBinding",CatchBlocks.NumRecoveredBinding);
+        CodeStats.put("NumMethodsNotBinded",CatchBlocks.NumMethodsNotBinded);
+        
         //CodeStats["NumCallType"] = APICalls.Count;
         //CodeStats["NumAPICall"] = APICalls.NumAPICall;
         //CodeStats["NumLoggedAPICall"] = APICalls.NumLogged;
@@ -59,7 +64,7 @@ public class CodeStatistics extends TreeStatistics {
     {           
         for (Map.Entry<String, Integer> entry : CodeStats.entrySet())
         {
-        	logger.trace(entry.getKey() + ": " + entry.getValue());
+        	logger.info(entry.getKey() + ": " + entry.getValue());
         }
         CatchBlocks.PrintToFile();
         ThrowsBlocks.PrintToFile();
