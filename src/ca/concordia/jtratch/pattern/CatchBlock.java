@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CatchBlock extends CommonFeature {
-	public String ExceptionType;
-	public String ExceptionSuperType;
-    public static List<String> MetaKeys;
+	public static List<String> MetaKeys;
+    public static List<String> OpFeaturesKeys;
 
     public CatchBlock() 
     {
@@ -18,11 +17,16 @@ public class CatchBlock extends CommonFeature {
     	MetaInfo.put("ExceptionType", "-exceptiontype");
 		OperationFeatures.put("Checked", 0);
     	
+		//Try info
+		MetaInfo.put("TryBlock", "-tryblock");
+		OperationFeatures.put("ParentNodeType", 0);
+        MetaInfo.put("ParentNodeType", "-parentnodetype");
+        		
 		//Try Visitor items:
 		OperationFeatures.put("RecoverFlag", 0);
 		MetaInfo.put("RecoverFlag", "-recoverflag");
         OperationFeatures.put("InnerCatch", 0);
-		OperationFeatures.put("ParentStartLine", 0);
+		OperationFeatures.put("ParentTryStartLine", 0);
 		
 		//Method invocation Visitor on the Catch block:
     	OperationFeatures.put("Logged", 0);
@@ -53,11 +57,7 @@ public class CatchBlock extends CommonFeature {
 		//Some catch block info
         OperationFeatures.put("EmptyBlock", 0);
 		OperationFeatures.put("CatchException", 0);
-		MetaInfo.put("TryBlock", "-tryblock");
-		OperationFeatures.put("ParentNodeType", 0);
-        MetaInfo.put("ParentNodeType", "-parentnodetype");
-        MetaInfo.put("ParentMethodOrType", "-parentmethodortype");
-        
+		
 		//Finally block items, if existing
 		MetaInfo.put("FinallyBlock", "-finallyblock");
         OperationFeatures.put("FinallyThrowing", 0);
@@ -86,6 +86,7 @@ public class CatchBlock extends CommonFeature {
         */
         
         MetaKeys = new ArrayList<String>(MetaInfo.keySet());
+        OpFeaturesKeys = new ArrayList<String>(OperationFeatures.keySet());
     }
    
 }

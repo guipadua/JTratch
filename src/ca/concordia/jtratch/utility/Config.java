@@ -35,7 +35,7 @@ public class Config {
 			// use the default:
     		logger.warn("File not found: using default hardcoded values.");
     		
-    		allLines.add("info,warn,error,trace,debug,fatal%	 	LogMethods");
+    		allLines.add("log,info,warn,error,trace,debug,fatal%	 	LogMethods");
     		allLines.add("println,print% NotLogMethods");
     		allLines.add("0%					LogLevelIndex");
     		allLines.add("abort,exit%	 	AbortMethods");

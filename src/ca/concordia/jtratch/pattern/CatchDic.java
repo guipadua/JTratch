@@ -100,6 +100,13 @@ public class CatchDic extends HashMap<String, CatchList> {
             metaKey += (meta + CatchBlock.Splitter);
         }
         
+        String OpFeaturesKey = "";
+        
+        for ( String OpFeature : CatchBlock.OpFeaturesKeys)
+        {
+        	OpFeaturesKey += (OpFeature + ",");
+        }
+        
     	try 
     	(
 			BufferedWriter bw = Files.newBufferedWriter(file, charset);
@@ -107,6 +114,8 @@ public class CatchDic extends HashMap<String, CatchList> {
 			BufferedWriter csvBW = Files.newBufferedWriter(fileCSV, charset);
 		)
     	{
+    		csvBW.write("ID," + OpFeaturesKey + "ExceptionType,ParentMethod,ParentType,FilePath");
+    		csvBW.newLine();
     		metaBW.write(metaKey);
     		metaBW.newLine();
     		metaBW.write("--------------------------------------------------------");
@@ -127,11 +136,11 @@ public class CatchDic extends HashMap<String, CatchList> {
             	for (CatchBlock catchblock : catchList)
             	{
             		catchId++;
-            		bw.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintFeatures(catchblock.ExceptionType));
+            		bw.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintFeatures());
             		bw.newLine();
             		metaBW.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintMetaInfo());
             		metaBW.newLine();
-            		csvBW.write(catchId + "," + catchblock.PrintCSV(catchblock.ExceptionType));
+            		csvBW.write(catchId + "," + catchblock.PrintCSV());
             		csvBW.newLine();
             		
             	}

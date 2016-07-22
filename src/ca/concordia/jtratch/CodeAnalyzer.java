@@ -179,8 +179,8 @@ final class CodeAnalyzer {
 		
 		for ( CatchBlock catchblock : stats.CatchBlockList)
 		{
-			int start = catchblock.OperationFeatures.get("Start");
-			int end = start + catchblock.OperationFeatures.get("Length");
+			int start = catchblock.OperationFeatures.get("CatchStart");
+			int end = start + catchblock.OperationFeatures.get("CatchLength");
 			
 			String catchString = fileData.substring(start, end);
 			

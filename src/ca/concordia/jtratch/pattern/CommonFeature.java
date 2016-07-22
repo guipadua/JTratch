@@ -10,6 +10,10 @@ public class CommonFeature {
 	public Map<String, Integer> OperationFeatures;
     //public Map<String, Integer> TextFeatures; //TextFeatures is only on the API call
 	public String FilePath;
+	public String ExceptionType;
+	public String ParentType;
+	public String ParentMethod;
+	
     public Map<String, String> MetaInfo;
 
     public static final String Splitter = "\t";
@@ -19,17 +23,24 @@ public class CommonFeature {
     	OperationFeatures = new HashMap<String, Integer>();
         MetaInfo = new HashMap<String, String>();
 
-        OperationFeatures.put("Line", 0);
-        OperationFeatures.put("LOC", 0);
-        OperationFeatures.put("Start", 0);
-        OperationFeatures.put("Length", 0);
+        OperationFeatures.put("TryLine", 0);
+        OperationFeatures.put("TryLOC", 0);
+        OperationFeatures.put("CatchLine", 0);
+        OperationFeatures.put("CatchLOC", 0);
+        OperationFeatures.put("CatchStart", 0);
+        OperationFeatures.put("CatchLength", 0);
+        OperationFeatures.put("MethodLine", 0);
+        OperationFeatures.put("MethodLOC", 0);
         
         MetaInfo.put("FilePath", "-filepath");
-        MetaInfo.put("Line", "-line");
+        MetaInfo.put("ExceptionType", "-exceptiontype");
+        MetaInfo.put("ParentType", "-parenttype");
+        MetaInfo.put("ParentMethod", "-parentmethod");
         
+        MetaInfo.put("TryLine", "-tryline");
         
     }
-    public String PrintFeatures(String type) 
+    public String PrintFeatures() 
     {
         //List<String> features = new ArrayList<String>();
         
@@ -39,22 +50,27 @@ public class CommonFeature {
         {
         	features += (entry.getKey() + ":" + entry.getValue() + Splitter);
 		}
-        features += (type + Splitter);
+        features += (ExceptionType + Splitter);
+        features += (ParentMethod + Splitter);
+        features += (ParentType + Splitter);
         
         //TextFeatures.forEach((key,value) -> features += (key + ":" + value + Splitter));
         
         return features;
     }
 
-    public String PrintCSV(String type)
+    public String PrintCSV()
     {
         String csv = "";
-        csv += (FilePath + ",");
+        
         for (Map.Entry<String, Integer> entry : OperationFeatures.entrySet())
         {
-            csv += (entry.getKey() + ":" + entry.getValue() + ",");
+            csv += (entry.getValue() + ",");
         }
-        csv += (type);
+        csv += (ExceptionType + ",");
+        csv += (ParentMethod + ",");
+        csv += (ParentType + ",");
+        csv += (FilePath);
         
         return csv;
     }

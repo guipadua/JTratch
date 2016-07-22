@@ -81,11 +81,11 @@ public class ThrowsDic extends HashMap<String, ThrowsList> {
             	for (ThrowsBlock throwsblock : throwsList)
             	{
             		throwsId++;
-            		bw.write("ID:" + throwsId + ThrowsBlock.Splitter + throwsblock.PrintFeatures(throwsblock.ExceptionType));
+            		bw.write("ID:" + throwsId + ThrowsBlock.Splitter + throwsblock.PrintFeatures());
             		bw.newLine();
             		metaBW.write("ID:" + throwsId + ThrowsBlock.Splitter + throwsblock.PrintMetaInfo());
             		metaBW.newLine();
-            		csvBW.write(throwsId + "," + throwsblock.PrintCSV(throwsblock.ExceptionType));
+            		csvBW.write(throwsId + "," + throwsblock.PrintCSV());
             		csvBW.newLine();
             		
             	}
