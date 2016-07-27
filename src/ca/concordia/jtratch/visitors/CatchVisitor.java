@@ -32,13 +32,17 @@ public boolean visit(CatchClause node) {
 	CatchBlock catchBlockInfo = new CatchBlock();
    
 	SingleVariableDeclaration exceptionType = node.getException();
+	ITypeBinding exceptionTypeBinding = exceptionType.getType().resolveBinding();
 	
 	//Binding info:
-    if(exceptionType.getType().resolveBinding() != null)
+    if(exceptionTypeBinding != null)
     {
-    	catchBlockInfo.ExceptionType = exceptionType.getType().resolveBinding().getQualifiedName();
+    	catchBlockInfo.ExceptionType = exceptionTypeBinding.getQualifiedName();
     	catchBlockInfo.OperationFeatures.put("Binded", 1);
-    	catchBlockInfo.OperationFeatures.put("RecoveredBinding", exceptionType.getType().resolveBinding().isRecovered() ? 1 : 0 );
+    	catchBlockInfo.OperationFeatures.put("RecoveredBinding", exceptionTypeBinding.isRecovered() ? 1 : 0 );
+    	int kind = findKind(exceptionTypeBinding);
+    	catchBlockInfo.OperationFeatures.put("Kind", kind);
+    	catchBlockInfo.OperationFeatures.put("Checked", (kind == 1 || kind == 3) ? 1 : 0);
     } else 
     {	
     	catchBlockInfo.ExceptionType = exceptionType.getType().toString();
@@ -47,7 +51,7 @@ public boolean visit(CatchClause node) {
     
     //Basic info:
     catchBlockInfo.MetaInfo.put("ExceptionType", catchBlockInfo.ExceptionType);
-    catchBlockInfo.OperationFeatures.put("Checked", IsChecked(exceptionType));
+    
 	
     //Try info:
     TryStatement tryStatement = (TryStatement) node.getParent();
@@ -265,7 +269,7 @@ public boolean visit(CatchClause node) {
     	updatedCatchBlock.accept(throwStatementVisitorFinally);
     	finallyBlock.accept(throwStatementVisitorFinally);
     	
-    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionType.getType().resolveBinding());
+    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding);
     	finallyPossibleExceptionsCustomVisitor.setTree(tree);
     	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
         
@@ -277,7 +281,7 @@ public boolean visit(CatchClause node) {
     
     if(catchBlockInfo.OperationFeatures.get("Binded") == 1) 
     {
-    	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionType.getType().resolveBinding());
+    	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding);
     	tryPossibleExceptionsCustomVisitor.setTree(tree);
         tryStatement.getBody().accept(tryPossibleExceptionsCustomVisitor);
         
@@ -320,41 +324,19 @@ public boolean visit(CatchClause node) {
   }
 
    
-  private Integer IsChecked(SingleVariableDeclaration exceptionType) {
-	  
-	  if (exceptionType.resolveBinding() != null)
-	  {
-		  if (exceptionType.resolveBinding().getType().getQualifiedName().equals("java.lang.RuntimeException"))
-		  {
-			  return 0;
-		  } else if (exceptionType.resolveBinding().getType().getQualifiedName().equals("java.lang.Exception"))
-		  {
-			  return 1;
-		  } else if (exceptionType.resolveBinding().getType().getQualifiedName().equals("java.lang.Throwable"))
-		  {
-			  return 2;
-		  } else
-			  return findExceptionSuperType(exceptionType.resolveBinding().getType().getSuperclass());
-	  } 
-	  
-	return null;
-}
-
-  private Integer findExceptionSuperType(ITypeBinding typeBinding) {
-		
-	  if (typeBinding == null) { return null; }
-	  
-	  if (typeBinding.getQualifiedName().equals("java.lang.RuntimeException"))
-	  {
-		  return 0;
-	  } else if (typeBinding.getQualifiedName().equals("java.lang.Exception"))
-	  {
-		  return 1;
-	  }
-	  else
-	  {
-		  return findExceptionSuperType(typeBinding.getSuperclass());
-	  }
+  private Integer findKind(ITypeBinding exceptionType) {
+	if(exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.RuntimeException")))
+		return 0;
+	else if (exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.Exception")))
+		return 1;
+	else if (exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.Error")))
+		return 2;
+	else if (exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.Throwable")))
+		return 3;
+	else if (exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.Object")))
+		return -1;
+	else
+		return findKind(exceptionType.getSuperclass());
 }
 
   private ASTNode findParent (ASTNode node){

@@ -9,13 +9,11 @@ public class CatchBlock extends CommonFeature {
 
     public CatchBlock() 
     {
-    	//Binding info:
-    	OperationFeatures.put("Binded", 0);
-    	OperationFeatures.put("RecoveredBinding", -1);
-    	
-    	//Basic info:
-    	MetaInfo.put("ExceptionType", "-exceptiontype");
-		OperationFeatures.put("Checked", 0);
+    	//Binding info and binding based:
+    	OperationFeatures.put("Binded", -9);
+    	OperationFeatures.put("RecoveredBinding", -9);
+    	OperationFeatures.put("Kind", -9);
+    	OperationFeatures.put("Checked", 0);
     	
 		//Try info
 		MetaInfo.put("TryBlock", "-tryblock");
