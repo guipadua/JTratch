@@ -60,18 +60,18 @@ public boolean visit(CatchClause node) {
     catchBlockInfo.MetaInfo.put("ParentNodeType", findParent(tryStatement).getClass().getName());
     
     //Common Features - try/catch block
-	Integer tryStartLine = tree.getLineNumber(tryStatement.getStartPosition() + 1);
-	Integer tryEndLine = tree.getLineNumber(tryStatement.getStartPosition() + tryStatement.getLength() + 1);
+	Integer tryStartLine = tree.getLineNumber(tryStatement.getBody().getStartPosition() + 1);
+	Integer tryEndLine = tree.getLineNumber(tryStatement.getBody().getStartPosition() + tryStatement.getBody().getLength() + 1);
 	
 	catchBlockInfo.OperationFeatures.put("TryLine", tryStartLine);
 	catchBlockInfo.MetaInfo.put("TryLine", tryStartLine.toString());
-    catchBlockInfo.OperationFeatures.put("TryLOC", tryEndLine - tryStartLine + 1);
+    catchBlockInfo.OperationFeatures.put("TryLOC", tryEndLine - tryStartLine);
 	
     Integer catchStartLine = tree.getLineNumber(node.getStartPosition() + 1);
 	Integer catchEndLine = tree.getLineNumber(node.getStartPosition() + node.getLength() + 1);
 	
 	catchBlockInfo.OperationFeatures.put("CatchLine", catchStartLine);
-	catchBlockInfo.OperationFeatures.put("CatchLOC", catchEndLine - catchStartLine + 1);
+	catchBlockInfo.OperationFeatures.put("CatchLOC", catchEndLine - catchStartLine);
     
     catchBlockInfo.OperationFeatures.put("CatchStart", node.getStartPosition());
     catchBlockInfo.OperationFeatures.put("CatchLength", node.getLength());
@@ -103,9 +103,9 @@ public boolean visit(CatchClause node) {
     	parentMethodName = parentMethodName.replace(",)",")");
     	
     } else if (parentNode.getNodeType() == ASTNode.INITIALIZER) {
-    	parentMethodName = "!initializer!"; //no name
+    	parentMethodName = "!NAME_NA!"; //name not applicable
     } else
-    	parentMethodName = "review this!";
+    	parentMethodName = "!UNEXPECTED_KIND!";
     
     catchBlockInfo.ParentMethod = parentMethodName;
     catchBlockInfo.MetaInfo.put("ParentMethod", parentMethodName);
@@ -115,7 +115,7 @@ public boolean visit(CatchClause node) {
 	
 	//Common Features
 	catchBlockInfo.OperationFeatures.put("MethodLine", parentMethodStartLine);
-    catchBlockInfo.OperationFeatures.put("MethodLOC", parentMethodEndLine - parentMethodStartLine + 1);
+    catchBlockInfo.OperationFeatures.put("MethodLOC", parentMethodEndLine - parentMethodStartLine);
     
     /* ---------------------------
      * BEGIN CatchClause node Inner Visitors
