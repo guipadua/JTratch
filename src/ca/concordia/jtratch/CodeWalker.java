@@ -52,7 +52,8 @@ public class CodeWalker {
 			try {
 				sourceFilePaths = Files	.walk(Paths.get(folderPath))
 										.map(String::valueOf)
-										.filter(line -> line.contains("/src/main/java"))
+										.filter(line -> !line.contains("/test/"))
+										.filter(line -> !line.contains("/tests/"))
 										.filter(line -> line.endsWith(".java"))
 										.collect(Collectors.toList());
 			} catch (IOException e) {

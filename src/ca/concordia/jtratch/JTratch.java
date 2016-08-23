@@ -35,6 +35,8 @@ public class JTratch {
 		IOFile.FolderPath = filePath;
 		IOFile.MavenRepo = mavenRepo;
 		
+		long startTime = System.nanoTime();
+		
 		//Load Config file
 		Config.Load("Config.txt");
 		
@@ -50,8 +52,9 @@ public class JTratch {
 			e.printStackTrace();
 		}
 
+        long estimatedTime = System.nanoTime() - startTime;
         
-		logger.info("Exiting application." + " for folder: " + filePath);
+		logger.info("Exiting application." + " for folder: " + filePath + "Elapsed Time (ns): " + estimatedTime );
 		System.out.println("Exiting JTratch at " + filePath + ". See the log folder");
 
 	}
