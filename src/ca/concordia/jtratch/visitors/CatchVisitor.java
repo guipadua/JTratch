@@ -275,7 +275,7 @@ public boolean visit(CatchClause node) {
         
     	//FinallyThrowing
     	if (! throwStatementVisitorFinally.getThrowStatements().isEmpty() 
-    			|| finallyPossibleExceptionsCustomVisitor.getNumPossibleExceptions() > 0)
+    			|| finallyPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().size() > 0)
     		catchBlockInfo.OperationFeatures.put("FinallyThrowing", 1);
     }
     
@@ -285,14 +285,14 @@ public boolean visit(CatchClause node) {
     	tryPossibleExceptionsCustomVisitor.setTree(tree);
         tryStatement.getBody().accept(tryPossibleExceptionsCustomVisitor);
         
-        catchBlockInfo.MetaInfo.put("TryMethods", tryPossibleExceptionsCustomVisitor.getInvokedMethodsHandlerType().toString());
-        catchBlockInfo.OperationFeatures.put("NumMethod", tryPossibleExceptionsCustomVisitor.getInvokedMethodsHandlerType().size());
+        catchBlockInfo.MetaInfo.put("TryMethodsAndExceptions", tryPossibleExceptionsCustomVisitor.getInvokedMethodsHandlerType().toString());
         
+        catchBlockInfo.OperationFeatures.put("NumDistinctMethods", tryPossibleExceptionsCustomVisitor.getInvokedMethodsHandlerType().size());
         catchBlockInfo.MetaInfo.put("TryMethodsBinded",tryPossibleExceptionsCustomVisitor.getInvokedMethodsBinded().toString());
-        
         catchBlockInfo.OperationFeatures.put("NumMethodsNotBinded",tryPossibleExceptionsCustomVisitor.getNumMethodsNotBinded()); 
         
-        catchBlockInfo.OperationFeatures.put("NumExceptions", tryPossibleExceptionsCustomVisitor.getNumPossibleExceptions());
+        catchBlockInfo.MetaInfo.put("DistinctExceptions", tryPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().toString());
+        catchBlockInfo.OperationFeatures.put("NumDistinctExceptions", tryPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().size());
         
     	catchBlockInfo.OperationFeatures.put("NumSpecificHandler", tryPossibleExceptionsCustomVisitor.getNumSpecificHandler());
     	catchBlockInfo.OperationFeatures.put("NumSubsumptionHandler", tryPossibleExceptionsCustomVisitor.getNumSubsumptionHandler());

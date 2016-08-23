@@ -13,21 +13,17 @@ import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 
+import ca.concordia.jtratch.utility.Dic;
+
 public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 	private static final Logger logger = LogManager.getLogger(PossibleExceptionsCustomVisitor.class.getName());
 	private CompilationUnit tree;
 	private ITypeBinding exceptionType;
-	private int numPossibleExceptions = 0;
 	
-	private Map<String,List<String>> invokedMethods = new HashMap<String,List<String>>();
-	private Map<String,Integer> invokedMethodsBinded = new HashMap<String,Integer>();
-	private HashMap<String,HashMap<String,Integer>> invokedMethodsHandlerType = new HashMap<String,HashMap<String,Integer>>();
-	private int numSpecificHandler = 0;
-	private int numSubsumptionHandler = 0;
-	private int numSupersumptionHandler = 0;
-	private int numOtherHandler;
-	private int numMethodsNotBinded;
-	
+	private Map<String,Integer> m_invokedMethodsBinded = new HashMap<String,Integer>();
+	private HashMap<String,HashMap<String,Integer>> m_invokedMethodsPossibleExceptions = new HashMap<String,HashMap<String,Integer>>();
+	private HashMap<String,Integer> m_possibleExceptions = new HashMap<String,Integer>();
+		
 	public PossibleExceptionsCustomVisitor (ITypeBinding exceptionType) {
 		this.exceptionType = exceptionType;
 	}
@@ -59,34 +55,29 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 				if (this.exceptionType.equals(type))
 				{
 					exceptionTypeNames.put(type.getName(),0);
-					this.numSpecificHandler++;
 				}
 				else if (IsSuperType(this.exceptionType,type))
 				{
 					exceptionTypeNames.put(type.getName(),1);
-					this.numSubsumptionHandler++;
 				}	
 				else if (IsSuperType(type,this.exceptionType))
 				{
 					exceptionTypeNames.put(type.getName(),2);
-					this.numSupersumptionHandler++;
 				}	
 				else 
 				{
 					//it can happen when exceptions are not related on the type tree
 					exceptionTypeNames.put(type.getName(),3);
-					this.numOtherHandler++;
-				}
-				this.numPossibleExceptions++;
+				}				
 			}
-			invokedMethodsBinded.put(nodeString, 1);
+			m_invokedMethodsBinded.put(nodeString, 1);
 		} else
 		{
-			invokedMethodsBinded.put(nodeString, 0);
-			this.numMethodsNotBinded++;
+			m_invokedMethodsBinded.put(nodeString, 0);			
 		}
 		
-		invokedMethodsHandlerType.put(nodeString,exceptionTypeNames);
+		Dic.MergeDic2(m_possibleExceptions, exceptionTypeNames);
+		m_invokedMethodsPossibleExceptions.put(nodeString,exceptionTypeNames);
 		
 	}
 
@@ -94,16 +85,17 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		tree = cu;
 		
 	}
-	public Map<String,List<String>> getInvokedMethods() {
-		return invokedMethods;
+		
+	public Map<String,Integer> getInvokedMethodsBinded() {
+		return m_invokedMethodsBinded;
 	}
 	
-	public Map<String,Integer> getInvokedMethodsBinded() {
-		return invokedMethodsBinded;
+	public Map<String,Integer> getDistinctPossibleExceptions() {
+		return m_possibleExceptions;
 	}
 	
 	public HashMap<String, HashMap<String, Integer>> getInvokedMethodsHandlerType() {
-		return invokedMethodsHandlerType;
+		return m_invokedMethodsPossibleExceptions;
 	}
 	
 	/// <summary>
@@ -127,23 +119,29 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 			return IsSuperType(subType, referenceType.getSuperclass());
 	  			
 	  }
-    public int getNumPossibleExceptions() {
-		return numPossibleExceptions;
-	}
+    
+    public int countMetricsForExceptions(int intCode){
+    	return (int) m_possibleExceptions.values().stream().filter(exception -> exception.intValue() == intCode).count();
+    }
+    
     public int getNumSpecificHandler() {
-		return numSpecificHandler;
+		return countMetricsForExceptions(0);
 	}
     public int getNumSubsumptionHandler() {
-		return numSubsumptionHandler;
+		return countMetricsForExceptions(1);
 	}
     public int getNumSupersumptionHandler() {
-		return numSupersumptionHandler;
+		return countMetricsForExceptions(2);
 	}
     public int getNumOtherHandler() {
-		return numOtherHandler;
+		return countMetricsForExceptions(3);
 	}
     public int getNumMethodsNotBinded() {
-		return numMethodsNotBinded;
+		
+    	return (int) m_invokedMethodsBinded.values().stream()
+    				.filter(value -> value.intValue() == 0)
+    				.count();
+		
 	}
     
 }
