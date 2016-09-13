@@ -1,6 +1,7 @@
 package ca.concordia.jtratch.pattern;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class CodeStatistics extends TreeStatistics {
         CatchBlocks = new CatchDic();
         ThrowsBlocks = new ThrowsDic();
         //APICalls = new CallDic();
-        CodeStats = new HashMap<String, Integer>();
+        CodeStats = new LinkedHashMap<String, Integer>();
         for (Tuple<CompilationUnit, TreeStatistics> treetuple : codeStatsList)
         {
             if (treetuple == null) continue;
@@ -62,10 +63,21 @@ public class CodeStatistics extends TreeStatistics {
 
     public void PrintSatistics()
     {           
-        for (Map.Entry<String, Integer> entry : CodeStats.entrySet())
+        
+    	String header = "";
+    	String content = "";
+
+        for (Map.Entry<String, Integer> stat : CodeStats.entrySet())
         {
-        	logger.info(entry.getKey() + ": " + entry.getValue());
+            header += stat.getKey() + "\t";
+            content += stat.getValue() + "\t";
+
+            //Logger.Log(stat + ": " + CodeStats[stat]);
         }
+
+        logger.info(header);
+        logger.info(content);
+        
         CatchBlocks.PrintToFile();
         ThrowsBlocks.PrintToFile();
         

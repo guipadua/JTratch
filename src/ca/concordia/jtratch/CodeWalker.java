@@ -54,6 +54,7 @@ public class CodeWalker {
 										.map(String::valueOf)
 										.filter(line -> !line.contains("/test/"))
 										.filter(line -> !line.contains("/tests/"))
+										.filter(line -> !line.contains(".tests"))
 										.filter(line -> line.endsWith(".java"))
 										.collect(Collectors.toList());
 			} catch (IOException e) {

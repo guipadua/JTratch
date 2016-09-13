@@ -1,16 +1,22 @@
 package ca.concordia.jtratch.utility;
 
 public class IOFile {
-	public static String FolderPath;
+	public static String InputFolderPath;
+	public static String OutputFolderPath;
 	public static String MavenRepo;
     
-    public static String CompleteFileName(String tail)
+    public static String CompleteFileNameInput(String tail)
     {
         String [] folderPath;
-        folderPath = FolderPath.split("/");
-    	return (FolderPath + "/" + folderPath[folderPath.length - 1] + "_" + tail);
+        folderPath = InputFolderPath.split("/");
+    	return (InputFolderPath + "/" + folderPath[folderPath.length - 1] + "_" + tail);
     }
-
+    public static String CompleteFileNameOutput(String tail)
+    {
+        String [] folderPath;
+        folderPath = InputFolderPath.split("/");
+    	return (OutputFolderPath + "/" + folderPath[folderPath.length - 1] + "_" + tail);
+    }
     static public String DeleteSpace(String str)
     {
         if (str == null || str == "") return str;

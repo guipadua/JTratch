@@ -35,7 +35,7 @@ final class CodeAnalyzer {
 		logger.trace("Running AnalyzeAllTrees.");
 		
 		String[] sourceFilePaths = sourceFilePathList.toArray(new String [] {});
-		String[] sourceFolder = { IOFile.FolderPath }; 
+		String[] sourceFolder = { IOFile.InputFolderPath }; 
 		
 		ASTParser parser = ASTParser.newParser(AST.JLS8);
 		
@@ -79,6 +79,7 @@ final class CodeAnalyzer {
          //   .Select(tree => tree.GetRoot().DescendantNodes().Count());
 	
 		CodeStatistics allStats = new CodeStatistics(codeStatsList);
+		allStats.CodeStats.put("NumFiles", sourceFilePathList.size());
 		
 		// Log statistics
         //Logger.Log("Num of syntax nodes: " + treeNode.Sum());
@@ -230,7 +231,7 @@ final class CodeAnalyzer {
 		String unitName = Paths.get(sourceFilePath).getFileName().toString();
 		parser.setUnitName(unitName);
  
-		String[] sourceFolder = { IOFile.FolderPath }; 
+		String[] sourceFolder = { IOFile.InputFolderPath }; 
 		
 		parser.setEnvironment(getClassJarList(), sourceFolder, null, true);
 		parser.setSource(fileCharData);
@@ -244,7 +245,7 @@ final class CodeAnalyzer {
 		List<String> classFileJarsList = new ArrayList<String>();
 		
 		try {
-			classFileJarsList = Files	.walk(Paths.get(IOFile.FolderPath))
+			classFileJarsList = Files	.walk(Paths.get(IOFile.InputFolderPath))
 										.map(String::valueOf)
 										.filter(line -> line.endsWith(".jar"))
 										.collect(Collectors.toList());

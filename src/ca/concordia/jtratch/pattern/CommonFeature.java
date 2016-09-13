@@ -1,27 +1,27 @@
 package ca.concordia.jtratch.pattern;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import ca.concordia.jtratch.utility.IOFile;
 
 public class CommonFeature {
 
-	public Map<String, Integer> OperationFeatures;
+	public LinkedHashMap<String, Integer> OperationFeatures;
     //public Map<String, Integer> TextFeatures; //TextFeatures is only on the API call
 	public String FilePath;
 	public String ExceptionType;
 	public String ParentType;
 	public String ParentMethod;
 	
-    public Map<String, String> MetaInfo;
+    public LinkedHashMap<String, String> MetaInfo;
 
     public static final String Splitter = "\t";
 
     public CommonFeature()
     {
-    	OperationFeatures = new HashMap<String, Integer>();
-        MetaInfo = new HashMap<String, String>();
+    	OperationFeatures = new LinkedHashMap<String, Integer>();
+        MetaInfo = new LinkedHashMap<String, String>();
 
         OperationFeatures.put("TryLine", 0);
         OperationFeatures.put("TryLOC", 0);

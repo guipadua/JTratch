@@ -1,29 +1,38 @@
 package ca.concordia.jtratch.pattern;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TreeStatistics {
-	public HashMap<String, Integer> CodeStats;
+	public LinkedHashMap<String, Integer> CodeStats;
     public List<CatchBlock> CatchBlockList;
     //public List<APICall> APICallList;
 	public List<ThrowsBlock> ThrowsBlockList;
 
     public TreeStatistics()
     {
-        CodeStats = new HashMap<String, Integer>();
+        CodeStats = new LinkedHashMap<String, Integer>();
+        
+        CodeStats.put("NumFiles", 0);
+        
         CodeStats.put("NumLOC", 0);
         CodeStats.put("NumCatchBlock", 0);
-        CodeStats.put("NumThrowsBlock", 0);
+        
+        CodeStats.put("NumBinded", 0);
+        CodeStats.put("NumNoDeclaration", 0);
+        
+        CodeStats.put("NumMethodsNotBinded", 0);
         
         CodeStats.put("NumLoggedCatchBlock", 0);
         CodeStats.put("NumExceptionTypeCatch", 0);          
+        
+        CodeStats.put("NumRecoveredBinding", 0);          
+        
+        CodeStats.put("NumThrowsBlock", 0);
         CodeStats.put("NumExceptionTypeThrows", 0);
         
-        CodeStats.put("NumBinded", 0);
-        CodeStats.put("NumRecoveredBinding", 0);          
-        CodeStats.put("NumMethodsNotBinded", 0);
         
         //CodeStats.Add("NumLoggedLOC", 0);
         //CodeStats.Add("NumCall", 0);

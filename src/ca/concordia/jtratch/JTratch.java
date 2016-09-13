@@ -32,7 +32,8 @@ public class JTratch {
 		final String filePath = args[1];
 		final String mavenRepo = args[2];
 		
-		IOFile.FolderPath = filePath;
+		IOFile.InputFolderPath = filePath;
+		IOFile.OutputFolderPath = System.getProperty("user.dir");
 		IOFile.MavenRepo = mavenRepo;
 		
 		long startTime = System.nanoTime();

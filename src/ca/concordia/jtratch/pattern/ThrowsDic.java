@@ -44,9 +44,9 @@ public class ThrowsDic extends HashMap<String, ThrowsList> {
     {
     	logger.info("Writing ThrowsBlock features into file...");
     	Charset charset = Charset.forName("UTF-8");
-    	Path file = Paths.get(IOFile.CompleteFileName("ThrowsBlock.txt"));
-    	Path fileMeta = Paths.get(IOFile.CompleteFileName("ThrowsBlock_Meta.txt"));
-    	Path fileCSV = Paths.get(IOFile.CompleteFileName("ThrowsBlock.csv"));
+    	Path file = Paths.get(IOFile.CompleteFileNameOutput("ThrowsBlock.txt"));
+    	Path fileMeta = Paths.get(IOFile.CompleteFileNameOutput("ThrowsBlock_Meta.txt"));
+    	Path fileCSV = Paths.get(IOFile.CompleteFileNameOutput("ThrowsBlock.csv"));
     	
     	Integer throwsId = 0;
         String metaKey = ThrowsBlock.Splitter;

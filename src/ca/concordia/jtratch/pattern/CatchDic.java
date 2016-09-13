@@ -88,9 +88,9 @@ public class CatchDic extends HashMap<String, CatchList> {
     	
     	logger.info("Writing CatchBlock features into file...");
     	Charset charset = Charset.forName("UTF-8");
-    	Path file = Paths.get(IOFile.CompleteFileName("CatchBlock.txt"));
-    	Path fileMeta = Paths.get(IOFile.CompleteFileName("CatchBlock_Meta.txt"));
-    	Path fileCSV = Paths.get(IOFile.CompleteFileName("CatchBlock.csv"));
+    	Path file = Paths.get(IOFile.CompleteFileNameOutput("CatchBlock.txt"));
+    	Path fileMeta = Paths.get(IOFile.CompleteFileNameOutput("CatchBlock_Meta.txt"));
+    	Path fileCSV = Paths.get(IOFile.CompleteFileNameOutput("CatchBlock.csv"));
     	
     	Integer catchId = 0;
         String metaKey = CatchBlock.Splitter;

@@ -26,7 +26,7 @@ public class Config {
     {
     	logger.info("Reading Config file...");
     	Charset charset = Charset.forName("UTF-8");
-    	Path file = Paths.get(IOFile.CompleteFileName(FileName));
+    	Path file = Paths.get(IOFile.CompleteFileNameInput(FileName));
     	
     	List<String> allLines = new ArrayList<String>();
     	try {
