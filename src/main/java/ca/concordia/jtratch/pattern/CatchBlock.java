@@ -75,6 +75,11 @@ public class CatchBlock extends CommonFeature {
     	OperationFeatures.put("NumSupersumptionHandler",0);
     	OperationFeatures.put("NumOtherHandler",0);
     	
+    	OperationFeatures.put("MaxLevel", 0);
+    	OperationFeatures.put("NumIsXMLSemantic", 0);
+    	OperationFeatures.put("NumIsXMLSyntax",0);
+    	OperationFeatures.put("NumIsThrow",0);
+    	
     	//Comments info - not in the Catch Visitor
     	OperationFeatures.put("ToDo", 0);
     	MetaInfo.put("CatchBlock", "'-catchblock");

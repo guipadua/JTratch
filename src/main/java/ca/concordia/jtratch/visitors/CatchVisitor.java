@@ -298,6 +298,15 @@ public boolean visit(CatchClause node) {
     	catchBlockInfo.OperationFeatures.put("NumSubsumptionHandler", tryPossibleExceptionsCustomVisitor.getNumSubsumptionHandler());
     	catchBlockInfo.OperationFeatures.put("NumSupersumptionHandler", tryPossibleExceptionsCustomVisitor.getNumSupersumptionHandler());
     	catchBlockInfo.OperationFeatures.put("NumOtherHandler", tryPossibleExceptionsCustomVisitor.getNumOtherHandler());
+    	
+    	catchBlockInfo.OperationFeatures.put("MaxLevel", tryPossibleExceptionsCustomVisitor.getChildrenMaxLevel());
+    	catchBlockInfo.OperationFeatures.put("NumIsXMLSemantic", tryPossibleExceptionsCustomVisitor.getNumIsXMLSemantic());
+    	catchBlockInfo.OperationFeatures.put("NumIsXMLSyntax", tryPossibleExceptionsCustomVisitor.getNumIsXMLSyntax());
+    	catchBlockInfo.OperationFeatures.put("NumIsThrow", tryPossibleExceptionsCustomVisitor.getNumIsThrow());
+    	
+    	
+    	
+    	
     } 
     /*
     *Pending analysis still to be implemented - c# code:
