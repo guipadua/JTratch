@@ -16,10 +16,10 @@ class Person
         name = p_name;
         try
         {
-            m1(); // possible exceptions: COMException, and _ from FileSystem getPath: InvalidPathException
+            m1(); // possible exceptions: checked: CoreException, and _ from FileSystem getPath: InvalidPathException
             m2(); // possible exceptions: AccessViolationException, IOException
             m2(); // possible exceptions: AccessViolationException, IOException
-            m3(-105); // possible exceptions: NotImplementedException
+            m3(-105); // possible exceptions: runtime: UnsupportedOperationException
             m2(); // possible exceptions: AccessViolationException, IOException
             m30(); // pe: ---   none, it gets swallowed
         }

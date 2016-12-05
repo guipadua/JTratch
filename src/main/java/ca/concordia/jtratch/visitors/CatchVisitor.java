@@ -15,9 +15,9 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TryStatement;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import ca.concordia.jtratch.pattern.CatchBlock;
+import ca.concordia.jtratch.utility.ASTUtilities;
 
 public class CatchVisitor extends ASTVisitor {
   List<CatchBlock> catches = new ArrayList<CatchBlock>();
@@ -56,8 +56,8 @@ public boolean visit(CatchClause node) {
     //Try info:
     TryStatement tryStatement = (TryStatement) node.getParent();
     catchBlockInfo.MetaInfo.put("TryBlock", tryStatement.getBody().toString());
-    catchBlockInfo.OperationFeatures.put("ParentNodeType", findParent(tryStatement).getNodeType());
-    catchBlockInfo.MetaInfo.put("ParentNodeType", findParent(tryStatement).getClass().getName());
+    catchBlockInfo.OperationFeatures.put("ParentNodeType", ASTUtilities.findParent(tryStatement).getNodeType());
+    catchBlockInfo.MetaInfo.put("ParentNodeType", ASTUtilities.findParent(tryStatement).getClass().getName());
     
     //Common Features - try/catch block
 	Integer tryStartLine = tree.getLineNumber(tryStatement.getBody().getStartPosition() + 1);
@@ -80,27 +80,17 @@ public boolean visit(CatchClause node) {
     catchBlockInfo.MetaInfo.put("FilePath", filePath);
     
     //Common Features - parent type
-    catchBlockInfo.ParentType = findParentType(tryStatement);
+    catchBlockInfo.ParentType = ASTUtilities.findParentType(tryStatement);
     catchBlockInfo.MetaInfo.put("ParentType", catchBlockInfo.ParentType);
     
     //Common Features - parent method
-    ASTNode parentNode = findParentMethod(tryStatement);
+    ASTNode parentNode = ASTUtilities.findParentMethod(tryStatement);
     
     String parentMethodName = new String();
     if(parentNode.getNodeType() == ASTNode.METHOD_DECLARATION)
     {
     	MethodDeclaration parentMethod = (MethodDeclaration) parentNode;
-    	parentMethodName = "\"" + parentMethod.getName().toString();
-    	parentMethodName += "(";
-    	
-    	for(Object param : parentMethod.parameters())
-    	{
-    		SingleVariableDeclaration svParam = (SingleVariableDeclaration) param;
-    		parentMethodName+= svParam.getType().toString() + ",";
-    	}
-    	parentMethodName += ")" + "\"";
-    	
-    	parentMethodName = parentMethodName.replace(",)",")");
+    	parentMethodName = ASTUtilities.getMethodName(parentMethod, true);
     	
     } else if (parentNode.getNodeType() == ASTNode.INITIALIZER) {
     	parentMethodName = "!NAME_NA!"; //name not applicable
@@ -299,11 +289,11 @@ public boolean visit(CatchClause node) {
     	catchBlockInfo.OperationFeatures.put("NumSupersumptionHandler", tryPossibleExceptionsCustomVisitor.getNumSupersumptionHandler());
     	catchBlockInfo.OperationFeatures.put("NumOtherHandler", tryPossibleExceptionsCustomVisitor.getNumOtherHandler());
     	
-    	catchBlockInfo.OperationFeatures.put("MaxLevel", tryPossibleExceptionsCustomVisitor.getChildrenMaxLevel());
+    	/*catchBlockInfo.OperationFeatures.put("MaxLevel", tryPossibleExceptionsCustomVisitor.getChildrenMaxLevel());
     	catchBlockInfo.OperationFeatures.put("NumIsXMLSemantic", tryPossibleExceptionsCustomVisitor.getNumIsXMLSemantic());
     	catchBlockInfo.OperationFeatures.put("NumIsXMLSyntax", tryPossibleExceptionsCustomVisitor.getNumIsXMLSyntax());
     	catchBlockInfo.OperationFeatures.put("NumIsThrow", tryPossibleExceptionsCustomVisitor.getNumIsThrow());
-    	
+    	*/
     	
     	
     	
@@ -348,52 +338,6 @@ public boolean visit(CatchClause node) {
 		return findKind(exceptionType.getSuperclass());
 }
 
-  private ASTNode findParent (ASTNode node){
-	  
-	  int parentNodeType = node.getParent().getNodeType();
-	  
-	  if(!(parentNodeType == ASTNode.BLOCK))
-		  return node.getParent();
-	  
-	  return findParent(node.getParent());
-  }
-  
-  private ASTNode findParentMethod (ASTNode node){
-	  
-	  int parentNodeType = node.getParent().getNodeType();
-	  
-	  if(parentNodeType == ASTNode.METHOD_DECLARATION )
-	  {
-		  return node.getParent();		  
-	  }
-	  if(parentNodeType == ASTNode.INITIALIZER)
-	  {
-		  return node.getParent();
-	  }
-	  if(parentNodeType == ASTNode.TYPE_DECLARATION)
-	  {
-		  return node.getParent();
-	  }
-	  
-	  return findParentMethod(node.getParent());
-  }
-  
-  private String findParentType (ASTNode node){
-	  
-	  int parentNodeType = node.getParent().getNodeType();
-	  
-	  if(parentNodeType == ASTNode.TYPE_DECLARATION)
-	  {
-		  TypeDeclaration type = (TypeDeclaration) node.getParent();
-		  if(type.resolveBinding() != null)
-			  return type.resolveBinding().getQualifiedName();
-		  else		  
-			  return type.getName().getFullyQualifiedName();
-	  }
-	  
-	  return findParentType(node.getParent());
-  }
-  
   private boolean IsInnerCatch (ASTNode node){
 	  
 	  int parentNodeType = node.getNodeType();

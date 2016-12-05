@@ -1,6 +1,5 @@
 package ca.concordia.jtratch.pattern;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,20 +47,27 @@ public class CodeStatistics extends TreeStatistics {
                 Dic.MergeDic1(CodeStats, treetuple.Item2.CodeStats);
             }
         }
-        CodeStats.put("NumExceptionTypeCatch",CatchBlocks.size());
-        CodeStats.put("NumLoggedCatchBlock",CatchBlocks.NumLogged);
-        CodeStats.put("NumExceptionTypeThrows",ThrowsBlocks.size());
         
-        CodeStats.put("NumBinded",CatchBlocks.NumBinded);
-        CodeStats.put("NumRecoveredBinding",CatchBlocks.NumRecoveredBinding);
-        CodeStats.put("NumMethodsNotBinded",CatchBlocks.NumMethodsNotBinded);
+        if (CatchBlocks.size() > 0)
+        {
+        	CodeStats.put("NumExceptionTypeCatch",CatchBlocks.size());
+            CodeStats.put("NumLoggedCatchBlock",CatchBlocks.NumLogged);
+            CodeStats.put("NumBinded",CatchBlocks.NumBinded);
+            CodeStats.put("NumRecoveredBinding",CatchBlocks.NumRecoveredBinding);
+            CodeStats.put("NumMethodsNotBinded",CatchBlocks.NumMethodsNotBinded);
+        }
+        if (ThrowsBlocks.size() > 0)
+        {
+        	CodeStats.put("NumExceptionTypeThrows",ThrowsBlocks.size());
+        }
+            
         
         //CodeStats["NumCallType"] = APICalls.Count;
         //CodeStats["NumAPICall"] = APICalls.NumAPICall;
         //CodeStats["NumLoggedAPICall"] = APICalls.NumLogged;
     }
 
-    public void PrintSatistics()
+    public void PrintStatistics()
     {           
         
     	String header = "";
@@ -78,8 +84,15 @@ public class CodeStatistics extends TreeStatistics {
         logger.info(header);
         logger.info(content);
         
-        CatchBlocks.PrintToFile();
-        ThrowsBlocks.PrintToFile();
+        if (CatchBlocks.size() > 0)
+        {
+        	CatchBlocks.PrintToFile();
+        }
+        
+        if (ThrowsBlocks.size() > 0)
+        {
+        	ThrowsBlocks.PrintToFile();
+        }
         
         //APICalls.PrintToFile();
     }

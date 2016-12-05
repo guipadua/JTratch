@@ -5,11 +5,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+
 public class TreeStatistics {
 	public LinkedHashMap<String, Integer> CodeStats;
     public List<CatchBlock> CatchBlockList;
     //public List<APICall> APICallList;
 	public List<ThrowsBlock> ThrowsBlockList;
+	public List<MethodDeclaration> MethodDeclarationList;
+	
 
     public TreeStatistics()
     {
@@ -33,6 +37,7 @@ public class TreeStatistics {
         CodeStats.put("NumThrowsBlock", 0);
         CodeStats.put("NumExceptionTypeThrows", 0);
         
+        CodeStats.put("NumMethodDeclaration", 0);
         
         //CodeStats.Add("NumLoggedLOC", 0);
         //CodeStats.Add("NumCall", 0);

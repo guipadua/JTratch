@@ -14,6 +14,8 @@ import ca.concordia.jtratch.pattern.ThrowsBlock;
 
 public class MethodDeclarationVisitor extends ASTVisitor{
 	List<ThrowsBlock> throwsList = new ArrayList<ThrowsBlock>();
+	List<MethodDeclaration> methodDeclarationList = new ArrayList<MethodDeclaration>();
+	
 	private static final Logger logger = LogManager.getLogger(MethodDeclarationVisitor.class.getName());
 	private CompilationUnit tree;
 	private String filePath;
@@ -21,58 +23,16 @@ public class MethodDeclarationVisitor extends ASTVisitor{
 	@Override
 	public boolean visit(MethodDeclaration node) {
 		logger.trace("Visiting a AST node of type "+ node.getNodeType() + " at line " + tree.getLineNumber(node.getStartPosition()));
-		//ThrowsBlock throwsBlockInfo = new ThrowsBlock();
 		
-		//throws.add(node.toString());
+		//collect method declarations
+		methodDeclarationList.add(node);		
+		
+		//Process for thrown exception types - throws analysis
 		int size = node.thrownExceptionTypes().size();
-		
 		if (size != 0)
 		{
 			logger.trace("There are thrown exceptions - size is: " + size);
-			
-			List<Type> typeList = node.thrownExceptionTypes();
-			
-			//node.thrownExceptionTypes().stream(). forEach(type -> typeList.add(type.toString()));
-			
-			typeList.forEach( type ->
-					{
-				    	ThrowsBlock throwsBlockInfo = new ThrowsBlock();
-				    	throwsBlockInfo.ExceptionType = type.toString();
-				    					    	
-				    	Integer startLine = tree.getLineNumber(node.getStartPosition() + 1);
-				    	Integer endLine = tree.getLineNumber(node.getStartPosition() + node.getLength() + 1);
-				    	
-				    	throwsBlockInfo.OperationFeatures.put("Line", startLine);
-				    	throwsBlockInfo.OperationFeatures.put("LOC", endLine - startLine + 1);
-				    	
-				    	throwsBlockInfo.OperationFeatures.put("Start", node.getStartPosition());
-				    	throwsBlockInfo.OperationFeatures.put("Length", node.getLength());
-				    	
-				    	throwsBlockInfo.FilePath = filePath;
-				    	throwsBlockInfo.MetaInfo.put("Line", startLine.toString());
-				    	throwsBlockInfo.MetaInfo.put("FilePath", filePath);
-				    	
-				    	//NumExceptions
-				    	throwsBlockInfo.OperationFeatures.put("NumExceptions", size);
-				    	
-				    	//ThrowsException
-				        if (type.toString().equalsIgnoreCase("exception"))
-				        	throwsBlockInfo.OperationFeatures.put("ThrowsException", 1);
-				        
-				        //ThrowsKitchenSink
-				        if (size > 1)
-				        	throwsBlockInfo.OperationFeatures.put("ThrowsKitchenSink", 1);
-				        
-				        //ThrowsBlock
-				        throwsBlockInfo.MetaInfo.put("ThrowsBlock", node.toString());
-				    					        
-				        throwsList.add(throwsBlockInfo);
-				        
-				        logger.trace("throws block info registered.");
-				    
-				    }
-					
-					);
+			evaluateThrownExceptionTypes(node, size);
 			
 		} else
 			logger.trace("There are NO thrown exceptions - size is: " + size);
@@ -80,12 +40,64 @@ public class MethodDeclarationVisitor extends ASTVisitor{
 		return super.visit(node);
 		
 	}
+	
+	public void evaluateThrownExceptionTypes (MethodDeclaration node, int size) {
+		
+		List<Type> typeList = node.thrownExceptionTypes();
+		
+		//node.thrownExceptionTypes().stream(). forEach(type -> typeList.add(type.toString()));
+		
+		typeList.forEach( type ->
+				{
+			    	ThrowsBlock throwsBlockInfo = new ThrowsBlock();
+			    	throwsBlockInfo.ExceptionType = type.toString();
+			    					    	
+			    	Integer startLine = tree.getLineNumber(node.getStartPosition() + 1);
+			    	Integer endLine = tree.getLineNumber(node.getStartPosition() + node.getLength() + 1);
+			    	
+			    	throwsBlockInfo.OperationFeatures.put("Line", startLine);
+			    	throwsBlockInfo.OperationFeatures.put("LOC", endLine - startLine + 1);
+			    	
+			    	throwsBlockInfo.OperationFeatures.put("Start", node.getStartPosition());
+			    	throwsBlockInfo.OperationFeatures.put("Length", node.getLength());
+			    	
+			    	throwsBlockInfo.FilePath = filePath;
+			    	throwsBlockInfo.MetaInfo.put("Line", startLine.toString());
+			    	throwsBlockInfo.MetaInfo.put("FilePath", filePath);
+			    	
+			    	//NumExceptions
+			    	throwsBlockInfo.OperationFeatures.put("NumExceptions", size);
+			    	
+			    	//ThrowsException
+			        if (type.toString().equalsIgnoreCase("exception"))
+			        	throwsBlockInfo.OperationFeatures.put("ThrowsException", 1);
+			        
+			        //ThrowsKitchenSink
+			        if (size > 1)
+			        	throwsBlockInfo.OperationFeatures.put("ThrowsKitchenSink", 1);
+			        
+			        //ThrowsBlock
+			        throwsBlockInfo.MetaInfo.put("ThrowsBlock", node.toString());
+			    					        
+			        throwsList.add(throwsBlockInfo);
+			        
+			        logger.trace("throws block info registered.");
+			    
+			    }
+				
+				);
+	}
+	
 	public void setTree(CompilationUnit cu) {
 		tree = cu;
 	}
 	public List<ThrowsBlock> getThrowsBlockList() {
 		return throwsList;
 	}
+	public List<MethodDeclaration> getMethodDeclarationList() {
+		return methodDeclarationList;
+	}
+	
 	public void setFilePath(String sourceFilePath) {
 		filePath = sourceFilePath;
 	}
