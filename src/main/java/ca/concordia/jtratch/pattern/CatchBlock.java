@@ -76,6 +76,7 @@ public class CatchBlock extends CommonFeature {
     	OperationFeatures.put("NumOtherHandler",0);
     	
     	OperationFeatures.put("MaxLevel", 0);
+    	OperationFeatures.put("NumIsBindingInfo", 0);
     	OperationFeatures.put("NumIsXMLSemantic", 0);
     	OperationFeatures.put("NumIsXMLSyntax",0);
     	OperationFeatures.put("NumIsThrow",0);

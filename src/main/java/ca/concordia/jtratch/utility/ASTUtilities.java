@@ -1,6 +1,7 @@
 package ca.concordia.jtratch.utility;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -70,4 +71,21 @@ public class ASTUtilities {
 		return methodName;
 		
 	}
+	/**
+	 * Recursively find if the given subtype is a supertype of the reference type.
+	 *  
+	 * @param subtype type to evaluate
+	 * @param referenceType initial tracing reference to detect the super type
+	 */
+    public static Boolean IsSuperType(ITypeBinding subType, ITypeBinding referenceType) {
+		  
+			if (subType == null || referenceType == null || referenceType.getQualifiedName().equals("java.lang.Object")) 
+				return false;
+			
+			if (subType.equals(referenceType.getSuperclass())) 
+				return true;
+			
+			return IsSuperType(subType, referenceType.getSuperclass());
+	  			
+	  }
 }

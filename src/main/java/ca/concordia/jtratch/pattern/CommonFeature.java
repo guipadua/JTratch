@@ -10,6 +10,7 @@ public class CommonFeature {
 	public LinkedHashMap<String, Integer> OperationFeatures;
     //public Map<String, Integer> TextFeatures; //TextFeatures is only on the API call
 	public String FilePath;
+	public Integer StartLine;
 	public String ExceptionType;
 	public String ParentType;
 	public String ParentMethod;
@@ -32,12 +33,13 @@ public class CommonFeature {
         OperationFeatures.put("MethodLine", 0);
         OperationFeatures.put("MethodLOC", 0);
         
-        MetaInfo.put("FilePath", "-filepath");
-        MetaInfo.put("ExceptionType", "-exceptiontype");
-        MetaInfo.put("ParentType", "-parenttype");
-        MetaInfo.put("ParentMethod", "-parentmethod");
+        MetaInfo.put("FilePath", "'-filepath");
+        MetaInfo.put("StartLine", "'-startline");
+        MetaInfo.put("ExceptionType", "'-exceptiontype");
+        MetaInfo.put("ParentType", "'-parenttype");
+        MetaInfo.put("ParentMethod", "'-parentmethod");
         
-        MetaInfo.put("TryLine", "-tryline");
+        MetaInfo.put("TryLine", "'-tryline");
         
     }
     public String PrintFeatures() 
@@ -70,7 +72,8 @@ public class CommonFeature {
         csv += (ExceptionType + ",");
         csv += (ParentMethod + ",");
         csv += (ParentType + ",");
-        csv += (FilePath);
+        csv += (FilePath + ",");
+        csv += (StartLine);
         
         return csv;
     }

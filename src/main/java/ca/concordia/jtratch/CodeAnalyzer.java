@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,8 +17,11 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
+import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import ca.concordia.jtratch.pattern.CatchBlock;
@@ -30,12 +34,19 @@ import ca.concordia.jtratch.utility.Tuple;
 import ca.concordia.jtratch.visitors.CatchVisitor;
 import ca.concordia.jtratch.visitors.MethodDeclarationVisitor;
 
-final class CodeAnalyzer {
+public final class CodeAnalyzer {
 
 	private static final Logger logger = LogManager.getLogger(CodeAnalyzer.class.getName());
 
-	public static HashMap<String, MyMethod> AllMyMethods = new HashMap<String, MyMethod>();
-
+	//public static HashMap<String, MyMethod> AllMyMethods = new HashMap<String, MyMethod>();
+	
+	//InvokedMethods:
+	//Store the methods that were invoked at least once during evaluation.
+	// Each method will be stored only once and will co
+	public static HashMap<String, InvokedMethod> InvokedMethods = new HashMap<String, InvokedMethod>();
+	
+	public static HashSet<ExceptionFlow> AllExceptionFlows = new HashSet<ExceptionFlow>();
+	
 	public static void AnalyzeAllTrees(List<String> sourceFilePathList )
 	{
 		logger.trace("Running AnalyzeAllTrees.");
@@ -44,7 +55,8 @@ final class CodeAnalyzer {
 		String[] sourceFolder = { IOFile.InputFolderPath }; 
 		
 		ASTParser parser = ASTParser.newParser(AST.JLS8);
-		Map options = JavaCore.getOptions();
+		Map options = JavaCore.getOptions();		
+		
 		String unitName = "bogus_unit_name";
 		final String[] emptyArray = new String[0];
 		String[] classJarList = getClassJarList();
@@ -54,60 +66,60 @@ final class CodeAnalyzer {
 		//classpath empty - maybe will be required if desired to combine binary calls together
 		//using default encodings
 		
-		//start as resolve binding false - very costly and not required for getting method declarations
-		parser.setResolveBindings(true); 
-		parser.setKind(ASTParser.K_COMPILATION_UNIT);
-		parser.setBindingsRecovery(true);
-		parser.setCompilerOptions(options);
-		parser.setUnitName(unitName); 
-		parser.setEnvironment(classJarList, sourceFolder, null, true);
+//		//start as resolve binding false - very costly and not required for getting method declarations
+//		parser.setResolveBindings(false); 
+//		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+//		parser.setBindingsRecovery(true);
+//		parser.setCompilerOptions(options);
+//		parser.setUnitName(unitName); 
+//		parser.setEnvironment(classJarList, sourceFolder, null, true);
 		//parser.setStatementsRecovery(true);
 				
 		List<Tuple<CompilationUnit, TreeStatistics>> codeStatsFromMethodsList = new ArrayList<Tuple<CompilationUnit, TreeStatistics>>();
-		List<HashMap<String, MyMethod>> allMethodDeclarations = new ArrayList<HashMap<String, MyMethod>>();
+//		List<HashMap<String, MyMethod>> allMethodDeclarations = new ArrayList<HashMap<String, MyMethod>>();
+//		
+//		FileASTRequestor fileASTRequestorDeclarations = new FileASTRequestor() { 
+//			@Override
+//			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
+//				
+//				Tuple<CompilationUnit, TreeStatistics> codeStats = getAllMethodDeclarations(ast, sourceFilePath);
+//				HashMap<String, MyMethod> astMethodDeclarations = new HashMap<String, MyMethod>();
+//				
+//				codeStatsFromMethodsList.add(codeStats);
+//				
+//				for ( MethodDeclaration method : codeStats.Item2.MethodDeclarationList)
+//				{
+//					String methodDeclaration = ASTUtilities.findParentType(method) + "." + ASTUtilities.getMethodName(method, false);
+//					//method.
+//					if (methodDeclaration != null && !astMethodDeclarations.containsKey(methodDeclaration))
+//                    {
+//						astMethodDeclarations.put(methodDeclaration, new MyMethod(methodDeclaration, method));
+//                    }
+//				}
+//				
+//				allMethodDeclarations.add(astMethodDeclarations);
+//			}
+//		};
+//		
+//		logger.info("Parser settings Ready - Method Declarations Processing starting...");
+//		//parse first to collect all method declarations - this is the first implementation approach (another possibility is to use: CompilationUnit.findDeclaringNode
+//		parser.createASTs(sourceFilePaths, null, emptyArray, fileASTRequestorDeclarations, null);
+//		
+//		for ( HashMap<String, MyMethod> methoddeclar : allMethodDeclarations)
+//		{
+//			Dic.MergeDic2( AllMyMethods, methoddeclar);
+//		}
+//		
+//		logger.info("Cached all method declarations: " + AllMyMethods.size());
 		
-		FileASTRequestor fileASTRequestorDeclarations = new FileASTRequestor() { 
-			@Override
-			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
-				
-				Tuple<CompilationUnit, TreeStatistics> codeStats = getAllMethodDeclarations(ast, sourceFilePath);
-				HashMap<String, MyMethod> astMethodDeclarations = new HashMap<String, MyMethod>();
-				
-				codeStatsFromMethodsList.add(codeStats);
-				
-				for ( MethodDeclaration method : codeStats.Item2.MethodDeclarationList)
-				{
-					String methodDeclaration = ASTUtilities.findParentType(method) + "." + ASTUtilities.getMethodName(method, false);
-					//method.
-					if (methodDeclaration != null && !astMethodDeclarations.containsKey(methodDeclaration))
-                    {
-						astMethodDeclarations.put(methodDeclaration, new MyMethod(methodDeclaration, method));
-                    }
-				}
-				
-				allMethodDeclarations.add(astMethodDeclarations);
-			}
-		};
 		
-		logger.info("Parser settings Ready - Method Declarations Processing starting...");
-		//parse first to collect all method declarations - this is the first implementation approach (another possibility is to use: CompilationUnit.findDeclaringNode
-		parser.createASTs(sourceFilePaths, null, emptyArray, fileASTRequestorDeclarations, null);
-				
-		for ( HashMap<String, MyMethod> methoddeclar : allMethodDeclarations)
-		{
-			Dic.MergeDic2( AllMyMethods, methoddeclar);
-		}
-		
-		logger.info("Cached all method declarations: " + AllMyMethods.size());
-		
-		
-		CodeStatistics allStatsFromMethods = new CodeStatistics(codeStatsFromMethodsList);
+//		CodeStatistics allStatsFromMethods = new CodeStatistics(codeStatsFromMethodsList);
 		// Log statistics
         //Logger.Log("Num of syntax nodes: " + treeNode.Sum());
         //Logger.Log("Num of source files: " + numFiles);
-		allStatsFromMethods.PrintStatistics();     
+//		allStatsFromMethods.PrintStatistics();     
 		
-		//start as resolve binding true - required for type comparison
+		//resolve binding true - required for type comparison
         parser.setResolveBindings(true); 
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setBindingsRecovery(true);
@@ -116,7 +128,6 @@ final class CodeAnalyzer {
 		parser.setEnvironment(classJarList, sourceFolder, null, true);
 		
 		List<Tuple<CompilationUnit, TreeStatistics>> codeStatsFromCatchsList = new ArrayList<Tuple<CompilationUnit, TreeStatistics>>();
-		
 		
 		FileASTRequestor fileASTRequestorStats = new FileASTRequestor() { 
 			@Override
@@ -270,6 +281,8 @@ final class CodeAnalyzer {
 			}
 		}
 		
+		//TODO: put throws analysis back here
+		
 		logger.info("Single Tree read successfully.");
 		return new Tuple<CompilationUnit, TreeStatistics>(ast, stats);
 
@@ -309,16 +322,16 @@ final class CodeAnalyzer {
 					.filter(line -> line.endsWith(".jar")).collect(Collectors.toList());
 			logger.info("Class list with own jars only: " + classFileJarsList.size());
 
-			// //Obtain the list of JARs from the local JVM - NOT NEEDED if
-			// setEnvironment parameter to include current VM is TRUE.
-			// classFileJarsList.addAll(Files
-			// .walk(Paths.get("/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib"))
-			// .map(String::valueOf)
-			// .filter(line -> line.endsWith(".jar"))
-			// .collect(Collectors.toList()));
-			// logger.info("Class list with JRE lib: " +
-			// classFileJarsList.size());
-			//
+//			// //Obtain the list of JARs from the local JVM - NOT NEEDED if
+//			// setEnvironment parameter to include current VM is TRUE.
+//			 classFileJarsList.addAll(Files
+//			 .walk(Paths.get("/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib"))
+//			 .map(String::valueOf)
+//			 .filter(line -> line.endsWith(".jar"))
+//			 .collect(Collectors.toList()));
+//			 logger.info("Class list with JRE lib: " +
+//			 classFileJarsList.size());
+			
 			File mavenRepo = new File(IOFile.MavenRepo);
 
 			if (mavenRepo.exists()) {

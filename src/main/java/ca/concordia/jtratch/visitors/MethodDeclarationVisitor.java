@@ -62,10 +62,11 @@ public class MethodDeclarationVisitor extends ASTVisitor{
 			    	throwsBlockInfo.OperationFeatures.put("Length", node.getLength());
 			    	
 			    	throwsBlockInfo.FilePath = filePath;
-			    	throwsBlockInfo.MetaInfo.put("Line", startLine.toString());
+			    	throwsBlockInfo.StartLine = startLine;
 			    	throwsBlockInfo.MetaInfo.put("FilePath", filePath);
-			    	
-			    	//NumExceptions
+			    	throwsBlockInfo.MetaInfo.put("StartLine", startLine.toString());
+			        
+			        //NumExceptions
 			    	throwsBlockInfo.OperationFeatures.put("NumExceptions", size);
 			    	
 			    	//ThrowsException

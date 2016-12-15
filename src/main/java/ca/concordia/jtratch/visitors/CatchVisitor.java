@@ -77,7 +77,9 @@ public boolean visit(CatchClause node) {
     catchBlockInfo.OperationFeatures.put("CatchLength", node.getLength());
 	
     catchBlockInfo.FilePath = filePath;
+    catchBlockInfo.StartLine = catchStartLine;
     catchBlockInfo.MetaInfo.put("FilePath", filePath);
+    catchBlockInfo.MetaInfo.put("StartLine", catchStartLine.toString());
     
     //Common Features - parent type
     catchBlockInfo.ParentType = ASTUtilities.findParentType(tryStatement);
@@ -259,8 +261,7 @@ public boolean visit(CatchClause node) {
     	updatedCatchBlock.accept(throwStatementVisitorFinally);
     	finallyBlock.accept(throwStatementVisitorFinally);
     	
-    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding);
-    	finallyPossibleExceptionsCustomVisitor.setTree(tree);
+    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding, tree, true, 0);
     	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
         
     	//FinallyThrowing
@@ -271,9 +272,8 @@ public boolean visit(CatchClause node) {
     
     if(catchBlockInfo.OperationFeatures.get("Binded") == 1) 
     {
-    	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding);
-    	tryPossibleExceptionsCustomVisitor.setTree(tree);
-        tryStatement.getBody().accept(tryPossibleExceptionsCustomVisitor);
+    	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding, tree, true, 0);
+    	tryStatement.getBody().accept(tryPossibleExceptionsCustomVisitor);
         
         catchBlockInfo.MetaInfo.put("TryMethodsAndExceptions", tryPossibleExceptionsCustomVisitor.getInvokedMethodsHandlerType().toString());
         
@@ -289,13 +289,11 @@ public boolean visit(CatchClause node) {
     	catchBlockInfo.OperationFeatures.put("NumSupersumptionHandler", tryPossibleExceptionsCustomVisitor.getNumSupersumptionHandler());
     	catchBlockInfo.OperationFeatures.put("NumOtherHandler", tryPossibleExceptionsCustomVisitor.getNumOtherHandler());
     	
-    	/*catchBlockInfo.OperationFeatures.put("MaxLevel", tryPossibleExceptionsCustomVisitor.getChildrenMaxLevel());
+    	catchBlockInfo.OperationFeatures.put("MaxLevel", tryPossibleExceptionsCustomVisitor.getChildrenMaxLevel());
+    	catchBlockInfo.OperationFeatures.put("NumIsBindingInfo", tryPossibleExceptionsCustomVisitor.getNumIsBindingInfo());
     	catchBlockInfo.OperationFeatures.put("NumIsXMLSemantic", tryPossibleExceptionsCustomVisitor.getNumIsXMLSemantic());
     	catchBlockInfo.OperationFeatures.put("NumIsXMLSyntax", tryPossibleExceptionsCustomVisitor.getNumIsXMLSyntax());
     	catchBlockInfo.OperationFeatures.put("NumIsThrow", tryPossibleExceptionsCustomVisitor.getNumIsThrow());
-    	*/
-    	
-    	
     	
     } 
     /*

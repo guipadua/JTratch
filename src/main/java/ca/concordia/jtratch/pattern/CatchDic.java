@@ -114,7 +114,7 @@ public class CatchDic extends HashMap<String, CatchList> {
 			BufferedWriter csvBW = Files.newBufferedWriter(fileCSV, charset);
 		)
     	{
-    		csvBW.write("ID," + OpFeaturesKey + "ExceptionType,ParentMethod,ParentType,FilePath");
+    		csvBW.write("ID," + OpFeaturesKey + "ExceptionType,ParentMethod,ParentType,FilePath, StartLine");
     		csvBW.newLine();
     		metaBW.write(metaKey);
     		metaBW.newLine();
