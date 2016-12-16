@@ -3,7 +3,11 @@ package ca.concordia.jtratch.visitors;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,8 +18,11 @@ import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.TagElement;
 
 import ca.concordia.jtratch.ExceptionFlow;
 import ca.concordia.jtratch.InvokedMethod;
@@ -107,10 +114,10 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
         	if(binded) {
         		CodeAnalyzer.InvokedMethods.put(nodeString, new InvokedMethod(nodeString, true));        		
         		
-        		nodePossibleExceptions.addAll(processNodeForCheckedExceptions(nodeBindingInfo));
+        		nodePossibleExceptions.addAll(processNodeForCheckedExceptions(nodeBindingInfo, nodeString));
         		//nodePossibleExceptions.addAll(processNodeForJavaDocSemantic(nodeBindingInfo));
         		
-        		collectBindedInvokedMethodDataFromDeclaration(CodeAnalyzer.InvokedMethods.get(nodeString), nodeString, nodeBindingInfo);
+        		collectBindedInvokedMethodDataFromDeclaration(CodeAnalyzer.InvokedMethods.get(nodeString), nodeString);
         		
         	} else
         	{
@@ -137,7 +144,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
         
         
 	}
-	private void collectBindedInvokedMethodDataFromDeclaration(InvokedMethod invokedMethod, String nodeString, IMethodBinding nodeBindingInfo) 
+	private void collectBindedInvokedMethodDataFromDeclaration(InvokedMethod invokedMethod, String nodeString) 
 	{
 		MethodDeclaration nodemDeclar;
 		nodemDeclar = (MethodDeclaration) m_compilation.findDeclaringNode(nodeString);
@@ -149,9 +156,10 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
             
             Dic.MergeDic2(m_invokedMethodsBinded, possibleExceptionsCustomVisitor.m_invokedMethodsBinded);
             
-            invokedMethod.getExceptionFlowSet().addAll(GetExceptionsFromXMLSyntax(nodemDeclar));
             invokedMethod.getExceptionFlowSet().addAll(possibleExceptionsCustomVisitor.m_possibleExceptions);
-            invokedMethod.setChildrenMaxLevel(possibleExceptionsCustomVisitor.getChildrenMaxLevel());    		
+            invokedMethod.setChildrenMaxLevel(possibleExceptionsCustomVisitor.getChildrenMaxLevel());
+            invokedMethod.getExceptionFlowSet().addAll(GetExceptionsFromJavaDoc(nodemDeclar.getJavadoc(), nodeString));
+            
 		}		
 	}
 
@@ -162,22 +170,38 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
         //m_invokedMethodsPossibleExceptions.put(nodeString,nodePossibleExceptions);		
 	
 	
-	private HashSet<ExceptionFlow> GetExceptionsFromXMLSyntax(MethodDeclaration nodemDeclar) {
+	private HashSet<ExceptionFlow> GetExceptionsFromJavaDoc(Javadoc nodeJavaDoc, String originalNode) 
+	{
 		HashSet<ExceptionFlow> exceptions = new HashSet<ExceptionFlow>();
-		
-		//nodemDeclar.getJavadoc().
-		
-		return exceptions;
+		if(nodeJavaDoc != null) 
+		{
+			HashSet<SimpleName> exceptionNames = new HashSet<SimpleName>();
+			List<TagElement> allTagsList; 
+			
+			allTagsList = nodeJavaDoc.tags();
+			allTagsList	.stream()
+						.filter(tag -> (tag.getTagName() == TagElement.TAG_THROWS) || (tag.getTagName() == TagElement.TAG_EXCEPTION))
+						.forEach(tag -> exceptionNames.add((SimpleName) tag.fragments().get(0)));
+			
+			Iterator<SimpleName> iter = exceptionNames.iterator();
+			
+			while (iter.hasNext())
+			{
+				ITypeBinding type = iter.next().resolveTypeBinding();
+				ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.JAVADOC_SYNTAX, originalNode);
+				exceptions.add(flow);
+			}			
+		}
+	return exceptions;
 	}
 
-	private HashSet<ExceptionFlow> processNodeForCheckedExceptions(IMethodBinding nodeBindingInfo)
+	private HashSet<ExceptionFlow> processNodeForCheckedExceptions(IMethodBinding nodeBindingInfo, String originalNode)
 	{
 		HashSet<ExceptionFlow> exceptions = new HashSet<ExceptionFlow>();
 		
 		for( ITypeBinding type : nodeBindingInfo.getExceptionTypes())
 		{
-			ExceptionFlow flow = new ExceptionFlow(type, nodeBindingInfo.getKey());
-			flow.setIsBindingInfo(true);			
+			ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.BINDING_INFO, originalNode);
 			exceptions.add(flow);
 		}
 		

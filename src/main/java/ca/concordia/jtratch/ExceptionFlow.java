@@ -12,31 +12,45 @@ public class ExceptionFlow {
 	
 	//Original method info
 	//Assumption: all declared methods are successfully binded.
-	private String originalMethodBindingKey;
+	//Store where this exception was found. 
+	//TODO: If found by different ways, the value will be based on precedence, according to this order:
+	//			Throw -> deepest level found -> others...
+	private String originalMethodBindingKey = "";
 	private Byte LevelFound = (byte) 0;
 	
-	private Boolean IsBindingInfo = false;	
-	private Boolean IsXMLSemantic = false;
-	private Boolean IsXMLSyntax = false;
-	private Boolean IsThrow = false;
+	private Boolean isBindingInfo = false;	
+	private Boolean isJavadocSemantic = false;
+	private Boolean isJavadocSyntax = false;
+	private Boolean isThrow = false;
 		
 	//Catch info
 	private ITypeBinding catchedType;
 	private Byte HandlerTypeCode = (byte) -9;
 	private String catchFilePath;
 	private Integer catchStartLine;
-		
-	public ExceptionFlow(ITypeBinding thrownType, String originalMethodBindingKey ) {
+	
+	public static final String BINDING_INFO = "binding_info";
+	public static final String JAVADOC_SEMANTIC = "javadoc_semantic";
+	public static final String JAVADOC_SYNTAX = "javadoc_syntax";
+	public static final String THROW = "throw";
+	
+	public ExceptionFlow(ITypeBinding thrownType, String originType, String originalMethodBindingKey) {
 		this.setType(thrownType);
 		this.setOriginalMethodBindingKey(originalMethodBindingKey);
+		switch(originType) {
+			case BINDING_INFO: 		this.setIsBindingInfo(true);
+									break;
+			case JAVADOC_SEMANTIC: 	this.setIsJavadocSemantic(true);
+									break;
+			case JAVADOC_SYNTAX: 	this.setIsJavadocSyntax(true);
+									break;
+			case THROW: 			this.setIsThrow(true);
+									break;
+			default:				break;
+		}
 		
 		//HandlerTypeCode = GetHandlerTypeCode(catchedType, thrownType);
 	}
-//	public ExceptionFlow(ITypeBinding thrownType, ITypeBinding catchedType) {
-//		this.thrownType = thrownType;
-//		this.setCatchedType(catchedType);
-//		HandlerTypeCode = GetHandlerTypeCode(catchedType, thrownType);
-//	}
 	
 	//TODO: constructor with find type based on name - or just ignore this, no binding, no fun.
 	
@@ -90,35 +104,35 @@ public class ExceptionFlow {
 	}
 
 	public Boolean getIsBindingInfo() {
-		return IsBindingInfo;
+		return isBindingInfo;
 	}
 
 	public void setIsBindingInfo(Boolean isBindingInfo) {
-		IsBindingInfo = isBindingInfo;
+		this.isBindingInfo = isBindingInfo;
 	}
 
-	public Boolean getIsXMLSemantic() {
-		return IsXMLSemantic;
+	public Boolean getIsJavadocSemantic() {
+		return isJavadocSemantic;
 	}
 
-	public void setIsXMLSemantic(Boolean isXMLSemantic) {
-		IsXMLSemantic = isXMLSemantic;
+	public void setIsJavadocSemantic(Boolean isJavadocSemantic) {
+		this.isJavadocSemantic = isJavadocSemantic;
 	}
 
-	public Boolean getIsXMLSyntax() {
-		return IsXMLSyntax;
+	public Boolean getIsJavadocSyntax() {
+		return isJavadocSyntax;
 	}
 
-	public void setIsXMLSyntax(Boolean isXMLSyntax) {
-		IsXMLSyntax = isXMLSyntax;
+	public void setIsJavadocSyntax(Boolean isJavadocSyntax) {
+		this.isJavadocSyntax = isJavadocSyntax;
 	}
 
 	public Boolean getIsThrow() {
-		return IsThrow;
+		return isThrow;
 	}
 
 	public void setIsThrow(Boolean isThrow) {
-		IsThrow = isThrow;
+		this.isThrow = isThrow;
 	}
 
 	public Byte getHandlerTypeCode() {
@@ -137,7 +151,7 @@ public class ExceptionFlow {
 	public void setOriginalMethodBindingKey(String originalMethodBindingKey) {
 		this.originalMethodBindingKey = originalMethodBindingKey;
 	}
-
+	
 	public byte calculateHandlerTypeCode(ITypeBinding catchedType, ITypeBinding thrownType)
     {
     	byte handlerTypeCode = -9;
