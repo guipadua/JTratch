@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ThrowsBlock extends CommonFeature {
-	public String ExceptionType;
-    public static List<String> MetaKeys;
+	public static List<String> MetaKeys;
+    public static List<String> OpFeaturesKeys;
 
     public ThrowsBlock() 
     {
+    	OperationFeatures.put("Line", 0);
+		OperationFeatures.put("LOC", 0);
+		OperationFeatures.put("Start", 0);
+		OperationFeatures.put("Length", 0);
 		
 		OperationFeatures.put("NumExceptions", 0);
 		OperationFeatures.put("ThrowsException", 0);
@@ -17,6 +21,7 @@ public class ThrowsBlock extends CommonFeature {
 		MetaInfo.put("ThrowsBlock", "-throwsBlock");
            
         MetaKeys = new ArrayList<String>(MetaInfo.keySet());
+        OpFeaturesKeys = new ArrayList<String>(OperationFeatures.keySet());
     }
    
 }

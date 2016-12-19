@@ -26,8 +26,8 @@ public class ExceptionFlow {
 	//Catch info
 	private ITypeBinding catchedType;
 	private Byte HandlerTypeCode = (byte) -9;
-	private String catchFilePath;
-	private Integer catchStartLine;
+	private String catchFilePath = "";
+	private Integer catchStartLine = 0;
 	
 	public static final String BINDING_INFO = "binding_info";
 	public static final String JAVADOC_SEMANTIC = "javadoc_semantic";
@@ -36,24 +36,21 @@ public class ExceptionFlow {
 	
 	public ExceptionFlow(ITypeBinding thrownType, String originType, String originalMethodBindingKey) {
 		this.setType(thrownType);
+		this.setThrownTypeName(thrownType.getQualifiedName());
 		this.setOriginalMethodBindingKey(originalMethodBindingKey);
-		switch(originType) {
-			case BINDING_INFO: 		this.setIsBindingInfo(true);
-									break;
-			case JAVADOC_SEMANTIC: 	this.setIsJavadocSemantic(true);
-									break;
-			case JAVADOC_SYNTAX: 	this.setIsJavadocSyntax(true);
-									break;
-			case THROW: 			this.setIsThrow(true);
-									break;
-			default:				break;
-		}
-		
+		this.setOriginFlag(originType);
+				
 		//HandlerTypeCode = GetHandlerTypeCode(catchedType, thrownType);
 	}
 	
 	//TODO: constructor with find type based on name - or just ignore this, no binding, no fun.
 	
+	public ExceptionFlow(String exceptionName, String originType, String originalMethodBindingKey) {
+		this.setThrownTypeName(exceptionName);
+		this.setOriginalMethodBindingKey(originalMethodBindingKey);
+		this.setOriginFlag(originType);
+	}
+
 	public String getThrownTypeName() {
 		return thrownTypeName;
 	}
@@ -150,6 +147,21 @@ public class ExceptionFlow {
 
 	public void setOriginalMethodBindingKey(String originalMethodBindingKey) {
 		this.originalMethodBindingKey = originalMethodBindingKey;
+	}
+	
+	public void setOriginFlag(String originType)
+	{
+		switch(originType) {
+			case BINDING_INFO: 		this.setIsBindingInfo(true);
+									break;
+			case JAVADOC_SEMANTIC: 	this.setIsJavadocSemantic(true);
+									break;
+			case JAVADOC_SYNTAX: 	this.setIsJavadocSyntax(true);
+									break;
+			case THROW: 			this.setIsThrow(true);
+									break;
+			default:				break;
+	}
 	}
 	
 	public byte calculateHandlerTypeCode(ITypeBinding catchedType, ITypeBinding thrownType)

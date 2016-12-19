@@ -15,6 +15,7 @@ public class CodeStatistics extends TreeStatistics {
 	public List<Tuple<CompilationUnit, TreeStatistics>> TreeStats;
     public CatchDic CatchBlocks;
     public ThrowsDic ThrowsBlocks;
+    public PossibleExceptionsDic PossibleExceptionsBlocks;
     
     //public CallDic APICalls;
     
@@ -25,6 +26,7 @@ public class CodeStatistics extends TreeStatistics {
         TreeStats = codeStatsList;
         CatchBlocks = new CatchDic();
         ThrowsBlocks = new ThrowsDic();
+        PossibleExceptionsBlocks = new PossibleExceptionsDic();
         //APICalls = new CallDic();
         CodeStats = new LinkedHashMap<String, Integer>();
         for (Tuple<CompilationUnit, TreeStatistics> treetuple : codeStatsList)
@@ -37,6 +39,10 @@ public class CodeStatistics extends TreeStatistics {
             if (treetuple.Item2.ThrowsBlockList != null)
             {
             	ThrowsBlocks.Add(treetuple.Item2.ThrowsBlockList);
+            }
+            if (treetuple.Item2.PossibleExceptionsBlockList != null)
+            {
+            	PossibleExceptionsBlocks.Add(treetuple.Item2.PossibleExceptionsBlockList);
             }
             //if (treetuple.Item2.APICallList != null)
             //{
@@ -59,6 +65,10 @@ public class CodeStatistics extends TreeStatistics {
         if (ThrowsBlocks.size() > 0)
         {
         	CodeStats.put("NumExceptionTypeThrows",ThrowsBlocks.size());
+        }
+        if (PossibleExceptionsBlocks.size() > 0)
+        {
+        	CodeStats.put("NumPossibleExceptions",PossibleExceptionsBlocks.size());
         }
             
         
@@ -86,12 +96,17 @@ public class CodeStatistics extends TreeStatistics {
         
         if (CatchBlocks.size() > 0)
         {
-        	CatchBlocks.PrintToFile();
+        	CatchBlocks.PrintToFileCSV();
         }
         
         if (ThrowsBlocks.size() > 0)
         {
-        	ThrowsBlocks.PrintToFile();
+        	ThrowsBlocks.PrintToFileCSV();
+        }
+        
+        if (PossibleExceptionsBlocks.size() > 0)
+        {
+        	PossibleExceptionsBlocks.PrintToFileCSV();
         }
         
         //APICalls.PrintToFile();

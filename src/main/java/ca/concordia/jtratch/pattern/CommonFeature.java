@@ -55,13 +55,25 @@ public class CommonFeature {
         features += (ExceptionType + Splitter);
         features += (ParentMethod + Splitter);
         features += (ParentType + Splitter);
+        features += (FilePath + Splitter);
+        features += (StartLine + Splitter);
         
         //TextFeatures.forEach((key,value) -> features += (key + ":" + value + Splitter));
         
         return features;
     }
+    
+    public String PrintMetaInfo()
+    {
+        String metaInfo = "";
+        for (Map.Entry<String, String> entry : MetaInfo.entrySet())
+        {
+            metaInfo += (IOFile.DeleteSpace(entry.getValue()) + Splitter);
+        }
+        return metaInfo;
+    }
 
-    public String PrintCSV()
+    public String PrintFeaturesCSV()
     {
         String csv = "";
         
@@ -77,14 +89,23 @@ public class CommonFeature {
         
         return csv;
     }
-
-    public String PrintMetaInfo()
+    public String PrintMetaInfoCSV()
     {
-        String metaInfo = "";
+        String csv = "";
+        
         for (Map.Entry<String, String> entry : MetaInfo.entrySet())
         {
-            metaInfo += (IOFile.DeleteSpace(entry.getValue()) + Splitter);
+            csv += '"' + (entry.getValue().replace(String.valueOf('"'),"") + '"' + ",");
         }
-        return metaInfo;
+//        csv += (ExceptionType + ",");
+//        csv += (ParentMethod + ",");
+//        csv += (ParentType + ",");
+//        csv += (FilePath + ",");
+//        csv += (StartLine);
+        
+        return csv;
     }
+    
+
+    
 }

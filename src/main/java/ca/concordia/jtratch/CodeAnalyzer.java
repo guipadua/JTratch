@@ -17,18 +17,14 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
-import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
-import org.eclipse.jdt.core.dom.Javadoc;
-import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import ca.concordia.jtratch.pattern.CatchBlock;
 import ca.concordia.jtratch.pattern.CodeStatistics;
+import ca.concordia.jtratch.pattern.PossibleExceptionsBlock;
+import ca.concordia.jtratch.pattern.ThrowsBlock;
 import ca.concordia.jtratch.pattern.TreeStatistics;
-import ca.concordia.jtratch.utility.ASTUtilities;
-import ca.concordia.jtratch.utility.Dic;
 import ca.concordia.jtratch.utility.IOFile;
 import ca.concordia.jtratch.utility.Tuple;
 import ca.concordia.jtratch.visitors.CatchVisitor;
@@ -281,11 +277,67 @@ public final class CodeAnalyzer {
 			}
 		}
 		
-		//TODO: put throws analysis back here
+		/*
+		 * //Visiting method declarations for throw analysis
+		 */
+		MethodDeclarationVisitor methodDeclarationVisitor = new MethodDeclarationVisitor();
+		methodDeclarationVisitor.setTree(ast);
+		methodDeclarationVisitor.setFilePath(sourceFilePath);
+		ast.accept(methodDeclarationVisitor);
+		
+		stats.CodeStats.put("NumThrowsBlock", methodDeclarationVisitor.getThrowsBlockList().size());
+		stats.ThrowsBlockList = methodDeclarationVisitor.getThrowsBlockList();
+		
+		logger.info("Throws blocks visited successfully - number of blocks on this file is: " + stats.ThrowsBlockList.size() );
+		
+		/*
+		 * Process for possible exceptions
+		 */
+		
+		List<PossibleExceptionsBlock> possibleExceptionsList = new ArrayList<PossibleExceptionsBlock>();
+		
+		getExceptionFlows(possibleExceptionsList);
+		
+		stats.CodeStats.put("NumPossibleExceptionBlocks", possibleExceptionsList.size());
+		stats.PossibleExceptionsBlockList = possibleExceptionsList;
 		
 		logger.info("Single Tree read successfully.");
 		return new Tuple<CompilationUnit, TreeStatistics>(ast, stats);
 
+	}
+
+	private static void getExceptionFlows(List<PossibleExceptionsBlock> possibleExceptionsList) {
+		
+		InvokedMethods.values().forEach(invokedMethod -> invokedMethod.getExceptionFlowSet().forEach(flow -> 
+			{
+				PossibleExceptionsBlock possibleExceptionsBlockInfo = new PossibleExceptionsBlock();
+				possibleExceptionsBlockInfo.ExceptionType = flow.getThrownTypeName();
+		    					    	
+//		    	Integer startLine = tree.getLineNumber(node.getStartPosition() + 1);
+//		    	Integer endLine = tree.getLineNumber(node.getStartPosition() + node.getLength() + 1);
+		    	
+//		    	throwsBlockInfo.OperationFeatures.put("Line", startLine);
+//		    	throwsBlockInfo.OperationFeatures.put("LOC", endLine - startLine + 1);
+//		    	
+//		    	throwsBlockInfo.OperationFeatures.put("Start", node.getStartPosition());
+//		    	throwsBlockInfo.OperationFeatures.put("Length", node.getLength());
+//		    	
+				possibleExceptionsBlockInfo.FilePath = flow.getCatchFilePath();
+				possibleExceptionsBlockInfo.StartLine = flow.getCatchStartLine();
+				possibleExceptionsBlockInfo.MetaInfo.put("FilePath", flow.getCatchFilePath());
+				possibleExceptionsBlockInfo.MetaInfo.put("StartLine", flow.getCatchStartLine().toString());
+		        
+				possibleExceptionsBlockInfo.OperationFeatures.put("IsBindingInfo", flow.getIsBindingInfo() ? 1 : 0);
+				possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSemantic", flow.getIsJavadocSemantic() ? 1 : 0);
+				possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSyntax", flow.getIsJavadocSyntax() ? 1 : 0);
+				possibleExceptionsBlockInfo.OperationFeatures.put("IsThrow", flow.getIsThrow() ? 1 : 0);
+		        
+		        //possibleExceptionsBlockInfo.MetaInfo.put("PossibleExceptionsBlock", node.toString());
+		    					        
+				possibleExceptionsList.add(possibleExceptionsBlockInfo);
+		        
+		        logger.trace("throws block info registered.");
+			}));		
 	}
 
 	private static CompilationUnit getCUFromPath(String sourceFilePath, char[] fileCharData) throws IOException {

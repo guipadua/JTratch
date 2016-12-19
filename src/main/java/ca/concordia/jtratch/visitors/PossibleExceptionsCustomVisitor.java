@@ -1,17 +1,12 @@
 package ca.concordia.jtratch.visitors;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
@@ -23,10 +18,11 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.TagElement;
+import org.eclipse.jdt.core.dom.ThrowStatement;
 
+import ca.concordia.jtratch.CodeAnalyzer;
 import ca.concordia.jtratch.ExceptionFlow;
 import ca.concordia.jtratch.InvokedMethod;
-import ca.concordia.jtratch.CodeAnalyzer;
 import ca.concordia.jtratch.utility.ASTUtilities;
 import ca.concordia.jtratch.utility.Dic;
 
@@ -86,6 +82,61 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		processNodeAndVisit(node.toString(), node.resolveConstructorBinding());
 		return super.visit(node);
 	}
+	@Override
+	 public  boolean visit(ThrowStatement node)
+     {
+		logger.trace("Visiting a AST node of type "+ node.getNodeType() + " at line " + m_compilation.getLineNumber(node.getStartPosition())); 
+		
+		//Common Features - parent method
+        ASTNode parentNode = ASTUtilities.findParentMethod(node);
+        
+        String parentMethodName = new String();
+        if(parentNode.getNodeType() == ASTNode.METHOD_DECLARATION)
+        {
+        	MethodDeclaration parentMethod = (MethodDeclaration) parentNode;
+        	IMethodBinding parentMethodBinding = parentMethod.resolveBinding();
+        	
+        	parentMethodName = (parentMethodBinding !=null) 	? 
+        						parentMethodBinding.getKey() 	: 
+        							ASTUtilities.getMethodName(parentMethod, false);        	
+        	
+        } else if (parentNode.getNodeType() == ASTNode.INITIALIZER) {
+        	parentMethodName = "!NAME_NA!"; //name not applicable
+        } else
+        	parentMethodName = "!UNEXPECTED_KIND!";
+        
+		
+		ITypeBinding exceptionType;
+		ExceptionFlow flow;
+		
+		exceptionType = node.getExpression().resolveTypeBinding();
+		if(exceptionType != null)
+			flow = new ExceptionFlow(exceptionType, ExceptionFlow.THROW, parentMethodName);
+		else
+		{
+			String exceptionName;
+			
+			if (node.getExpression() != null)
+	        {
+				exceptionName = node.getExpression().toString();             
+	        } else
+	        {
+	        	exceptionName = "!NO_EXCEPTION_DECLARED!";
+	        }
+			flow = new ExceptionFlow(exceptionName, ExceptionFlow.THROW, parentMethodName);
+		}
+		
+		HashSet<ExceptionFlow> possibleException = new HashSet<ExceptionFlow>();
+		possibleException.add(flow);
+		
+         if (!m_isForAnalysis)
+        	 m_possibleExceptions.addAll(possibleException);
+         	//TODO evaluate stuff for when analysis when not - close flows!!! getValidPossibleExceptions(node, nodePossibleExceptions);
+         else
+        	 m_possibleExceptions.addAll(possibleException);
+         
+         return super.visit(node);
+     }
 	
 	private void processNodeAndVisit(String p_nodeString, IMethodBinding nodeBindingInfo) 
 	{
@@ -114,10 +165,10 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
         	if(binded) {
         		CodeAnalyzer.InvokedMethods.put(nodeString, new InvokedMethod(nodeString, true));        		
         		
+        		collectBindedInvokedMethodDataFromDeclaration(CodeAnalyzer.InvokedMethods.get(nodeString), nodeString);
+        		
         		nodePossibleExceptions.addAll(processNodeForCheckedExceptions(nodeBindingInfo, nodeString));
         		//nodePossibleExceptions.addAll(processNodeForJavaDocSemantic(nodeBindingInfo));
-        		
-        		collectBindedInvokedMethodDataFromDeclaration(CodeAnalyzer.InvokedMethods.get(nodeString), nodeString);
         		
         	} else
         	{
@@ -135,13 +186,13 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
         if (!m_isForAnalysis)
         	validNodePossibleExceptions = nodePossibleExceptions; 
         	//TODO evaluate stuff for when analysis when not - close flows!!! getValidPossibleExceptions(node, nodePossibleExceptions);
+        	//TODO combine exceptions that are actually from a same origin
         else
         	validNodePossibleExceptions = nodePossibleExceptions;
 
         m_possibleExceptions.addAll(validNodePossibleExceptions);
         nodeAndNodePossibleExceptions.put(nodeString, validNodePossibleExceptions);
-        Dic.MergeDic2(m_invokedMethodsPossibleExceptions, nodeAndNodePossibleExceptions);  
-        
+        Dic.MergeDic2(m_invokedMethodsPossibleExceptions, nodeAndNodePossibleExceptions);
         
 	}
 	private void collectBindedInvokedMethodDataFromDeclaration(InvokedMethod invokedMethod, String nodeString) 
@@ -152,7 +203,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		if(nodemDeclar != null){
 			invokedMethod.setVisited(true);
 			PossibleExceptionsCustomVisitor possibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(m_exceptionType, m_compilation, false, m_myLevel + 1);
-            possibleExceptionsCustomVisitor.visit(nodemDeclar);
+			nodemDeclar.accept(possibleExceptionsCustomVisitor);
             
             Dic.MergeDic2(m_invokedMethodsBinded, possibleExceptionsCustomVisitor.m_invokedMethodsBinded);
             
@@ -162,9 +213,6 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
             
 		}		
 	}
-
-	
-			
 		//Dic.MergeDic2(m_possibleExceptions, exceptionTypeNames);
         //m_possibleExceptions.addAll(nodePossibleExceptions);
         //m_invokedMethodsPossibleExceptions.put(nodeString,nodePossibleExceptions);		
@@ -182,6 +230,8 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 			allTagsList	.stream()
 						.filter(tag -> (tag.getTagName() == TagElement.TAG_THROWS) || (tag.getTagName() == TagElement.TAG_EXCEPTION))
 						.forEach(tag -> exceptionNames.add((SimpleName) tag.fragments().get(0)));
+			
+			//FIXME: fix bug here: org.eclipse.jdt.core.dom.QualifiedName cannot be cast to org.eclipse.jdt.core.dom.SimpleName
 			
 			Iterator<SimpleName> iter = exceptionNames.iterator();
 			

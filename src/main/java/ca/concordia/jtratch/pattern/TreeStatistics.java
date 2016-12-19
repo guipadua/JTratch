@@ -12,8 +12,9 @@ public class TreeStatistics {
     public List<CatchBlock> CatchBlockList;
     //public List<APICall> APICallList;
 	public List<ThrowsBlock> ThrowsBlockList;
-	public List<MethodDeclaration> MethodDeclarationList;
+	public List<PossibleExceptionsBlock> PossibleExceptionsBlockList;
 	
+	public List<MethodDeclaration> MethodDeclarationList;	
 
     public TreeStatistics()
     {
@@ -35,6 +36,9 @@ public class TreeStatistics {
         CodeStats.put("NumRecoveredBinding", 0);          
         
         CodeStats.put("NumThrowsBlock", 0);
+        CodeStats.put("NumExceptionTypeThrows", 0);
+        
+        CodeStats.put("NumPossibleExceptionsBlock", 0);
         CodeStats.put("NumExceptionTypeThrows", 0);
         
         CodeStats.put("NumMethodDeclaration", 0);

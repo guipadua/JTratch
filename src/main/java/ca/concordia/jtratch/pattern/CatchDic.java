@@ -83,14 +83,72 @@ public class CatchDic extends HashMap<String, CatchList> {
         }
     }
 
-    public void PrintToFile()
+    public void PrintToFileCSV()
+    {
+    	logger.info("Writing CatchBlock features into file...");
+    	Charset charset = Charset.forName("UTF-8");
+    	Path fileCSV = Paths.get(IOFile.CompleteFileNameOutput("CatchBlock.csv"));
+    	Path fileMetaCSV = Paths.get(IOFile.CompleteFileNameOutput("CatchBlock_Meta.csv"));
+    	
+    	Integer catchId = 0;
+        String metaKey = "";
+        
+        for ( String meta : CatchBlock.MetaKeys)
+        {
+            metaKey += (meta + ",");
+        }
+        
+        String OpFeaturesKey = "";
+        
+        for ( String OpFeature : CatchBlock.OpFeaturesKeys)
+        {
+        	OpFeaturesKey += (OpFeature + ",");
+        }
+        
+    	try 
+    	(
+			BufferedWriter csvBW = Files.newBufferedWriter(fileCSV, charset);
+    		BufferedWriter metaCSVBW = Files.newBufferedWriter(fileMetaCSV, charset);
+		)
+    	{
+    		csvBW.write("ID," + OpFeaturesKey + "ExceptionType,ParentMethod,ParentType,FilePath,StartLine");
+    		csvBW.newLine();
+    		metaCSVBW.write("ID," + metaKey);
+    		metaCSVBW.newLine();
+    		
+    		for (Map.Entry<String,CatchList> entry : this.entrySet())
+    		{
+    			CatchList CatchList = entry.getValue();
+        		for (CatchBlock catchBlock : CatchList)
+            	{
+            		catchId++;
+            		csvBW.write(catchId + "," + catchBlock.PrintFeaturesCSV());
+            		csvBW.newLine();
+            		metaCSVBW.write(catchId + "," + catchBlock.PrintMetaInfoCSV());
+            		metaCSVBW.newLine();
+            		
+            	}
+            	csvBW.flush();
+            	metaCSVBW.flush();
+    		}
+    		
+    		csvBW.close();
+    		metaCSVBW.close();
+    		logger.info("Writing done.");
+        	
+    	} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void PrintToFileTXT()
     {
     	
     	logger.info("Writing CatchBlock features into file...");
     	Charset charset = Charset.forName("UTF-8");
     	Path file = Paths.get(IOFile.CompleteFileNameOutput("CatchBlock.txt"));
     	Path fileMeta = Paths.get(IOFile.CompleteFileNameOutput("CatchBlock_Meta.txt"));
-    	Path fileCSV = Paths.get(IOFile.CompleteFileNameOutput("CatchBlock.csv"));
     	
     	Integer catchId = 0;
         String metaKey = CatchBlock.Splitter;
@@ -111,11 +169,8 @@ public class CatchDic extends HashMap<String, CatchList> {
     	(
 			BufferedWriter bw = Files.newBufferedWriter(file, charset);
 			BufferedWriter metaBW = Files.newBufferedWriter(fileMeta, charset);
-			BufferedWriter csvBW = Files.newBufferedWriter(fileCSV, charset);
 		)
     	{
-    		csvBW.write("ID," + OpFeaturesKey + "ExceptionType,ParentMethod,ParentType,FilePath, StartLine");
-    		csvBW.newLine();
     		metaBW.write(metaKey);
     		metaBW.newLine();
     		metaBW.write("--------------------------------------------------------");
@@ -140,16 +195,12 @@ public class CatchDic extends HashMap<String, CatchList> {
             		bw.newLine();
             		metaBW.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintMetaInfo());
             		metaBW.newLine();
-            		csvBW.write(catchId + "," + catchblock.PrintCSV());
-            		csvBW.newLine();
-            		
             	}
             	metaBW.newLine();
             	metaBW.newLine();
             	bw.flush();
             	metaBW.flush();
-            	csvBW.flush();            	
-    		}
+        	}
     		
     		//Print summary
             metaBW.write("------------------------ Summary -------------------------");
@@ -175,7 +226,6 @@ public class CatchDic extends HashMap<String, CatchList> {
     		}
     		bw.close();
     		metaBW.close();
-    		csvBW.close();
     		logger.info("Writing done.");
         	
     	} catch (IOException e) {

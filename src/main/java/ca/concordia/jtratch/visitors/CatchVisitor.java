@@ -250,26 +250,6 @@ public boolean visit(CatchClause node) {
     if (updatedCatchBlock.getException().getType().toString().equalsIgnoreCase("exception"))
     	catchBlockInfo.OperationFeatures.put("CatchException", 1);
     
-    //FinallyThrowing
-    Block finallyBlock = tryStatement.getFinally();
-    if (finallyBlock != null)
-    {
-    	catchBlockInfo.MetaInfo.put("FinallyBlock", finallyBlock.toString());
-    	
-    	ThrowStatementVisitor throwStatementVisitorFinally = new ThrowStatementVisitor(exceptionType.getName());
-    	throwStatementVisitorFinally.setTree(tree);
-    	updatedCatchBlock.accept(throwStatementVisitorFinally);
-    	finallyBlock.accept(throwStatementVisitorFinally);
-    	
-    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding, tree, true, 0);
-    	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
-        
-    	//FinallyThrowing
-    	if (! throwStatementVisitorFinally.getThrowStatements().isEmpty() 
-    			|| finallyPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().size() > 0)
-    		catchBlockInfo.OperationFeatures.put("FinallyThrowing", 1);
-    }
-    
     if(catchBlockInfo.OperationFeatures.get("Binded") == 1) 
     {
     	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding, tree, true, 0);
@@ -295,7 +275,27 @@ public boolean visit(CatchClause node) {
     	catchBlockInfo.OperationFeatures.put("NumIsXMLSyntax", tryPossibleExceptionsCustomVisitor.getNumIsXMLSyntax());
     	catchBlockInfo.OperationFeatures.put("NumIsThrow", tryPossibleExceptionsCustomVisitor.getNumIsThrow());
     	
-    } 
+    }
+    
+    //FinallyThrowing
+    Block finallyBlock = tryStatement.getFinally();
+    if (finallyBlock != null)
+    {
+    	catchBlockInfo.MetaInfo.put("FinallyBlock", finallyBlock.toString());
+    	
+    	ThrowStatementVisitor throwStatementVisitorFinally = new ThrowStatementVisitor(exceptionType.getName());
+    	throwStatementVisitorFinally.setTree(tree);
+    	updatedCatchBlock.accept(throwStatementVisitorFinally);
+    	finallyBlock.accept(throwStatementVisitorFinally);
+    	
+    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding, tree, true, 0);
+    	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
+        
+    	//FinallyThrowing
+    	if (! throwStatementVisitorFinally.getThrowStatements().isEmpty() 
+    			|| finallyPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().size() > 0)
+    		catchBlockInfo.OperationFeatures.put("FinallyThrowing", 1);
+    }
     /*
     *Pending analysis still to be implemented - c# code:
     *Some will potentially need resolve binding = true
