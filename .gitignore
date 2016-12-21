@@ -37,15 +37,5 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-/eclipse.jdt.core_CatchBlock_Meta.txt
-/eclipse.jdt.core_CatchBlock.csv
-/eclipse.jdt.core_CatchBlock.txt
-/eclipse.jdt.core_ThrowsBlock_Meta.txt
-/eclipse.jdt.core_ThrowsBlock.csv
-/eclipse.jdt.core_ThrowsBlock.txt
-/sample_CatchBlock_Meta.txt
-/sample_CatchBlock.csv
-/sample_CatchBlock.txt
-/sample_ThrowsBlock_Meta.txt
-/sample_ThrowsBlock.csv
-/sample_ThrowsBlock.txt
+*.txt
+*.csv
