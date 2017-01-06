@@ -298,14 +298,13 @@ public boolean visit(CatchClause node) {
     	updatedCatchBlock.accept(throwStatementVisitorFinally);
     	finallyBlock.accept(throwStatementVisitorFinally);
     	
-    	//TODO: fix finally throwing
-//    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(tree, 0, true,
-//																														filePath, catchStartLine, exceptionTypeBinding);
-//    	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
-//        
+    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(tree, 0, true,
+																														filePath, catchStartLine, exceptionTypeBinding);
+    	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
+        
     	//FinallyThrowing
     	if (! throwStatementVisitorFinally.getThrowStatements().isEmpty() 
-    			//|| finallyPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().size() > 0
+    			|| finallyPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().size() > 0
     		)
     		catchBlockInfo.OperationFeatures.put("FinallyThrowing", 1);
     }

@@ -109,11 +109,11 @@ public final class CodeAnalyzer {
 		logger.info("Cached all method declarations: " + AllMyMethods.size());
 		
 		
-//		CodeStatistics allStatsFromMethods = new CodeStatistics(codeStatsFromMethodsList);
+		CodeStatistics allStatsFromMethods = new CodeStatistics(codeStatsFromMethodsList);
 		// Log statistics
         //Logger.Log("Num of syntax nodes: " + treeNode.Sum());
         //Logger.Log("Num of source files: " + numFiles);
-//		allStatsFromMethods.PrintStatistics();     
+		allStatsFromMethods.PrintStatistics();     
 		
 		//resolve binding true - required for type comparison
         parser.setResolveBindings(true); 
@@ -279,19 +279,6 @@ public final class CodeAnalyzer {
 				}
 			}
 		}
-		//TODO: move throw analysis together with method declaration visit
-		/*
-		 * //Visiting method declarations for throw analysis
-		 */
-		MethodDeclarationVisitor methodDeclarationVisitor = new MethodDeclarationVisitor();
-		methodDeclarationVisitor.setTree(ast);
-		methodDeclarationVisitor.setFilePath(sourceFilePath);
-		ast.accept(methodDeclarationVisitor);
-		
-		stats.CodeStats.put("NumThrowsBlock", methodDeclarationVisitor.getThrowsBlockList().size());
-		stats.ThrowsBlockList = methodDeclarationVisitor.getThrowsBlockList();
-		
-		logger.info("Throws blocks visited successfully - number of blocks on this file is: " + stats.ThrowsBlockList.size() );
 		
 		logger.info("Single Tree read successfully.");
 		return new Tuple<CompilationUnit, TreeStatistics>(ast, stats);
