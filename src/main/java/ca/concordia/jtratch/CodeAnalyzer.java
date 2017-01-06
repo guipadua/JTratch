@@ -19,12 +19,14 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import ca.concordia.jtratch.pattern.CatchBlock;
 import ca.concordia.jtratch.pattern.CodeStatistics;
 import ca.concordia.jtratch.pattern.PossibleExceptionsBlock;
-import ca.concordia.jtratch.pattern.ThrowsBlock;
 import ca.concordia.jtratch.pattern.TreeStatistics;
+import ca.concordia.jtratch.utility.ASTUtilities;
+import ca.concordia.jtratch.utility.Dic;
 import ca.concordia.jtratch.utility.IOFile;
 import ca.concordia.jtratch.utility.Tuple;
 import ca.concordia.jtratch.visitors.CatchVisitor;
@@ -34,14 +36,12 @@ public final class CodeAnalyzer {
 
 	private static final Logger logger = LogManager.getLogger(CodeAnalyzer.class.getName());
 
-	//public static HashMap<String, MyMethod> AllMyMethods = new HashMap<String, MyMethod>();
+	public static HashMap<String, MyMethod> AllMyMethods = new HashMap<String, MyMethod>();
 	
 	//InvokedMethods:
 	//Store the methods that were invoked at least once during evaluation.
-	// Each method will be stored only once and will co
+	// Each method will be stored only once and will contain a list of possible exceptions (ExceptionFlow - open exception)
 	public static HashMap<String, InvokedMethod> InvokedMethods = new HashMap<String, InvokedMethod>();
-	
-	public static HashSet<ExceptionFlow> AllExceptionFlows = new HashSet<ExceptionFlow>();
 	
 	public static void AnalyzeAllTrees(List<String> sourceFilePathList )
 	{
@@ -62,51 +62,51 @@ public final class CodeAnalyzer {
 		//classpath empty - maybe will be required if desired to combine binary calls together
 		//using default encodings
 		
-//		//start as resolve binding false - very costly and not required for getting method declarations
-//		parser.setResolveBindings(false); 
-//		parser.setKind(ASTParser.K_COMPILATION_UNIT);
-//		parser.setBindingsRecovery(true);
-//		parser.setCompilerOptions(options);
-//		parser.setUnitName(unitName); 
-//		parser.setEnvironment(classJarList, sourceFolder, null, true);
-		//parser.setStatementsRecovery(true);
+		//start as resolve binding false - very costly and not required for getting method declarations
+		parser.setResolveBindings(true); 
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setBindingsRecovery(true);
+		parser.setCompilerOptions(options);
+		parser.setUnitName(unitName); 
+		parser.setEnvironment(classJarList, sourceFolder, null, true);
+		parser.setStatementsRecovery(true);
 				
 		List<Tuple<CompilationUnit, TreeStatistics>> codeStatsFromMethodsList = new ArrayList<Tuple<CompilationUnit, TreeStatistics>>();
-//		List<HashMap<String, MyMethod>> allMethodDeclarations = new ArrayList<HashMap<String, MyMethod>>();
-//		
-//		FileASTRequestor fileASTRequestorDeclarations = new FileASTRequestor() { 
-//			@Override
-//			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
-//				
-//				Tuple<CompilationUnit, TreeStatistics> codeStats = getAllMethodDeclarations(ast, sourceFilePath);
-//				HashMap<String, MyMethod> astMethodDeclarations = new HashMap<String, MyMethod>();
-//				
-//				codeStatsFromMethodsList.add(codeStats);
-//				
-//				for ( MethodDeclaration method : codeStats.Item2.MethodDeclarationList)
-//				{
-//					String methodDeclaration = ASTUtilities.findParentType(method) + "." + ASTUtilities.getMethodName(method, false);
-//					//method.
-//					if (methodDeclaration != null && !astMethodDeclarations.containsKey(methodDeclaration))
-//                    {
-//						astMethodDeclarations.put(methodDeclaration, new MyMethod(methodDeclaration, method));
-//                    }
-//				}
-//				
-//				allMethodDeclarations.add(astMethodDeclarations);
-//			}
-//		};
-//		
-//		logger.info("Parser settings Ready - Method Declarations Processing starting...");
-//		//parse first to collect all method declarations - this is the first implementation approach (another possibility is to use: CompilationUnit.findDeclaringNode
-//		parser.createASTs(sourceFilePaths, null, emptyArray, fileASTRequestorDeclarations, null);
-//		
-//		for ( HashMap<String, MyMethod> methoddeclar : allMethodDeclarations)
-//		{
-//			Dic.MergeDic2( AllMyMethods, methoddeclar);
-//		}
-//		
-//		logger.info("Cached all method declarations: " + AllMyMethods.size());
+		List<HashMap<String, MyMethod>> allMethodDeclarations = new ArrayList<HashMap<String, MyMethod>>();
+		
+		FileASTRequestor fileASTRequestorDeclarations = new FileASTRequestor() { 
+			@Override
+			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
+				
+				Tuple<CompilationUnit, TreeStatistics> codeStats = getAllMethodDeclarations(ast, sourceFilePath);
+				HashMap<String, MyMethod> astMethodDeclarations = new HashMap<String, MyMethod>();
+				
+				codeStatsFromMethodsList.add(codeStats);
+				
+				for ( MethodDeclaration method : codeStats.Item2.MethodDeclarationList)
+				{
+					String methodDeclaration = ASTUtilities.getMethodName(method);
+					//method.
+					if (methodDeclaration != null && !astMethodDeclarations.containsKey(methodDeclaration))
+                    {
+						astMethodDeclarations.put(methodDeclaration, new MyMethod(methodDeclaration, method));
+                    }
+				}
+				
+				allMethodDeclarations.add(astMethodDeclarations);
+			}
+		};
+		
+		logger.info("Parser settings Ready - Method Declarations Processing starting...");
+		//parse first to collect all method declarations - this is the first implementation approach (another possibility is to use: CompilationUnit.findDeclaringNode
+		parser.createASTs(sourceFilePaths, null, emptyArray, fileASTRequestorDeclarations, null);
+		
+		for ( HashMap<String, MyMethod> methoddeclar : allMethodDeclarations)
+		{
+			Dic.MergeDic2( AllMyMethods, methoddeclar);
+		}
+		
+		logger.info("Cached all method declarations: " + AllMyMethods.size());
 		
 		
 //		CodeStatistics allStatsFromMethods = new CodeStatistics(codeStatsFromMethodsList);
@@ -241,6 +241,9 @@ public final class CodeAnalyzer {
 
 		stats.CodeStats.put("NumCatchBlock", catchVisitor.getCatchBlockList().size());
 		stats.CatchBlockList = catchVisitor.getCatchBlockList();
+		
+		stats.CodeStats.put("NumPossibleExceptionBlocks", catchVisitor.getPossibleExceptionsList().size());
+		stats.PossibleExceptionsBlockList = catchVisitor.getPossibleExceptionsList();
 
 		logger.info(
 				"Catch blocks visited successfully - number of blocks on this file is:" + stats.CatchBlockList.size());
@@ -276,7 +279,7 @@ public final class CodeAnalyzer {
 				}
 			}
 		}
-		
+		//TODO: move throw analysis together with method declaration visit
 		/*
 		 * //Visiting method declarations for throw analysis
 		 */
@@ -290,55 +293,12 @@ public final class CodeAnalyzer {
 		
 		logger.info("Throws blocks visited successfully - number of blocks on this file is: " + stats.ThrowsBlockList.size() );
 		
-		/*
-		 * Process for possible exceptions
-		 */
-		
-		List<PossibleExceptionsBlock> possibleExceptionsList = new ArrayList<PossibleExceptionsBlock>();
-		
-		getExceptionFlows(possibleExceptionsList);
-		
-		stats.CodeStats.put("NumPossibleExceptionBlocks", possibleExceptionsList.size());
-		stats.PossibleExceptionsBlockList = possibleExceptionsList;
-		
 		logger.info("Single Tree read successfully.");
 		return new Tuple<CompilationUnit, TreeStatistics>(ast, stats);
 
 	}
 
-	private static void getExceptionFlows(List<PossibleExceptionsBlock> possibleExceptionsList) {
-		
-		InvokedMethods.values().forEach(invokedMethod -> invokedMethod.getExceptionFlowSet().forEach(flow -> 
-			{
-				PossibleExceptionsBlock possibleExceptionsBlockInfo = new PossibleExceptionsBlock();
-				possibleExceptionsBlockInfo.ExceptionType = flow.getThrownTypeName();
-		    					    	
-//		    	Integer startLine = tree.getLineNumber(node.getStartPosition() + 1);
-//		    	Integer endLine = tree.getLineNumber(node.getStartPosition() + node.getLength() + 1);
-		    	
-//		    	throwsBlockInfo.OperationFeatures.put("Line", startLine);
-//		    	throwsBlockInfo.OperationFeatures.put("LOC", endLine - startLine + 1);
-//		    	
-//		    	throwsBlockInfo.OperationFeatures.put("Start", node.getStartPosition());
-//		    	throwsBlockInfo.OperationFeatures.put("Length", node.getLength());
-//		    	
-				possibleExceptionsBlockInfo.FilePath = flow.getCatchFilePath();
-				possibleExceptionsBlockInfo.StartLine = flow.getCatchStartLine();
-				possibleExceptionsBlockInfo.MetaInfo.put("FilePath", flow.getCatchFilePath());
-				possibleExceptionsBlockInfo.MetaInfo.put("StartLine", flow.getCatchStartLine().toString());
-		        
-				possibleExceptionsBlockInfo.OperationFeatures.put("IsBindingInfo", flow.getIsBindingInfo() ? 1 : 0);
-				possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSemantic", flow.getIsJavadocSemantic() ? 1 : 0);
-				possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSyntax", flow.getIsJavadocSyntax() ? 1 : 0);
-				possibleExceptionsBlockInfo.OperationFeatures.put("IsThrow", flow.getIsThrow() ? 1 : 0);
-		        
-		        //possibleExceptionsBlockInfo.MetaInfo.put("PossibleExceptionsBlock", node.toString());
-		    					        
-				possibleExceptionsList.add(possibleExceptionsBlockInfo);
-		        
-		        logger.trace("throws block info registered.");
-			}));		
-	}
+	
 
 	private static CompilationUnit getCUFromPath(String sourceFilePath, char[] fileCharData) throws IOException {
 

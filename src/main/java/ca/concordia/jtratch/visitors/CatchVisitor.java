@@ -1,6 +1,7 @@
 package ca.concordia.jtratch.visitors;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,13 +17,16 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TryStatement;
 
+import ca.concordia.jtratch.ClosedExceptionFlow;
 import ca.concordia.jtratch.pattern.CatchBlock;
+import ca.concordia.jtratch.pattern.PossibleExceptionsBlock;
 import ca.concordia.jtratch.utility.ASTUtilities;
 
 public class CatchVisitor extends ASTVisitor {
   List<CatchBlock> catches = new ArrayList<CatchBlock>();
+  List<PossibleExceptionsBlock> possibleExceptionsList = new ArrayList<PossibleExceptionsBlock>();
   private static final Logger logger = LogManager.getLogger(CatchVisitor.class.getName());
-  private CompilationUnit tree;
+  private static CompilationUnit tree;
   private String filePath;
   
 @Override
@@ -40,7 +44,7 @@ public boolean visit(CatchClause node) {
     	catchBlockInfo.ExceptionType = exceptionTypeBinding.getQualifiedName();
     	catchBlockInfo.OperationFeatures.put("Binded", 1);
     	catchBlockInfo.OperationFeatures.put("RecoveredBinding", exceptionTypeBinding.isRecovered() ? 1 : 0 );
-    	int kind = findKind(exceptionTypeBinding);
+    	int kind = ASTUtilities.findKind(exceptionTypeBinding, tree);
     	catchBlockInfo.OperationFeatures.put("Kind", kind);
     	catchBlockInfo.OperationFeatures.put("Checked", (kind == 1 || kind == 3) ? 1 : 0);
     } else 
@@ -50,8 +54,7 @@ public boolean visit(CatchClause node) {
     }
     
     //Basic info:
-    catchBlockInfo.MetaInfo.put("ExceptionType", catchBlockInfo.ExceptionType);
-    
+    catchBlockInfo.MetaInfo.put("ExceptionType", catchBlockInfo.ExceptionType);    
 	
     //Try info:
     TryStatement tryStatement = (TryStatement) node.getParent();
@@ -92,7 +95,8 @@ public boolean visit(CatchClause node) {
     if(parentNode.getNodeType() == ASTNode.METHOD_DECLARATION)
     {
     	MethodDeclaration parentMethod = (MethodDeclaration) parentNode;
-    	parentMethodName = ASTUtilities.getMethodName(parentMethod, true);
+    	parentMethodName = ASTUtilities.getMethodNameWithoutBinding(parentMethod, true);
+    	//TODO: review this to use a different method to get the name from ast utilities
     	
     } else if (parentNode.getNodeType() == ASTNode.INITIALIZER) {
     	parentMethodName = "!NAME_NA!"; //name not applicable
@@ -252,8 +256,14 @@ public boolean visit(CatchClause node) {
     
     if(catchBlockInfo.OperationFeatures.get("Binded") == 1) 
     {
-    	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding, tree, true, 0);
+    	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(tree, 0, true,
+    																											filePath, catchStartLine, exceptionTypeBinding);
     	tryStatement.getBody().accept(tryPossibleExceptionsCustomVisitor);
+    	
+    	/*
+		 * Process for possible exceptions
+		 */		
+		getExceptionFlows(this.possibleExceptionsList, tryPossibleExceptionsCustomVisitor.getClosedExceptionFlows());		
         
         catchBlockInfo.MetaInfo.put("TryMethodsAndExceptions", tryPossibleExceptionsCustomVisitor.getInvokedMethodsHandlerType().toString());
         
@@ -288,12 +298,15 @@ public boolean visit(CatchClause node) {
     	updatedCatchBlock.accept(throwStatementVisitorFinally);
     	finallyBlock.accept(throwStatementVisitorFinally);
     	
-    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(exceptionTypeBinding, tree, true, 0);
-    	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
-        
+    	//TODO: fix finally throwing
+//    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(tree, 0, true,
+//																														filePath, catchStartLine, exceptionTypeBinding);
+//    	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
+//        
     	//FinallyThrowing
     	if (! throwStatementVisitorFinally.getThrowStatements().isEmpty() 
-    			|| finallyPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().size() > 0)
+    			//|| finallyPossibleExceptionsCustomVisitor.getDistinctPossibleExceptions().size() > 0
+    		)
     		catchBlockInfo.OperationFeatures.put("FinallyThrowing", 1);
     }
     /*
@@ -319,23 +332,7 @@ public boolean visit(CatchClause node) {
     catches.add(catchBlockInfo);
 	return super.visit(node);
   }
-
    
-  private Integer findKind(ITypeBinding exceptionType) {
-	if(exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.RuntimeException")))
-		return 0;
-	else if (exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.Exception")))
-		return 1;
-	else if (exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.Error")))
-		return 2;
-	else if (exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.Throwable")))
-		return 3;
-	else if (exceptionType.equals(tree.getAST().resolveWellKnownType("java.lang.Object")))
-		return -1;
-	else
-		return findKind(exceptionType.getSuperclass());
-}
-
   private boolean IsInnerCatch (ASTNode node){
 	  
 	  int parentNodeType = node.getNodeType();
@@ -365,9 +362,44 @@ public List<CatchBlock> getCatchBlockList() {
 }
 
 
-public void setFileData(StringBuilder fileData) {
-	// TODO Auto-generated method stub
+public List<PossibleExceptionsBlock> getPossibleExceptionsList() {
+	return possibleExceptionsList;
+}
+
+private static void getExceptionFlows(List<PossibleExceptionsBlock> possibleExceptionsList, HashSet<ClosedExceptionFlow> closedExceptionFlows) {
 	
+	closedExceptionFlows.forEach(flow -> 
+		{
+			PossibleExceptionsBlock possibleExceptionsBlockInfo = new PossibleExceptionsBlock();
+
+			possibleExceptionsBlockInfo.ExceptionType = flow.getThrownTypeName();
+			possibleExceptionsBlockInfo.CaughtType = flow.getCaughtTypeName();			
+	    	possibleExceptionsBlockInfo.DeclaringMethod = flow.getOriginalMethodBindingKey();
+	    	possibleExceptionsBlockInfo.InvokedMethod = flow.getInvokedMethodKey();
+	    	possibleExceptionsBlockInfo.InvokedMethodLine = flow.getInvokedMethodLine();
+			possibleExceptionsBlockInfo.FilePath = flow.getCatchFilePath();
+			possibleExceptionsBlockInfo.StartLine = flow.getCatchStartLine();
+			
+			possibleExceptionsBlockInfo.MetaInfo.put("FilePath", flow.getCatchFilePath());
+			possibleExceptionsBlockInfo.MetaInfo.put("StartLine", flow.getCatchStartLine().toString());
+	        
+			int kind = ASTUtilities.findKind(flow.getThrownType(), tree);
+			possibleExceptionsBlockInfo.OperationFeatures.put("Kind", kind);
+			
+			possibleExceptionsBlockInfo.OperationFeatures.put("IsBindingInfo", flow.getIsBindingInfo() ? 1 : 0);
+			possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSemantic", flow.getIsJavadocSemantic() ? 1 : 0);
+			possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSyntax", flow.getIsJavadocSyntax() ? 1 : 0);
+			possibleExceptionsBlockInfo.OperationFeatures.put("IsThrow", flow.getIsThrow() ? 1 : 0);
+	        
+			possibleExceptionsBlockInfo.OperationFeatures.put("HandlerTypeCode", (int) flow.getHandlerTypeCode());
+			
+			
+	        //possibleExceptionsBlockInfo.MetaInfo.put("PossibleExceptionsBlock", node.toString());
+	    					        
+			possibleExceptionsList.add(possibleExceptionsBlockInfo);
+	        
+	        logger.trace("throws block info registered.");
+		});		
 }
   
 } 

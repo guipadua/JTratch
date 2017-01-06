@@ -68,7 +68,7 @@ public class PossibleExceptionsDic extends HashMap<String, PossibleExceptionsLis
     		BufferedWriter metaCSVBW = Files.newBufferedWriter(fileMetaCSV, charset);
 		)
     	{
-    		csvBW.write("ID," + OpFeaturesKey + "ExceptionType,ParentMethod,ParentType,FilePath,StartLine");
+    		csvBW.write("ID," + OpFeaturesKey + "ThrownType,CaughtType,DeclaringMethod,InvokedMethod,InvokedMethodLine,CatchFilePath,CatchStartLine");
     		csvBW.newLine();
     		metaCSVBW.write("ID," + metaKey);
     		metaCSVBW.newLine();
