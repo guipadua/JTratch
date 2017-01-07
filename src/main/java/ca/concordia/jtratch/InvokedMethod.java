@@ -1,5 +1,6 @@
 package ca.concordia.jtratch;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class InvokedMethod {
@@ -26,6 +27,43 @@ public class InvokedMethod {
 	
 	public HashSet<ExceptionFlow> getExceptionFlowSet() {
 		return ExceptionFlowSet;
+	}
+	
+	public HashSet<ExceptionFlow> getExceptionFlowSetByType() {
+		HashSet<ExceptionFlow> combinedExceptionsSet = new HashSet<ExceptionFlow>();
+		HashMap<String, ExceptionFlow> combinedExceptionsTemp = new HashMap<String, ExceptionFlow>();
+		
+		for(ExceptionFlow exception : ExceptionFlowSet)
+		{
+			if (!combinedExceptionsTemp.containsKey(exception.getThrownTypeName()))
+				combinedExceptionsTemp.put(exception.getThrownTypeName(), exception);
+			else
+			{
+				ExceptionFlow combinedException = combinedExceptionsTemp.get(exception.getThrownTypeName());
+				
+				//take original method info from the one that is identified as throw
+				if(exception.getIsThrow())
+					combinedException.setOriginalMethodBindingKey(exception.getOriginalMethodBindingKey());
+				
+				//boolean flags - do an OR to be true if any is true
+				combinedException.setIsBindingInfo(combinedException.getIsBindingInfo() || exception.getIsBindingInfo());
+				combinedException.setIsJavadocSemantic(combinedException.getIsJavadocSemantic() || exception.getIsJavadocSemantic());
+				combinedException.setIsJavadocSyntax(combinedException.getIsJavadocSyntax() || exception.getIsJavadocSyntax());
+				combinedException.setIsThrow(combinedException.getIsThrow() || exception.getIsThrow());
+				
+				//take deepest level found
+				if(exception.getLevelFound() > combinedException.getLevelFound())
+					combinedException.setLevelFound(exception.getLevelFound());
+				
+				//take type that is not null
+				if(combinedException.getThrownType() == null && exception.getThrownType() != null)
+					combinedException.setThrownType(exception.getThrownType());				
+			}
+    	}
+		
+		combinedExceptionsSet.addAll(combinedExceptionsTemp.values());
+		
+		return combinedExceptionsSet;
 	}
 
 	public void setExceptionFlowSet(HashSet<ExceptionFlow> exceptionFlowSet) {

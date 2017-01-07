@@ -1,9 +1,11 @@
 package ca.concordia.jtratch.utility;
 
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
@@ -144,5 +146,15 @@ public class ASTUtilities {
 			return -1;
 		else
 			return findKind(exceptionType.getSuperclass(), tree);
+	}
+	
+	public static IMethodBinding getBindingInfo(ASTNode node) 
+	{
+		if(node.getNodeType() == ASTNode.METHOD_INVOCATION)
+			return ((MethodInvocation) node).resolveMethodBinding();
+		else if(node.getNodeType() == ASTNode.CLASS_INSTANCE_CREATION)
+			return ((ClassInstanceCreation) node).resolveConstructorBinding();
+		else
+			return null;		
 	}
 }

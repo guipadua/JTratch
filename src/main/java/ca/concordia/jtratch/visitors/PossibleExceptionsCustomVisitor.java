@@ -192,27 +192,23 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		HashMap<String, HashSet<ExceptionFlow>> nodeAndNodePossibleExceptions = new HashMap<String, HashSet<ExceptionFlow>>();
         
 		startLine = m_compilation.getLineNumber(node.getStartPosition());
-		nodeBindingInfo = getBindingInfo(node);
+		nodeBindingInfo = ASTUtilities.getBindingInfo(node);
 		binded = (nodeBindingInfo != null) ? true : false;
 		nodeString = binded ? nodeBindingInfo.getKey() : node.toString();
 				
 		initializeLocalVisitInfo(nodeString, binded);
 		
-		nodePossibleExceptions.addAll(getPossibleExceptionsFromBindingInfo(nodeBindingInfo, nodeString));
-		nodePossibleExceptions.addAll(getCachedPossibleExceptions(nodeString, binded));		
+		nodePossibleExceptions.addAll(getCachedPossibleExceptions(nodeString, binded, nodeBindingInfo));		
 		
         m_ChildrenNodesLevel.put(nodeString, m_ChildrenNodesLevel.get(nodeString) + CodeAnalyzer.InvokedMethods.get(nodeString).getChildrenMaxLevel());
 
-       	//TODO evaluate stuff for when analysis when not - close flows!!! getValidPossibleExceptions(node, nodePossibleExceptions);
        	//TODO combine exceptions that are actually from a same origin
     	
         validNodePossibleExceptions = getValidPossibleExceptions(node, nodePossibleExceptions);
         closePossibleExceptionFlows(validNodePossibleExceptions, nodeString, startLine);
-        //TODO: close exception and change type to ClosedExceptionFlow
         m_possibleExceptions.addAll(validNodePossibleExceptions);
         nodeAndNodePossibleExceptions.put(nodeString, validNodePossibleExceptions);
-        Dic.MergeDic2(m_invokedMethodsPossibleExceptions, nodeAndNodePossibleExceptions);
-        
+        Dic.MergeDic2(m_invokedMethodsPossibleExceptions, nodeAndNodePossibleExceptions);        
 	}
 	
 	private void closePossibleExceptionFlows(HashSet<ExceptionFlow> exceptions, String invokedMethodKey, Integer invokedMethodLine) 
@@ -229,31 +225,22 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 						this.m_catchFilePath, this.m_catchStartLine, invokedMethodKey, invokedMethodLine);
 				this.ClosedExceptionFlows.add(closedExceptionFlow);			
 	    	}
-        } 
-//        else
-//        {
-//        	for(ExceptionFlow exception : exceptions)
-//	    	{
-//				ClosedExceptionFlow closedExceptionFlow = new ClosedExceptionFlow(exception);
-//				closedExceptionFlow.closeExceptionFlow(m_catchType, exception.getThrownType(), m_declaringNodeKey);
-//				//CodeAnalyzer.AllClosedExceptionFlows.add(closedExceptionFlow);			
-//	    	}
-//        }
-				
+        }				
 	}
 
-	private HashSet<ExceptionFlow> getCachedPossibleExceptions(String nodeString, boolean binded) {
+	private HashSet<ExceptionFlow> getCachedPossibleExceptions(String nodeString, boolean binded, IMethodBinding nodeBindingInfo) {
 		//Go grab data if method not yet known
         if (!CodeAnalyzer.InvokedMethods.containsKey(nodeString)) {
         	if(binded) {
         		CodeAnalyzer.InvokedMethods.put(nodeString, new InvokedMethod(nodeString, true));        		
-        		collectBindedInvokedMethodDataFromDeclaration(CodeAnalyzer.InvokedMethods.get(nodeString), nodeString);        		
+        		collectBindedInvokedMethodDataFromDeclaration(CodeAnalyzer.InvokedMethods.get(nodeString), nodeString);
+        		collectBindedInvokedMethodDataFromBindingInfo(CodeAnalyzer.InvokedMethods.get(nodeString), nodeBindingInfo, nodeString);
         	} 
         	else
         		CodeAnalyzer.InvokedMethods.put(nodeString, new InvokedMethod(nodeString, false));
         }
 		//TODO: if already known, what to do?        
-        return CodeAnalyzer.InvokedMethods.get(nodeString).getExceptionFlowSet();		
+        return CodeAnalyzer.InvokedMethods.get(nodeString).getExceptionFlowSetByType();		
 	}
 
 	private void initializeLocalVisitInfo(String nodeString, boolean binded) {
@@ -261,16 +248,6 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		m_invokedMethodsBinded.put(nodeString, (byte) (binded ? 1 : 0) );
 		if (!m_ChildrenNodesLevel.containsKey(nodeString))
 			m_ChildrenNodesLevel.put(nodeString, 1);		
-	}
-
-	private IMethodBinding getBindingInfo(ASTNode node) 
-	{
-		if(node.getNodeType() == ASTNode.METHOD_INVOCATION)
-			return ((MethodInvocation) node).resolveMethodBinding();
-		else if(node.getNodeType() == ASTNode.CLASS_INSTANCE_CREATION)
-			return ((ClassInstanceCreation) node).resolveConstructorBinding();
-		else
-			return null;		
 	}
 
 	private void collectBindedInvokedMethodDataFromDeclaration(InvokedMethod invokedMethod, String nodeString) 
@@ -287,7 +264,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 			nodemDeclar.accept(possibleExceptionsCustomVisitor);
 			
             Dic.MergeDic2(m_invokedMethodsBinded, possibleExceptionsCustomVisitor.m_invokedMethodsBinded);
-            //TODO: validate before inserting into storage
+            
             invokedMethod.getExceptionFlowSet().addAll(possibleExceptionsCustomVisitor.m_possibleExceptions);
             invokedMethod.setChildrenMaxLevel(possibleExceptionsCustomVisitor.getChildrenMaxLevel());
             invokedMethod.getExceptionFlowSet().addAll(GetExceptionsFromJavaDoc(nodemDeclar.getJavadoc(), nodeString));            
@@ -324,7 +301,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 	return exceptions;
 	}
 
-	private HashSet<ExceptionFlow> getPossibleExceptionsFromBindingInfo(IMethodBinding nodeBindingInfo, String originalNode)
+	private void collectBindedInvokedMethodDataFromBindingInfo(InvokedMethod invokedMethod, IMethodBinding nodeBindingInfo, String originalNode)
 	{
 		HashSet<ExceptionFlow> exceptions = new HashSet<ExceptionFlow>();
 		if (nodeBindingInfo != null){
@@ -333,8 +310,8 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 				ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.BINDING_INFO, originalNode);
 				exceptions.add(flow);
 			}
-		}		
-		return exceptions;
+		}
+		invokedMethod.getExceptionFlowSet().addAll(exceptions);
 	}
 	
 	private HashSet<ExceptionFlow> processNodeForJavaDocSemantic(IMethodBinding nodeBindingInfo)
