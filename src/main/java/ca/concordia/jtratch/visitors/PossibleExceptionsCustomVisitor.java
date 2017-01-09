@@ -1,6 +1,7 @@
 package ca.concordia.jtratch.visitors;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -52,9 +53,9 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
     
     private HashSet<ClosedExceptionFlow> ClosedExceptionFlows = new HashSet<ClosedExceptionFlow>();
 	
-	private int m_nodeMaxLevel = 0;
+	private Byte m_nodeMaxLevel = 0;
 
-    private int m_myLevel = 0;
+    private Byte m_myLevel = 0;
     private HashMap<String, Integer> m_ChildrenNodesLevel = new HashMap<String, Integer>();
 
     public boolean m_isForAnalysis;
@@ -63,7 +64,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
     /// Constructor
     /// </summary>
     /// <param name="p_isForAnalysis">This is know if the found exceptions should be evaluated against the parent try-catch block, if any.</param>
-    public PossibleExceptionsCustomVisitor(	CompilationUnit p_compilation, int p_level, boolean p_isForAnalysis, 
+    public PossibleExceptionsCustomVisitor(	CompilationUnit p_compilation, Byte p_level, boolean p_isForAnalysis, 
     										String catchFilePath, int catchStartLine, ITypeBinding p_exceptionType){
     	m_compilation = p_compilation;
         m_myLevel = p_level;
@@ -78,7 +79,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
     /// Constructor
     /// </summary>
     /// <param name="p_isForAnalysis">This is know if the found exceptions should be evaluated against the parent try-catch block, if any.</param>
-    public PossibleExceptionsCustomVisitor(CompilationUnit p_compilation, int p_level, boolean p_isForAnalysis, 
+    public PossibleExceptionsCustomVisitor(CompilationUnit p_compilation, Byte p_level, boolean p_isForAnalysis, 
     										String declaringNodeKey)
     {
     	m_compilation = p_compilation;
@@ -115,7 +116,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		parentMethodName = ASTUtilities.getMethodName(ASTUtilities.findParentMethod(node));
 		exceptionType = node.getExpression().resolveTypeBinding();
 		if(exceptionType != null)
-			flow = new ExceptionFlow(exceptionType, ExceptionFlow.THROW, parentMethodName);
+			flow = new ExceptionFlow(exceptionType, ExceptionFlow.THROW, parentMethodName, m_myLevel);
 		else
 		{
 			String exceptionName;
@@ -123,7 +124,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 				exceptionName = node.getExpression().toString();             
 	        else
 	        	exceptionName = "!NO_EXCEPTION_DECLARED!";
-	        flow = new ExceptionFlow(exceptionName, ExceptionFlow.THROW, parentMethodName);
+	        flow = new ExceptionFlow(exceptionName, ExceptionFlow.THROW, parentMethodName, m_myLevel);
 		}
 		possibleException = new HashSet<ExceptionFlow>();
 		possibleException.add(flow);
@@ -234,7 +235,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
         	if(binded) {
         		CodeAnalyzer.InvokedMethods.put(nodeString, new InvokedMethod(nodeString, true));        		
         		collectBindedInvokedMethodDataFromDeclaration(CodeAnalyzer.InvokedMethods.get(nodeString), nodeString);
-        		collectBindedInvokedMethodDataFromBindingInfo(CodeAnalyzer.InvokedMethods.get(nodeString), nodeBindingInfo, nodeString);
+        		collectBindedInvokedMethodDataFromBindingInfo(CodeAnalyzer.InvokedMethods.get(nodeString), nodeBindingInfo, nodeString);        		
         	} 
         	else
         		CodeAnalyzer.InvokedMethods.put(nodeString, new InvokedMethod(nodeString, false));
@@ -260,7 +261,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		}
 		if(nodemDeclar != null){
 			invokedMethod.setVisited(true);
-			PossibleExceptionsCustomVisitor possibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(m_compilation, m_myLevel + 1, false, nodeString);
+			PossibleExceptionsCustomVisitor possibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(m_compilation, (byte) (m_myLevel + 1), false, nodeString);
 			nodemDeclar.accept(possibleExceptionsCustomVisitor);
 			
             Dic.MergeDic2(m_invokedMethodsBinded, possibleExceptionsCustomVisitor.m_invokedMethodsBinded);
@@ -294,7 +295,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 			while (iter.hasNext())
 			{
 				ITypeBinding type = iter.next().resolveTypeBinding();
-				ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.JAVADOC_SYNTAX, originalNode);
+				ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.JAVADOC_SYNTAX, originalNode, m_myLevel);
 				exceptions.add(flow);
 			}			
 		}
@@ -307,7 +308,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		if (nodeBindingInfo != null){
 			for( ITypeBinding type : nodeBindingInfo.getExceptionTypes())
 			{
-				ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.BINDING_INFO, originalNode);
+				ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.BINDING_INFO, originalNode, m_myLevel);
 				exceptions.add(flow);
 			}
 		}
@@ -403,8 +404,6 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
     }
     int getChildrenMaxLevel()
     {
-        return 1;
-    	//TODO: fix to use children nodes level and not hardcoded value
-        //return (m_ChildrenNodesLevel.Values.Count > 0) ? m_ChildrenNodesLevel.Values.Max() : 0;
+        return (m_ChildrenNodesLevel.values().size() > 0) ? Collections.max(m_ChildrenNodesLevel.values()) : 0;
     }
 }

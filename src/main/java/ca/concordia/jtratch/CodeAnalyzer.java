@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -77,6 +78,8 @@ public final class CodeAnalyzer {
 		FileASTRequestor fileASTRequestorDeclarations = new FileASTRequestor() { 
 			@Override
 			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
+				
+				logger.warn("Problems found in this AST: " + ast.getProblems().toString() + "." );
 				
 				Tuple<CompilationUnit, TreeStatistics> codeStats = getAllMethodDeclarations(ast, sourceFilePath);
 				HashMap<String, MyMethod> astMethodDeclarations = new HashMap<String, MyMethod>();

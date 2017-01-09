@@ -21,7 +21,7 @@ public class ExceptionFlow {
 	//TODO: If found by different ways, the value will be based on precedence, according to this order:
 	//			Throw -> deepest level found -> others...
 	private String originalMethodBindingKey = "";
-	//TODO: level found not being used
+	
 	private Byte LevelFound = (byte) 0;
 	
 	private Boolean isBindingInfo = false;	
@@ -29,22 +29,25 @@ public class ExceptionFlow {
 	private Boolean isJavadocSyntax = false;
 	private Boolean isThrow = false;
 	
-	public ExceptionFlow(ITypeBinding thrownType, String originType, String originalMethodBindingKey) {
+	public ExceptionFlow(ITypeBinding thrownType, String originType, String originalMethodBindingKey, Byte levelFound) {
 		this.setThrownType(thrownType);
 		this.setOriginFlag(originType);
 		this.setOriginalMethodBindingKey(originalMethodBindingKey);
+		this.setLevelFound(levelFound);
 	}
 	
-	public ExceptionFlow(String exceptionName, String originType, String originalMethodBindingKey) {
+	public ExceptionFlow(String exceptionName, String originType, String originalMethodBindingKey, Byte levelFound) {
 		this.setThrownTypeName(exceptionName);
 		this.setOriginFlag(originType);
-		this.setOriginalMethodBindingKey(originalMethodBindingKey);		
+		this.setOriginalMethodBindingKey(originalMethodBindingKey);
+		this.setLevelFound(levelFound);
 	}
 	
 	public ExceptionFlow(ExceptionFlow exceptionFlow) {
 		this.setThrownType(exceptionFlow.getThrownType());
 		this.setThrownTypeName(exceptionFlow.getThrownTypeName());
 		this.setOriginalMethodBindingKey(exceptionFlow.getOriginalMethodBindingKey());
+		this.setLevelFound(exceptionFlow.getLevelFound());
 		
 		this.setIsBindingInfo(exceptionFlow.getIsBindingInfo());
 		this.setIsJavadocSemantic(exceptionFlow.getIsJavadocSemantic());

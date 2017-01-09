@@ -21,6 +21,7 @@ public class PossibleExceptionsBlock extends CommonFeature {
 		OperationFeatures.put("IsJavadocSyntax", 0);
 		OperationFeatures.put("IsThrow", 0);
 		OperationFeatures.put("HandlerTypeCode", 0);
+		OperationFeatures.put("LevelFound", 0);
 		
 		//MetaInfo.put("PossibleExceptionsBlock", "'-PossibleExceptionsBlock");
            

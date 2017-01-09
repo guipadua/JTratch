@@ -256,7 +256,7 @@ public boolean visit(CatchClause node) {
     
     if(catchBlockInfo.OperationFeatures.get("Binded") == 1) 
     {
-    	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(tree, 0, true,
+    	PossibleExceptionsCustomVisitor tryPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(tree, (byte) 0, true,
     																											filePath, catchStartLine, exceptionTypeBinding);
     	tryStatement.getBody().accept(tryPossibleExceptionsCustomVisitor);
     	
@@ -298,7 +298,7 @@ public boolean visit(CatchClause node) {
     	updatedCatchBlock.accept(throwStatementVisitorFinally);
     	finallyBlock.accept(throwStatementVisitorFinally);
     	
-    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(tree, 0, true,
+    	PossibleExceptionsCustomVisitor finallyPossibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(tree, (byte) 0, true,
 																														filePath, catchStartLine, exceptionTypeBinding);
     	finallyBlock.accept(finallyPossibleExceptionsCustomVisitor);
         
@@ -389,6 +389,7 @@ private static void getExceptionFlows(List<PossibleExceptionsBlock> possibleExce
 			possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSemantic", flow.getIsJavadocSemantic() ? 1 : 0);
 			possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSyntax", flow.getIsJavadocSyntax() ? 1 : 0);
 			possibleExceptionsBlockInfo.OperationFeatures.put("IsThrow", flow.getIsThrow() ? 1 : 0);
+			possibleExceptionsBlockInfo.OperationFeatures.put("LevelFound", (int) flow.getLevelFound());
 	        
 			possibleExceptionsBlockInfo.OperationFeatures.put("HandlerTypeCode", (int) flow.getHandlerTypeCode());
 			

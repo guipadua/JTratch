@@ -10,7 +10,7 @@ public class ClosedExceptionFlow extends ExceptionFlow {
 	private String caughtTypeName = "";
 	private ITypeBinding caughtType = null;
 	private Byte handlerTypeCode = (byte) -9;
-	
+		
 	private String catchFilePath = "";
 	private Integer catchStartLine = 0;
 	private String declaringNodeKey = "";
@@ -19,13 +19,13 @@ public class ClosedExceptionFlow extends ExceptionFlow {
 	private Integer invokedMethodLine = 0;
 	
 	
-	public ClosedExceptionFlow(String exceptionName, String originType, String originalMethodBindingKey) {
-		super(exceptionName, originType, originalMethodBindingKey);
+	public ClosedExceptionFlow(String exceptionName, String originType, String originalMethodBindingKey, Byte levelFound) {
+		super(exceptionName, originType, originalMethodBindingKey, levelFound);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ClosedExceptionFlow(ITypeBinding thrownType, String originType, String originalMethodBindingKey) {
-		super(thrownType, originType, originalMethodBindingKey);
+	public ClosedExceptionFlow(ITypeBinding thrownType, String originType, String originalMethodBindingKey, Byte levelFound) {
+		super(thrownType, originType, originalMethodBindingKey, levelFound);
 		// TODO Auto-generated constructor stub
 	}
 	
