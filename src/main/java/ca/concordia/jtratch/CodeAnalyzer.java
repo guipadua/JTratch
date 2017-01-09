@@ -79,7 +79,7 @@ public final class CodeAnalyzer {
 			@Override
 			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
 				
-				logger.warn("Problems found in this AST: " + ast.getProblems().toString() + "." );
+				logger.warn("Problems found in this AST: " + printProblems(ast.getProblems()) + "." );
 				
 				Tuple<CompilationUnit, TreeStatistics> codeStats = getAllMethodDeclarations(ast, sourceFilePath);
 				HashMap<String, MyMethod> astMethodDeclarations = new HashMap<String, MyMethod>();
@@ -97,7 +97,7 @@ public final class CodeAnalyzer {
 				}
 				
 				allMethodDeclarations.add(astMethodDeclarations);
-			}
+			}			
 		};
 		
 		logger.info("Parser settings Ready - Method Declarations Processing starting...");
@@ -356,6 +356,20 @@ public final class CodeAnalyzer {
 
 		return classFileJars;
 
+	}
+	private static String printProblems(IProblem[] iproblems) {
+		StringBuilder problems = new StringBuilder();
+		
+		if(iproblems.length > 0 ){
+			for(IProblem problem : iproblems) {
+				problems.append("Message:" + problem.getMessage() + 
+								" at: " + new String(problem.getOriginatingFileName()) + 
+								" " + problem.getSourceLineNumber() + "" +
+								" Error:" + (problem.isError() ? "Y" : "N"));
+			}						
+		}
+		
+		return problems.toString();
 	}
 
 }

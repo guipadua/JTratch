@@ -11,7 +11,7 @@ class Person
 {
     String name;
 
-    public Person(String p_name) throws CoreException, AccessException
+    public Person(String p_name) throws CoreException, AccessException, Exception
     {
         name = p_name;
         try
@@ -46,7 +46,7 @@ class Person
      * @throws  CoreException
      *           
      */
-    public void m1() throws CoreException
+    public void m1() throws CoreException, Exception
     {
     	PersonExtra.m20(); // pe: CoreException
     	PersonExtra.m30(); //pe: -

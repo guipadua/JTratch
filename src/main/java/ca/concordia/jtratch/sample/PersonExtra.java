@@ -19,7 +19,7 @@ public class PersonExtra {
     }
 	public static void m500(){/*//cool*/}
     public static void m600(){throw new BufferOverflowException();}        
-    public static void m30()
+    public static void m30() throws Exception
     {
         try
         {
