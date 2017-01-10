@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,7 +23,6 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 
 import ca.concordia.jtratch.pattern.CatchBlock;
 import ca.concordia.jtratch.pattern.CodeStatistics;
-import ca.concordia.jtratch.pattern.PossibleExceptionsBlock;
 import ca.concordia.jtratch.pattern.TreeStatistics;
 import ca.concordia.jtratch.utility.ASTUtilities;
 import ca.concordia.jtratch.utility.Dic;

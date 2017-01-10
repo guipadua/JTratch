@@ -1,6 +1,5 @@
 package ca.concordia.jtratch.visitors;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,7 +50,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
     //TODO: if memory issues, this could be removed and calculated on the fly, no need to store it.
     private HashSet<ExceptionFlow> m_possibleExceptions = new HashSet<ExceptionFlow>();
     
-    private HashSet<ClosedExceptionFlow> ClosedExceptionFlows = new HashSet<ClosedExceptionFlow>();
+    private HashSet<ClosedExceptionFlow> closedExceptionFlows = new HashSet<ClosedExceptionFlow>();
 	
 	private Byte m_nodeMaxLevel = 0;
 
@@ -224,7 +223,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 				ClosedExceptionFlow closedExceptionFlow = new ClosedExceptionFlow(exception);
 				closedExceptionFlow.closeExceptionFlow(this.m_catchType, exception.getThrownType(), 
 						this.m_catchFilePath, this.m_catchStartLine, invokedMethodKey, invokedMethodLine);
-				this.ClosedExceptionFlows.add(closedExceptionFlow);			
+				this.closedExceptionFlows.add(closedExceptionFlow);			
 	    	}
         }				
 	}
@@ -337,7 +336,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 	}
 	
 	public HashSet<ClosedExceptionFlow> getClosedExceptionFlows() {
-		return ClosedExceptionFlows;
+		return closedExceptionFlows;
 	}
 
 	public HashSet<ExceptionFlow> getDistinctPossibleExceptions() {
@@ -348,60 +347,46 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		return m_invokedMethodsPossibleExceptions;
 	}
 	
-	/// <summary>
-    /// To check whether an invocation is a logging statement
-    /// </summary>
-    
-    public int countMetricsForExceptions(String strKey, int intCode){
-    	//TODO: Fix return to use the String strKey
-    	return 1;
-    	//return (int) m_possibleExceptions.values().stream().filter(exception -> exception. intValue() == intCode).count();
-    	//return (int) m_possibleExceptions.stream().filter(flow -> flow.getIsBindingInfo()).count();
-    }
-    
-    public boolean isM_isForAnalysis() {
+	public boolean isM_isForAnalysis() {
 		return m_isForAnalysis;
 	}
-
-	private void setM_isForAnalysis(boolean m_isForAnalysis) {
-		this.m_isForAnalysis = m_isForAnalysis;
-	}
-    
-    public int getNumSpecificHandler() {
-		return countMetricsForExceptions("HandlerTypeCode",0);
-	}
-    public int getNumSubsumptionHandler() {
-		return countMetricsForExceptions("HandlerTypeCode",1);
-	}
-    public int getNumSupersumptionHandler() {
-		return countMetricsForExceptions("HandlerTypeCode",2);
-	}
-    public int getNumOtherHandler() {
-		return countMetricsForExceptions("HandlerTypeCode",3);
-	}
-    public int getNumMethodsNotBinded() {	
+	
+	public int getNumMethodsNotBinded() {	
     	return (int) m_invokedMethodsBinded.values().stream()
     				.filter(value -> value.intValue() == 0)
     				.count();
 	}
-    public int getNumIsXMLSemantic()
+    
+	public int getNumSpecificHandler() {
+    	return (int) getClosedExceptionFlows().stream().filter(flow -> flow.getHandlerTypeCode() == 0).count();
+	}
+    public int getNumSubsumptionHandler() {
+    	return (int) getClosedExceptionFlows().stream().filter(flow -> flow.getHandlerTypeCode() == 1).count();
+	}
+    public int getNumSupersumptionHandler() {
+    	return (int) getClosedExceptionFlows().stream().filter(flow -> flow.getHandlerTypeCode() == 2).count();
+	}
+    public int getNumOtherHandler() {
+    	return (int) getClosedExceptionFlows().stream().filter(flow -> flow.getHandlerTypeCode() == 3).count();
+	}
+    
+    public int getNumIsJavadocSemantic()
     {
-        return countMetricsForExceptions("IsXMLSemantic", 1);
+    	return (int) m_possibleExceptions.stream().filter(flow -> flow.getIsJavadocSemantic()).count();
     }
-    public int getNumIsXMLSyntax()
+    public int getNumIsJavadocSyntax()
     {
-        return countMetricsForExceptions("IsXMLSyntax", 1);
+    	return (int) m_possibleExceptions.stream().filter(flow -> flow.getIsJavadocSyntax()).count();
     }
     public int getNumIsThrow()
     {
-        return countMetricsForExceptions("IsThrow", 1);
+    	return (int) m_possibleExceptions.stream().filter(flow -> flow.getIsThrow()).count();
     }
     public int getNumIsBindingInfo()
     {
     	return (int) m_possibleExceptions.stream().filter(flow -> flow.getIsBindingInfo()).count();
-    	
-    	//return countMetricsForExceptions("IsBindingInfo", 1);
     }
+    
     int getChildrenMaxLevel()
     {
         return (m_ChildrenNodesLevel.values().size() > 0) ? Collections.max(m_ChildrenNodesLevel.values()) : 0;

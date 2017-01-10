@@ -77,8 +77,8 @@ public class CatchBlock extends CommonFeature {
     	
     	OperationFeatures.put("MaxLevel", 0);
     	OperationFeatures.put("NumIsBindingInfo", 0);
-    	OperationFeatures.put("NumIsXMLSemantic", 0);
-    	OperationFeatures.put("NumIsXMLSyntax",0);
+    	OperationFeatures.put("NumIsDocSemantic", 0);
+    	OperationFeatures.put("NumIsDocSyntax",0);
     	OperationFeatures.put("NumIsThrow",0);
     	
     	//Comments info - not in the Catch Visitor

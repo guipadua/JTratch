@@ -281,8 +281,8 @@ public boolean visit(CatchClause node) {
     	
     	catchBlockInfo.OperationFeatures.put("MaxLevel", tryPossibleExceptionsCustomVisitor.getChildrenMaxLevel());
     	catchBlockInfo.OperationFeatures.put("NumIsBindingInfo", tryPossibleExceptionsCustomVisitor.getNumIsBindingInfo());
-    	catchBlockInfo.OperationFeatures.put("NumIsXMLSemantic", tryPossibleExceptionsCustomVisitor.getNumIsXMLSemantic());
-    	catchBlockInfo.OperationFeatures.put("NumIsXMLSyntax", tryPossibleExceptionsCustomVisitor.getNumIsXMLSyntax());
+    	catchBlockInfo.OperationFeatures.put("NumIsDocSemantic", tryPossibleExceptionsCustomVisitor.getNumIsJavadocSemantic());
+    	catchBlockInfo.OperationFeatures.put("NumIsDocSyntax", tryPossibleExceptionsCustomVisitor.getNumIsJavadocSyntax());
     	catchBlockInfo.OperationFeatures.put("NumIsThrow", tryPossibleExceptionsCustomVisitor.getNumIsThrow());
     	
     }
