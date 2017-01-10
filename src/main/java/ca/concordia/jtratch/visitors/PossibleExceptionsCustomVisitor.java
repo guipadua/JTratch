@@ -18,6 +18,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.TagElement;
 import org.eclipse.jdt.core.dom.ThrowStatement;
@@ -279,23 +280,39 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		HashSet<ExceptionFlow> exceptions = new HashSet<ExceptionFlow>();
 		if(nodeJavaDoc != null) 
 		{
-			HashSet<SimpleName> exceptionNames = new HashSet<SimpleName>();
+			HashSet<Object> exceptionNames = new HashSet<Object>();
 			List<TagElement> allTagsList; 
 			
 			allTagsList = nodeJavaDoc.tags();
 			allTagsList	.stream()
 						.filter(tag -> (tag.getTagName() == TagElement.TAG_THROWS) || (tag.getTagName() == TagElement.TAG_EXCEPTION))
-						.forEach(tag -> exceptionNames.add((SimpleName) tag.fragments().get(0)));
+						.forEach(tag -> exceptionNames.add(tag.fragments().get(0)));
 			
-			//FIXME: fix bug here: org.eclipse.jdt.core.dom.QualifiedName cannot be cast to org.eclipse.jdt.core.dom.SimpleName
-			
-			Iterator<SimpleName> iter = exceptionNames.iterator();
+			Iterator<Object> iter = exceptionNames.iterator();
 			
 			while (iter.hasNext())
 			{
-				ITypeBinding type = iter.next().resolveTypeBinding();
-				ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.JAVADOC_SYNTAX, originalNode, m_myLevel);
-				exceptions.add(flow);
+				Object object;
+				ITypeBinding type = null;
+				
+				object = iter.next();
+				if(object instanceof SimpleName)
+				{
+					type = ((SimpleName) object).resolveTypeBinding();					
+				}
+				else if(object instanceof QualifiedName)
+				{
+					type = ((QualifiedName) object).resolveTypeBinding();
+				}
+				else
+				{
+					logger.warn("Non expected type of javadoc exception was found: " + object.getClass().getName() + "!");
+				}
+				if(type != null)
+				{
+					ExceptionFlow flow = new ExceptionFlow(type, ExceptionFlow.JAVADOC_SYNTAX, originalNode, m_myLevel);
+					exceptions.add(flow);
+				}					
 			}			
 		}
 	return exceptions;

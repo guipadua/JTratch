@@ -141,6 +141,8 @@ public final class CodeAnalyzer {
          //   .Select(tree => tree.GetRoot().DescendantNodes().Count());
 		CodeStatistics allStatsFromCatchs = new CodeStatistics(codeStatsFromCatchsList);
 		allStatsFromCatchs.CodeStats.put("NumFiles", sourceFilePathList.size());
+		allStatsFromCatchs.CodeStats.put("NumDeclaredMethods", AllMyMethods.size());
+		allStatsFromCatchs.CodeStats.put("NumInvokedMethods", InvokedMethods.size());
 		// Log statistics
         //Logger.Log("Num of syntax nodes: " + treeNode.Sum());
         //Logger.Log("Num of source files: " + numFiles);
