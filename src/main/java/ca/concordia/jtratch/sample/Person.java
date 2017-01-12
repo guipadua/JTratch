@@ -30,6 +30,14 @@ class Person
         {
             //I'm the catch 22
         	System.out.println("someone tried to load a path which is too long!" + ex.getMessage());
+        	try{
+        		System.out.println("inner try: " + ex.getMessage());
+        	}
+        	catch (Exception exp)
+        	{
+        		System.out.println("inner catch" + ex.getMessage());
+        	}        	
+        	
         }catch (BufferOverflowException ex)
         {
             //boffe morre aqui

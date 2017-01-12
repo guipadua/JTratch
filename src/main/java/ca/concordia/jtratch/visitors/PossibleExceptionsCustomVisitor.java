@@ -37,7 +37,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 	private ITypeBinding m_catchType;
 	private String m_catchFilePath;
 	private int m_catchStartLine;
-	private String m_declaringNodeKey;
+	//private String m_declaringNodeKey;
 	
 	private CompilationUnit m_compilation;
 	
@@ -86,7 +86,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
         m_myLevel = p_level;
         m_isForAnalysis = p_isForAnalysis;
         
-        m_declaringNodeKey = declaringNodeKey;
+        //m_declaringNodeKey = declaringNodeKey;
     }
 	
 	@Override
@@ -360,7 +360,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		return m_possibleExceptions;
 	}
 	
-	public HashMap<String, HashSet<ExceptionFlow>> getInvokedMethodsHandlerType() {
+	public HashMap<String, HashSet<ExceptionFlow>> getInvokedMethodsPossibleExceptions() {
 		return m_invokedMethodsPossibleExceptions;
 	}
 	

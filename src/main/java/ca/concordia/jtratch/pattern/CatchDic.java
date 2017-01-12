@@ -191,9 +191,9 @@ public class CatchDic extends HashMap<String, CatchList> {
             	for (CatchBlock catchblock : catchList)
             	{
             		catchId++;
-            		bw.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintFeatures());
+            		bw.write("id:" + catchId + CatchBlock.Splitter + catchblock.PrintFeatures());
             		bw.newLine();
-            		metaBW.write("ID:" + catchId + CatchBlock.Splitter + catchblock.PrintMetaInfo());
+            		metaBW.write("id:" + catchId + CatchBlock.Splitter + catchblock.PrintMetaInfo());
             		metaBW.newLine();
             	}
             	metaBW.newLine();

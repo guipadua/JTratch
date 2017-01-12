@@ -143,25 +143,12 @@ public class ClosedExceptionFlow extends ExceptionFlow {
 		
 		byte handlerTypeCodeToEvaluate = ClosedExceptionFlow.calculateHandlerTypeCode(caughtType, thrownType);
 		
-//		//0: SPECIFIC, 1: SUBSUMPTION - the only two possible ways to really catch
-//		//try to close it
-//		if ((handlerTypeCodeToEvaluate == 0 || handlerTypeCodeToEvaluate == 1))
-//		{
-			this.setHandlerTypeCode(handlerTypeCodeToEvaluate);
-			this.setCaughtType(caughtType);
-			this.setCatchFilePath(catchFilePath);
-			this.setCatchStartLine(catchStartLine);
-			this.setInvokedMethodKey(invokedMethodKey);
-			this.setInvokedMethodLine(invokedMethodLine);
-			
-//			return true;
-//		}
-//		else
-//		{
-//			this.setHandlerTypeCode(handlerTypeCodeToEvaluate);
-//			
-//			return false;
-//		}
+		this.setHandlerTypeCode(handlerTypeCodeToEvaluate);
+		this.setCaughtType(caughtType);
+		this.setCatchFilePath(catchFilePath);
+		this.setCatchStartLine(catchStartLine);
+		this.setInvokedMethodKey(invokedMethodKey);
+		this.setInvokedMethodLine(invokedMethodLine);
 	}
 	
 	public void closeExceptionFlow(ITypeBinding caughtType, ITypeBinding thrownType, String declaringNodeKey)
@@ -170,22 +157,10 @@ public class ClosedExceptionFlow extends ExceptionFlow {
 		
 		byte handlerTypeCodeToEvaluate = ClosedExceptionFlow.calculateHandlerTypeCode(caughtType, thrownType);
 		
-//		//0: SPECIFIC, 1: SUBSUMPTION - the only two possible ways to really catch
-//		//try to close it
-//		if ((handlerTypeCodeToEvaluate == 0 || handlerTypeCodeToEvaluate == 1))
-//		{
-			this.setHandlerTypeCode(handlerTypeCodeToEvaluate);
-			this.setCaughtType(caughtType);
-			this.setDeclaringNodeKey(declaringNodeKey);
-			
-//			return true;
-//		}
-//		else
-//		{
-//			this.setHandlerTypeCode(handlerTypeCodeToEvaluate);
-//			
-//			return false;
-//		}
+		this.setHandlerTypeCode(handlerTypeCodeToEvaluate);
+		this.setCaughtType(caughtType);
+		this.setDeclaringNodeKey(declaringNodeKey);
+	
 	}
 	
 	public static boolean IsCloseableExceptionFlow(ITypeBinding caughtType, ITypeBinding thrownType)

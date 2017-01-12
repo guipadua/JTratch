@@ -68,9 +68,9 @@ public class PossibleExceptionsDic extends HashMap<String, PossibleExceptionsLis
     		BufferedWriter metaCSVBW = Files.newBufferedWriter(fileMetaCSV, charset);
 		)
     	{
-    		csvBW.write("ID," + OpFeaturesKey + "ThrownType,CaughtType,DeclaringMethod,InvokedMethod,InvokedMethodLine,CatchFilePath,CatchStartLine");
+    		csvBW.write("id," + OpFeaturesKey + "ThrownType,CaughtType,DeclaringMethod,InvokedMethod,InvokedMethodLine,CatchFilePath,CatchStartLine");
     		csvBW.newLine();
-    		metaCSVBW.write("ID," + metaKey);
+    		metaCSVBW.write("id," + metaKey);
     		metaCSVBW.newLine();
     		
     		for (Map.Entry<String,PossibleExceptionsList> entry : this.entrySet())
@@ -140,9 +140,9 @@ public class PossibleExceptionsDic extends HashMap<String, PossibleExceptionsLis
             	for (PossibleExceptionsBlock possibleExceptionsBlock : possibleExceptionsList)
             	{
             		possibleExceptionsId++;
-            		bw.write("ID:" + possibleExceptionsId + ThrowsBlock.Splitter + possibleExceptionsBlock.PrintFeatures());
+            		bw.write("id:" + possibleExceptionsId + ThrowsBlock.Splitter + possibleExceptionsBlock.PrintFeatures());
             		bw.newLine();
-            		metaBW.write("ID:" + possibleExceptionsId + ThrowsBlock.Splitter + possibleExceptionsBlock.PrintMetaInfo());
+            		metaBW.write("id:" + possibleExceptionsId + ThrowsBlock.Splitter + possibleExceptionsBlock.PrintMetaInfo());
             		metaBW.newLine();            		
             		
             	}

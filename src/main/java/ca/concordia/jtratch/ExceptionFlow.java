@@ -136,28 +136,9 @@ public class ExceptionFlow {
 	@Override
 	public String toString() {
 		
-//		String collectionStart = "{";
-//   	 	String keySep = "=";
-//   	 	String collectionEnd = "}";
-//   	 	String pairSep = ", ";
-   	 	
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(getThrownTypeName());
-//		sb.append(getOriginalMethodBindingKey());
-//		sb.append(pairSep);
-//		sb.append(keySep);
-//		sb.append(IsBindingInfogetIsBindingInfo());
-//		sb.append(keySep);
-//		sb.append(getIsJavadocSemantic());
-//		sb.append(keySep);
-//		sb.append(getIsJavadocSyntax());
-//		sb.append(keySep);
-//		sb.append(getIsThrow());
-//		sb.append(keySep);
-//		sb.append(getLevelFound());
-		
-		
 		
 		return sb.toString();		
 	}

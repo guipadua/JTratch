@@ -17,8 +17,8 @@ public class PossibleExceptionsBlock extends CommonFeature {
     {
     	OperationFeatures.put("Kind", 0);
     	OperationFeatures.put("IsBindingInfo", 0);
-		OperationFeatures.put("IsJavadocSemantic", 0);
-		OperationFeatures.put("IsJavadocSyntax", 0);
+		OperationFeatures.put("IsDocSemantic", 0);
+		OperationFeatures.put("IsDocSyntax", 0);
 		OperationFeatures.put("IsThrow", 0);
 		OperationFeatures.put("HandlerTypeCode", 0);
 		OperationFeatures.put("LevelFound", 0);

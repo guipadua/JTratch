@@ -35,14 +35,13 @@ public class TreeStatistics {
         
         CodeStats.put("NumRecoveredBinding", 0);          
         
-        CodeStats.put("NumThrowsBlock", 0);
-        CodeStats.put("NumExceptionTypeThrows", 0);
-        
         CodeStats.put("NumPossibleExceptionsBlock", 0);
-        CodeStats.put("NumExceptionTypeThrows", 0);
         
         CodeStats.put("NumMethodDeclaration", 0);
-        
+                
+        CodeStats.put("NumThrowsBlock", 0);
+        CodeStats.put("NumExceptionTypeThrows", 0);
+                
         //CodeStats.Add("NumLoggedLOC", 0);
         //CodeStats.Add("NumCall", 0);
         //CodeStats.Add("NumLogging", 0);

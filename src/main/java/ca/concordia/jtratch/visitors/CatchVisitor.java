@@ -265,9 +265,9 @@ public boolean visit(CatchClause node) {
 		 */		
 		getExceptionFlows(this.possibleExceptionsList, tryPossibleExceptionsCustomVisitor.getClosedExceptionFlows());		
         
-        catchBlockInfo.MetaInfo.put("TryMethodsAndExceptions", tryPossibleExceptionsCustomVisitor.getInvokedMethodsHandlerType().toString());
+        catchBlockInfo.MetaInfo.put("TryMethodsAndExceptions", tryPossibleExceptionsCustomVisitor.getInvokedMethodsPossibleExceptions().toString());
         
-        catchBlockInfo.OperationFeatures.put("NumDistinctMethods", tryPossibleExceptionsCustomVisitor.getInvokedMethodsHandlerType().size());
+        catchBlockInfo.OperationFeatures.put("NumDistinctMethods", tryPossibleExceptionsCustomVisitor.getInvokedMethodsPossibleExceptions().size());
         catchBlockInfo.MetaInfo.put("TryMethodsBinded",tryPossibleExceptionsCustomVisitor.getInvokedMethodsBinded().toString());
         catchBlockInfo.OperationFeatures.put("NumMethodsNotBinded",tryPossibleExceptionsCustomVisitor.getNumMethodsNotBinded()); 
         
@@ -386,13 +386,12 @@ private static void getExceptionFlows(List<PossibleExceptionsBlock> possibleExce
 			possibleExceptionsBlockInfo.OperationFeatures.put("Kind", kind);
 			
 			possibleExceptionsBlockInfo.OperationFeatures.put("IsBindingInfo", flow.getIsBindingInfo() ? 1 : 0);
-			possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSemantic", flow.getIsJavadocSemantic() ? 1 : 0);
-			possibleExceptionsBlockInfo.OperationFeatures.put("IsJavadocSyntax", flow.getIsJavadocSyntax() ? 1 : 0);
+			possibleExceptionsBlockInfo.OperationFeatures.put("IsDocSemantic", flow.getIsJavadocSemantic() ? 1 : 0);
+			possibleExceptionsBlockInfo.OperationFeatures.put("IsDocSyntax", flow.getIsJavadocSyntax() ? 1 : 0);
 			possibleExceptionsBlockInfo.OperationFeatures.put("IsThrow", flow.getIsThrow() ? 1 : 0);
 			possibleExceptionsBlockInfo.OperationFeatures.put("LevelFound", (int) flow.getLevelFound());
 	        
-			possibleExceptionsBlockInfo.OperationFeatures.put("HandlerTypeCode", (int) flow.getHandlerTypeCode());
-			
+			possibleExceptionsBlockInfo.OperationFeatures.put("HandlerTypeCode", (int) flow.getHandlerTypeCode());			
 			
 	        //possibleExceptionsBlockInfo.MetaInfo.put("PossibleExceptionsBlock", node.toString());
 	    					        
