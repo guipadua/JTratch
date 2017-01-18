@@ -1,13 +1,24 @@
 package ca.concordia.jtratch.utility;
 
+import java.nio.charset.Charset;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 public class ASTUtilities {
 	public static ASTNode findParent (ASTNode node){
@@ -95,6 +106,27 @@ public class ASTUtilities {
 		return methodName;
 		
 	}
+	
+	public static String getMethodNameAndSignature ( IMethodBinding nodeBindingInfo, boolean quotes){
+		
+		String methodName = new String();
+				
+		methodName = ((quotes) ? "\"" : "") + nodeBindingInfo.getName().toString();
+		methodName += "(";
+    	
+		for(ITypeBinding param : nodeBindingInfo.getParameterTypes())
+    	{
+    		//SingleVariableDeclaration svParam = (SingleVariableDeclaration) param;
+    		methodName+= param.getQualifiedName() + ",";
+    	}
+    	methodName += ")" + ((quotes) ? "\"" : "");
+    	
+    	methodName = methodName.replace(",)",")");
+		
+		return methodName;
+		
+	}
+	
 	/**
 	 * Recursively find if the given subtype is a supertype of the reference type.
 	 *  
@@ -134,6 +166,8 @@ public class ASTUtilities {
 	}
 	
 	public static Integer findKind(ITypeBinding exceptionType, ASTNode tree) {
+		if(exceptionType == null)
+			return -9;
 		if(exceptionType.isEqualTo(tree.getAST().resolveWellKnownType("java.lang.RuntimeException")))
 			return 0;
 		else if (exceptionType.isEqualTo(tree.getAST().resolveWellKnownType("java.lang.Exception")))
@@ -157,4 +191,47 @@ public class ASTUtilities {
 		else
 			return null;		
 	}
+	public static ITypeBinding getType(String name) {
+    	StringBuilder fileData = new StringBuilder();
+		CompilationUnit cu = null;
+		Set<ITypeBinding> exceptionType = new HashSet<ITypeBinding>();
+			
+		fileData.append("package test;"+ System.getProperty("line.separator"));
+		fileData.append("public class Type {"+ System.getProperty("line.separator"));
+		fileData.append("	public Type(){"+ System.getProperty("line.separator"));
+		fileData.append("		" + name  + " x;"+ System.getProperty("line.separator"));
+		fileData.append("	}"+ System.getProperty("line.separator"));
+		fileData.append("}"+ System.getProperty("line.separator"));
+	
+		ASTParser parser = ASTParser.newParser(AST.JLS8);
+	
+		parser.setResolveBindings(true);
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+	
+		parser.setBindingsRecovery(true);
+		// parser.setStatementsRecovery(true);
+	
+		Map options = JavaCore.getOptions();
+		parser.setCompilerOptions(options);
+	
+		parser.setUnitName("Type.java");
+	
+		String[] empty = {  };
+	
+		parser.setEnvironment(empty, empty, null, true);
+		parser.setSource(fileData.toString().toCharArray());
+	
+		cu = (CompilationUnit) parser.createAST(null);
+		
+		cu.accept(new ASTVisitor() 
+		{
+			public boolean visit(VariableDeclarationStatement node) 
+			{  
+				//System.out.println(mycatch.toString());
+				exceptionType.add(node.getType().resolveBinding());
+				return super.visit(node);
+			}
+		});
+		return exceptionType.iterator().next();
+	}    
 }

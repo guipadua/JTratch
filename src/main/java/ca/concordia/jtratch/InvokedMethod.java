@@ -8,8 +8,9 @@ public class InvokedMethod {
     private String Key;
     private HashSet<ExceptionFlow> ExceptionFlowSet = new HashSet<ExceptionFlow>();
     private int ChildrenMaxLevel = 0;
-    private boolean Visited = false;
     private boolean Binded = false;
+    private boolean Declared = false;
+    private boolean ExternalJavadocPresent = false;
     
     public InvokedMethod(String key, boolean binded) {
 		super();
@@ -78,20 +79,28 @@ public class InvokedMethod {
 		ChildrenMaxLevel = childrenMaxLevel;
 	}
 
-	public boolean isVisited() {
-		return Visited;
-	}
-
-	public void setVisited(boolean Visited) {
-		this.Visited = Visited;
-	}
-
 	public boolean isBinded() {
 		return Binded;
 	}
 
 	public void setBinded(boolean binded) {
 		Binded = binded;
+	}
+
+	public boolean isDeclared() {
+		return Declared;
+	}
+
+	public void setDeclared(boolean declared) {
+		Declared = declared;
+	}
+
+	public boolean isExternalJavadocPresent() {
+		return ExternalJavadocPresent;
+	}
+
+	public void setExternalJavadocPresent(boolean externalJavadocPresent) {
+		ExternalJavadocPresent = externalJavadocPresent;
 	}
 
 	

@@ -21,6 +21,10 @@ public class CodeWalker {
         switch (inputMode)
         {
             case "ByFolder":
+            	logger.trace("Before javadoc xml load");
+            	CodeAnalyzer.getJavadocFromExternalXML();
+            	logger.trace("After javadoc xml load");
+            	
             	logger.trace("Before method 1 - createASTs");
                 CodeAnalyzer.AnalyzeAllTrees(LoadByFolder(filePath));
                 logger.trace("After method 1 - createASTs");

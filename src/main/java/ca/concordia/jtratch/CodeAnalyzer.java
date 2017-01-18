@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.xml.bind.JAXBException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.JavaCore;
@@ -21,6 +23,8 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FileASTRequestor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 
+import ca.concordia.jpexjd.MyJAXB;
+import ca.concordia.jpexjd.MyRoot;
 import ca.concordia.jtratch.pattern.CatchBlock;
 import ca.concordia.jtratch.pattern.CodeStatistics;
 import ca.concordia.jtratch.pattern.TreeStatistics;
@@ -41,6 +45,8 @@ public final class CodeAnalyzer {
 	//Store the methods that were invoked at least once during evaluation.
 	// Each method will be stored only once and will contain a list of possible exceptions (ExceptionFlow - open exception)
 	public static HashMap<String, InvokedMethod> InvokedMethods = new HashMap<String, InvokedMethod>();
+	
+	public static MyRoot externalJavadoc = new MyRoot();
 	
 	public static void AnalyzeAllTrees(List<String> sourceFilePathList )
 	{
@@ -92,8 +98,7 @@ public final class CodeAnalyzer {
                     {
 						astMethodDeclarations.put(methodDeclaration, new MyMethod(methodDeclaration, method));
                     }
-				}
-				
+				}				
 				allMethodDeclarations.add(astMethodDeclarations);
 			}			
 		};
@@ -143,6 +148,9 @@ public final class CodeAnalyzer {
 		allStatsFromCatchs.CodeStats.put("NumFiles", sourceFilePathList.size());
 		allStatsFromCatchs.CodeStats.put("NumDeclaredMethods", AllMyMethods.size());
 		allStatsFromCatchs.CodeStats.put("NumInvokedMethods", InvokedMethods.size());
+		allStatsFromCatchs.CodeStats.put("NumInvokedMethodsBinded", (int) InvokedMethods.values().stream().filter( method -> method.isBinded()).count());
+		allStatsFromCatchs.CodeStats.put("NumInvokedMethodsDeclared", (int) InvokedMethods.values().stream().filter( method -> method.isDeclared()).count());
+		allStatsFromCatchs.CodeStats.put("NumInvokedMethodsExtDocPresent", (int) InvokedMethods.values().stream().filter( method -> method.isExternalJavadocPresent()).count());
 		// Log statistics
         //Logger.Log("Num of syntax nodes: " + treeNode.Sum());
         //Logger.Log("Num of source files: " + numFiles);
@@ -212,7 +220,6 @@ public final class CodeAnalyzer {
 		methodDeclarationVisitor.setFilePath(sourceFilePath);
 		ast.accept(methodDeclarationVisitor);
 
-		stats.CodeStats.put("NumMethodDeclaration", methodDeclarationVisitor.getMethodDeclarationList().size());
 		stats.MethodDeclarationList = methodDeclarationVisitor.getMethodDeclarationList();
 		logger.info("Method Declarations visited successfully - number of methods on this file is: "
 				+ stats.MethodDeclarationList.size());
@@ -245,7 +252,7 @@ public final class CodeAnalyzer {
 		stats.CodeStats.put("NumCatchBlock", catchVisitor.getCatchBlockList().size());
 		stats.CatchBlockList = catchVisitor.getCatchBlockList();
 		
-		stats.CodeStats.put("NumPossibleExceptionBlocks", catchVisitor.getPossibleExceptionsList().size());
+		stats.CodeStats.put("NumPossibleExceptionBlock", catchVisitor.getPossibleExceptionsList().size());
 		stats.PossibleExceptionsBlockList = catchVisitor.getPossibleExceptionsList();
 
 		logger.info(
@@ -287,9 +294,7 @@ public final class CodeAnalyzer {
 		return new Tuple<CompilationUnit, TreeStatistics>(ast, stats);
 
 	}
-
 	
-
 	private static CompilationUnit getCUFromPath(String sourceFilePath, char[] fileCharData) throws IOException {
 
 		ASTParser parser = ASTParser.newParser(AST.JLS8);
@@ -357,6 +362,22 @@ public final class CodeAnalyzer {
 		return classFileJars;
 
 	}
+	
+	static void getJavadocFromExternalXML()
+	{
+		String jreXMLFilePath = "/Users/gbp/javadoc/javadoc.xml";
+		//String jreXMLFilePath = "/Users/gbp/javadoc/filesys.xml";		
+		
+		//JAXB
+		MyJAXB myJAXB = null;
+		try {
+			myJAXB = new MyJAXB(jreXMLFilePath);
+			externalJavadoc = myJAXB.getMyRoot();
+		} catch (JAXBException e) {
+			logger.error("External javadoc failure: " + e.getMessage());
+		}		
+	}
+	
 	private static String printProblems(IProblem[] iproblems) {
 		StringBuilder problems = new StringBuilder();
 		

@@ -56,19 +56,20 @@ public class CodeStatistics extends TreeStatistics {
         
         if (CatchBlocks.size() > 0)
         {
-        	CodeStats.put("NumExceptionTypeCatch",CatchBlocks.size());
-            CodeStats.put("NumLoggedCatchBlock",CatchBlocks.NumLogged);
-            CodeStats.put("NumBinded",CatchBlocks.NumBinded);
-            CodeStats.put("NumRecoveredBinding",CatchBlocks.NumRecoveredBinding);
+        	CodeStats.put("NumBinded",CatchBlocks.NumBinded);
             CodeStats.put("NumMethodsNotBinded",CatchBlocks.NumMethodsNotBinded);
+            CodeStats.put("NumLoggedCatchBlock",CatchBlocks.NumLogged);
+            CodeStats.put("NumDistinctExceptionTypeCatch",CatchBlocks.size());
+            CodeStats.put("NumRecoveredBinding",CatchBlocks.NumRecoveredBinding);
+            
         }
         if (ThrowsBlocks.size() > 0)
         {
-        	CodeStats.put("NumExceptionTypeThrows",ThrowsBlocks.size());
+        	CodeStats.put("NumDistinctExceptionTypeThrows",ThrowsBlocks.size());
         }
         if (PossibleExceptionsBlocks.size() > 0)
         {
-        	CodeStats.put("NumPossibleExceptions",PossibleExceptionsBlocks.size());
+        	CodeStats.put("NumDistinctPossibleExceptions",PossibleExceptionsBlocks.size());
         }
             
         

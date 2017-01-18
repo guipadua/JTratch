@@ -42,7 +42,8 @@ public class ExceptionFlow {
 	}
 	
 	public ExceptionFlow(ExceptionFlow exceptionFlow) {
-		this.setThrownType(exceptionFlow.getThrownType());
+		if(exceptionFlow.getThrownType() != null)
+			this.setThrownType(exceptionFlow.getThrownType());
 		this.setThrownTypeName(exceptionFlow.getThrownTypeName());
 		this.setOriginalMethodBindingKey(exceptionFlow.getOriginalMethodBindingKey());
 		this.setLevelFound(exceptionFlow.getLevelFound());
@@ -67,7 +68,7 @@ public class ExceptionFlow {
 
 	public void setThrownType(ITypeBinding thrownType) {
 		this.thrownType = thrownType;
-		this.setThrownTypeName(thrownType.getQualifiedName());		
+		this.setThrownTypeName(thrownType.getQualifiedName());
 	}
 
 	public Byte getLevelFound() {

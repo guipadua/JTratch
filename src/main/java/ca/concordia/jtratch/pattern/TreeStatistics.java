@@ -22,26 +22,37 @@ public class TreeStatistics {
         
         CodeStats.put("NumFiles", 0);
         
+        //From process compilation
         CodeStats.put("NumLOC", 0);
         CodeStats.put("NumCatchBlock", 0);
         
+        //From collection of catch blocks per AST - roll-up
         CodeStats.put("NumBinded", 0);
         CodeStats.put("NumNoDeclaration", 0);
-        
         CodeStats.put("NumMethodsNotBinded", 0);
-        
         CodeStats.put("NumLoggedCatchBlock", 0);
-        CodeStats.put("NumExceptionTypeCatch", 0);          
-        
+        CodeStats.put("NumDistinctExceptionTypeCatch", 0);          
         CodeStats.put("NumRecoveredBinding", 0);          
         
-        CodeStats.put("NumPossibleExceptionsBlock", 0);
+        //From process compilation
+      	CodeStats.put("NumPossibleExceptionBlock", 0);
+              
+      	//From collection of possible exceptions blocks per AST - roll-up
+        CodeStats.put("NumDistinctPossibleExceptions", 0);
         
-        CodeStats.put("NumMethodDeclaration", 0);
-                
-        CodeStats.put("NumThrowsBlock", 0);
-        CodeStats.put("NumExceptionTypeThrows", 0);
-                
+        //From CodeAnalyzer - global method storages:
+        CodeStats.put("NumDeclaredMethods", 0);
+		CodeStats.put("NumInvokedMethods", 0);
+		CodeStats.put("NumInvokedMethodsBinded", 0);
+		CodeStats.put("NumInvokedMethodsDeclared", 0);
+		CodeStats.put("NumInvokedMethodsExtDocPresent", 0);		
+        
+		//From process compilation
+		CodeStats.put("NumThrowsBlock", 0);        
+		
+		//From collection of possible exceptions blocks per AST - roll-up
+		CodeStats.put("NumDistinctExceptionTypeThrows", 0);
+		
         //CodeStats.Add("NumLoggedLOC", 0);
         //CodeStats.Add("NumCall", 0);
         //CodeStats.Add("NumLogging", 0);

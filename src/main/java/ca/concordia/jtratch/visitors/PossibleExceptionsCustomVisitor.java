@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +25,9 @@ import org.eclipse.jdt.core.dom.TagElement;
 import org.eclipse.jdt.core.dom.ThrowStatement;
 import org.eclipse.jdt.core.dom.TryStatement;
 
+import ca.concordia.jpexjd.MyClass;
+import ca.concordia.jpexjd.MyMethod;
+import ca.concordia.jpexjd.MyPackage;
 import ca.concordia.jtratch.ClosedExceptionFlow;
 import ca.concordia.jtratch.CodeAnalyzer;
 import ca.concordia.jtratch.ExceptionFlow;
@@ -235,7 +239,8 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
         	if(binded) {
         		CodeAnalyzer.InvokedMethods.put(nodeString, new InvokedMethod(nodeString, true));        		
         		collectBindedInvokedMethodDataFromDeclaration(CodeAnalyzer.InvokedMethods.get(nodeString), nodeString);
-        		collectBindedInvokedMethodDataFromBindingInfo(CodeAnalyzer.InvokedMethods.get(nodeString), nodeBindingInfo, nodeString);        		
+        		collectBindedInvokedMethodDataFromBindingInfo(CodeAnalyzer.InvokedMethods.get(nodeString), nodeBindingInfo, nodeString);
+        		collectBindedInvokedMethodDataFromExternalJavadoc(CodeAnalyzer.InvokedMethods.get(nodeString), nodeBindingInfo, nodeString); 
         	} 
         	else
         		CodeAnalyzer.InvokedMethods.put(nodeString, new InvokedMethod(nodeString, false));
@@ -260,7 +265,7 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 			nodemDeclar = CodeAnalyzer.AllMyMethods.get(nodeString).getDeclaration();
 		}
 		if(nodemDeclar != null){
-			invokedMethod.setVisited(true);
+			invokedMethod.setDeclared(true);
 			PossibleExceptionsCustomVisitor possibleExceptionsCustomVisitor = new PossibleExceptionsCustomVisitor(m_compilation, (byte) (m_myLevel + 1), false, nodeString);
 			nodemDeclar.accept(possibleExceptionsCustomVisitor);
 			
@@ -331,21 +336,72 @@ public class PossibleExceptionsCustomVisitor extends ASTVisitor{
 		invokedMethod.getExceptionFlowSet().addAll(exceptions);
 	}
 	
-	private HashSet<ExceptionFlow> processNodeForJavaDocSemantic(IMethodBinding nodeBindingInfo)
+	private void collectBindedInvokedMethodDataFromExternalJavadoc(InvokedMethod invokedMethod, IMethodBinding nodeBindingInfo, String originalNode)
 	{
-		HashSet<ExceptionFlow> exceptions = new HashSet<ExceptionFlow>();
+		HashSet<ExceptionFlow> exceptionFlows = new HashSet<ExceptionFlow>();
 		
-		//TODO: review how to get javadoc based on binding info.
+		String packageName = "";
+		String className = "";
+		String methodAndSignature  = "";
 		
-//		for( ITypeBinding type : nodeBindingInfo.getExceptionTypes())
-//		{
-//			ExceptionFlow flow = new ExceptionFlow(m_exceptionType, type);
-//			flow.setIsBindingInfo(true);
-//			
-//			exceptions.add(flow);
-//		}
+		MyPackage myPackage = null;
+		MyClass myClass = null;
+		MyMethod myMethod = null;
+		Set<String> exceptions = new HashSet<String>();
 		
-		return exceptions;
+		packageName = nodeBindingInfo.getDeclaringClass().getPackage().getName();
+		className = nodeBindingInfo.getDeclaringClass().getName();
+		
+		myPackage = CodeAnalyzer.externalJavadoc.getPackages().get(packageName);
+		if(myPackage != null){
+			myClass = myPackage.getClasses().get(className);
+			if(myClass != null){
+				methodAndSignature = ASTUtilities.getMethodNameAndSignature(nodeBindingInfo, false);
+				myMethod = myClass.getMethods().get(methodAndSignature);
+				if(myMethod != null){
+					invokedMethod.setExternalJavadocPresent(true);
+					exceptions = myMethod.getThrowTags().keySet();	
+				}							
+			}
+		}
+		
+		for( String exceptionSimpleName : exceptions)
+		{
+			String exceptionNameQualified = null;
+			if(myPackage.getClasses().containsKey(exceptionSimpleName))			{
+				exceptionNameQualified = packageName + "." + myPackage.getClasses().get(exceptionSimpleName).getName();			
+			} else
+			{
+				Set<String> exceptionOptions = new HashSet<String>();
+				CodeAnalyzer.externalJavadoc.getPackages().entrySet().forEach( entry -> {
+					if(entry.getValue().getClasses().containsKey(exceptionSimpleName)){
+						exceptionOptions.add(entry.getKey() + "." + entry.getValue().getClasses().get(exceptionSimpleName).getName());
+						//break;
+					}					
+				});
+				if(exceptionOptions.size() == 1)
+					exceptionNameQualified = exceptionOptions.iterator().next();
+				else if(exceptionOptions.size() == 0)
+					exceptionNameQualified = exceptionSimpleName;
+				else if(exceptionOptions.size() > 1)
+					exceptionNameQualified = "!EXCEPTION_IN_MULIPLE_PACKAGES!";
+			}
+				
+			ITypeBinding exceptionType = m_compilation.getAST().resolveWellKnownType(exceptionNameQualified);
+			if(exceptionType == null)
+				exceptionType = ASTUtilities.getType(exceptionNameQualified);
+			
+			ExceptionFlow flow;
+			if(exceptionType != null)
+				flow = new ExceptionFlow(exceptionType, ExceptionFlow.JAVADOC_SEMANTIC, originalNode, m_myLevel);
+			else
+			{
+				flow = new ExceptionFlow(exceptionNameQualified, ExceptionFlow.JAVADOC_SEMANTIC, originalNode, m_myLevel);
+			}			
+			exceptionFlows.add(flow);
+		}
+		
+		invokedMethod.getExceptionFlowSet().addAll(exceptionFlows);
 	}
 	
 	public HashMap<String, Byte> getInvokedMethodsBinded() {
