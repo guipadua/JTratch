@@ -65,19 +65,24 @@ public boolean visit(CatchClause node) {
     //Common Features - try/catch block
 	Integer tryStartLine = tree.getLineNumber(tryStatement.getBody().getStartPosition() + 1);
 	Integer tryEndLine = tree.getLineNumber(tryStatement.getBody().getStartPosition() + tryStatement.getBody().getLength() + 1);
+	Integer tryCount = ASTUtilities.countLines(tryStatement.getBody());
 	
-	catchBlockInfo.OperationFeatures.put("TryLine", tryStartLine);
-	catchBlockInfo.MetaInfo.put("TryLine", tryStartLine.toString());
-    catchBlockInfo.OperationFeatures.put("TryLOC", tryEndLine - tryStartLine);
+	catchBlockInfo.OperationFeatures.put("TryStartLine", tryStartLine);
+	catchBlockInfo.OperationFeatures.put("TryEndLine", tryEndLine);
+	catchBlockInfo.OperationFeatures.put("TryLOC", tryCount);
 	
-    Integer catchStartLine = tree.getLineNumber(node.getStartPosition() + 1);
-	Integer catchEndLine = tree.getLineNumber(node.getStartPosition() + node.getLength() + 1);
+	catchBlockInfo.MetaInfo.put("TryBlock", tryStartLine.toString());
+    
+    Integer catchStartLine = tree.getLineNumber(node.getBody().getStartPosition() + 1);
+	Integer catchEndLine = tree.getLineNumber(node.getBody().getStartPosition() + node.getBody().getLength() + 1);
+	Integer catchCount = ASTUtilities.countLines(node.getBody());
 	
-	catchBlockInfo.OperationFeatures.put("CatchLine", catchStartLine);
-	catchBlockInfo.OperationFeatures.put("CatchLOC", catchEndLine - catchStartLine);
+	catchBlockInfo.OperationFeatures.put("CatchStartLine", catchStartLine);
+	catchBlockInfo.OperationFeatures.put("CatchEndLine", catchEndLine);
+	catchBlockInfo.OperationFeatures.put("CatchLOC", catchCount);
     
     catchBlockInfo.OperationFeatures.put("CatchStart", node.getStartPosition());
-    catchBlockInfo.OperationFeatures.put("CatchLength", node.getLength());
+    catchBlockInfo.OperationFeatures.put("CatchLength", node.getBody().getLength());
 	
     catchBlockInfo.FilePath = filePath;
     catchBlockInfo.StartLine = catchStartLine;
@@ -90,11 +95,16 @@ public boolean visit(CatchClause node) {
     
     //Common Features - parent method
     ASTNode parentNode = ASTUtilities.findParentMethod(tryStatement);
+    int parentStartPosition = parentNode.getStartPosition();
+    int parentLength = parentNode.getLength();
     
     String parentMethodName = new String();
     if(parentNode.getNodeType() == ASTNode.METHOD_DECLARATION)
     {
     	MethodDeclaration parentMethod = (MethodDeclaration) parentNode;
+    	parentStartPosition = parentMethod.getBody().getStartPosition();
+    	parentLength = parentMethod.getBody().getLength();
+    	parentNode = parentMethod.getBody();
     	parentMethodName = ASTUtilities.getMethodNameWithoutBinding(parentMethod, true);
     	//TODO: review this to use a different method to get the name from ast utilities
     	
@@ -105,13 +115,16 @@ public boolean visit(CatchClause node) {
     
     catchBlockInfo.ParentMethod = parentMethodName;
     catchBlockInfo.MetaInfo.put("ParentMethod", parentMethodName);
-       
-    Integer parentMethodStartLine = tree.getLineNumber(parentNode.getStartPosition() + 1);
-	Integer parentMethodEndLine = tree.getLineNumber(parentNode.getStartPosition() + parentNode.getLength() + 1);
+    
+
+    Integer parentMethodStartLine = tree.getLineNumber(parentStartPosition + 1);
+	Integer parentMethodEndLine = tree.getLineNumber(parentStartPosition + parentLength + 1);
+	Integer parentMethodLOC = ASTUtilities.countLines(parentNode);
 	
 	//Common Features
-	catchBlockInfo.OperationFeatures.put("MethodLine", parentMethodStartLine);
-    catchBlockInfo.OperationFeatures.put("MethodLOC", parentMethodEndLine - parentMethodStartLine);
+	catchBlockInfo.OperationFeatures.put("MethodStartLine", parentMethodStartLine);
+	catchBlockInfo.OperationFeatures.put("MethodEndLine", parentMethodEndLine);	
+    catchBlockInfo.OperationFeatures.put("MethodLOC", parentMethodLOC);
     
     /* ---------------------------
      * BEGIN CatchClause node Inner Visitors

@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IMethodBinding;
@@ -233,5 +234,11 @@ public class ASTUtilities {
 			}
 		});
 		return exceptionType.iterator().next();
-	}    
+	}
+	
+	//This will count the lines of code in the flattened AST. Check NaiveASTFlattener to see all that is done for flattening.
+	//The flattening was initially developed for debugging purposes only.
+	public static Integer countLines(ASTNode node){
+		return node.toString().length() - node.toString().replace("\n", "").length() - 2;
+	}
 }

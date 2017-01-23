@@ -18,8 +18,7 @@ class Person
         {
             m1(); // possible exceptions: checked: CoreException, and _ from FileSystem getPath: InvalidPathException
             m2(); // possible exceptions: AccessViolationException, IOException
-            m2(); // possible exceptions: AccessViolationException, IOException
-            m3(-105); // possible exceptions: runtime: UnsupportedOperationException
+            m2(); /* possible exceptions: AccessViolationException, IOException*/ m3(-105); // possible exceptions: runtime: UnsupportedOperationException
 //            m2(); // possible exceptions: AccessViolationException, IOException
 //            PersonExtra.m30(); // pe: ---   none, it gets swallowed
 //            FileSystem fileSystem = FileSystems.getDefault();
@@ -29,18 +28,21 @@ class Person
         catch (InvalidPathException ex)
         {
             //I'm the catch 22
+        	
+        	
+        	
+        	
         	System.out.println("someone tried to load a path which is too long!" + ex.getMessage());
-        	try{
-        		System.out.println("inner try: " + ex.getMessage());
-        	}
-        	catch (Exception exp)
-        	{
-        		System.out.println("inner catch" + ex.getMessage());
-        	}        	
+        	try{		System.out.println("inner try: " + ex.getMessage());     	}
+        	catch (Exception exp)        	{
+        		System.out.println("inner catch" + ex.getMessage());       	}        	
         	
         }catch (BufferOverflowException ex)
         {
-            //boffe morre aqui
+            //boffe morre aqui 1
+        	 //boffe morre aqui 2
+        	 //boffe morre aqui 3
+        	 //boffe morre aqui 4
         } finally
         {
         	PersonExtra.m20();

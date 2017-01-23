@@ -24,13 +24,16 @@ public class CommonFeature {
     	OperationFeatures = new LinkedHashMap<String, Integer>();
         MetaInfo = new LinkedHashMap<String, String>();
 
-        OperationFeatures.put("TryLine", 0);
+        OperationFeatures.put("TryStartLine", 0);
+        OperationFeatures.put("TryEndLine", 0);
         OperationFeatures.put("TryLOC", 0);
-        OperationFeatures.put("CatchLine", 0);
+        OperationFeatures.put("CatchStartLine", 0);
+        OperationFeatures.put("CatchEndLine", 0);
         OperationFeatures.put("CatchLOC", 0);
         OperationFeatures.put("CatchStart", 0);
         OperationFeatures.put("CatchLength", 0);
-        OperationFeatures.put("MethodLine", 0);
+        OperationFeatures.put("MethodStartLine", 0);
+        OperationFeatures.put("MethodEndLine", 0);
         OperationFeatures.put("MethodLOC", 0);
         
         MetaInfo.put("FilePath", "'-filepath");
