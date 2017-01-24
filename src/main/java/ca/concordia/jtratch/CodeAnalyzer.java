@@ -74,7 +74,6 @@ public final class CodeAnalyzer {
 		parser.setCompilerOptions(options);
 		parser.setUnitName(unitName); 
 		parser.setEnvironment(classJarList, sourceFolder, null, true);
-		parser.setStatementsRecovery(true);
 				
 		List<Tuple<CompilationUnit, TreeStatistics>> codeStatsFromMethodsList = new ArrayList<Tuple<CompilationUnit, TreeStatistics>>();
 		List<HashMap<String, MyMethod>> allMethodDeclarations = new ArrayList<HashMap<String, MyMethod>>();
