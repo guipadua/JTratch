@@ -68,9 +68,9 @@ public class ThrowsDic extends HashMap<String, ThrowsList> {
     		BufferedWriter metaCSVBW = Files.newBufferedWriter(fileMetaCSV, charset);
 		)
     	{
-    		csvBW.write("id," + OpFeaturesKey + "ExceptionType,ParentMethod,ParentType,FilePath,StartLine");
+    		csvBW.write("id," + OpFeaturesKey + "ExceptionType,FilePath,StartLine");
     		csvBW.newLine();
-    		metaCSVBW.write("id," + metaKey);
+    		metaCSVBW.write("id," + metaKey + "ExceptionType,FilePath,StartLine");
     		metaCSVBW.newLine();
     		
     		for (Map.Entry<String,ThrowsList> entry : this.entrySet())

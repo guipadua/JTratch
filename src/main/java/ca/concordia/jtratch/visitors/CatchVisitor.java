@@ -54,7 +54,7 @@ public boolean visit(CatchClause node) {
     }
     
     //Basic info:
-    catchBlockInfo.MetaInfo.put("ExceptionType", catchBlockInfo.ExceptionType);    
+    //catchBlockInfo.MetaInfo.put("ExceptionType", catchBlockInfo.ExceptionType);    
 	
     //Try info:
     TryStatement tryStatement = (TryStatement) node.getParent();
@@ -86,12 +86,12 @@ public boolean visit(CatchClause node) {
 	
     catchBlockInfo.FilePath = filePath;
     catchBlockInfo.StartLine = catchStartLine;
-    catchBlockInfo.MetaInfo.put("FilePath", filePath);
-    catchBlockInfo.MetaInfo.put("StartLine", catchStartLine.toString());
+    //catchBlockInfo.MetaInfo.put("FilePath", filePath);
+    //catchBlockInfo.MetaInfo.put("StartLine", catchStartLine.toString());
     
     //Common Features - parent type
     catchBlockInfo.ParentType = ASTUtilities.findParentType(tryStatement);
-    catchBlockInfo.MetaInfo.put("ParentType", catchBlockInfo.ParentType);
+    //catchBlockInfo.MetaInfo.put("ParentType", catchBlockInfo.ParentType);
     
     //Common Features - parent method
     ASTNode parentNode = ASTUtilities.findParentMethod(tryStatement);
@@ -114,7 +114,7 @@ public boolean visit(CatchClause node) {
     	parentMethodName = "!UNEXPECTED_KIND!";
     
     catchBlockInfo.ParentMethod = parentMethodName;
-    catchBlockInfo.MetaInfo.put("ParentMethod", parentMethodName);
+    //catchBlockInfo.MetaInfo.put("ParentMethod", parentMethodName);
     
 
     Integer parentMethodStartLine = tree.getLineNumber(parentStartPosition + 1);
@@ -392,8 +392,8 @@ private static void getExceptionFlows(List<PossibleExceptionsBlock> possibleExce
 			possibleExceptionsBlockInfo.FilePath = flow.getCatchFilePath();
 			possibleExceptionsBlockInfo.StartLine = flow.getCatchStartLine();
 			
-			possibleExceptionsBlockInfo.MetaInfo.put("FilePath", flow.getCatchFilePath());
-			possibleExceptionsBlockInfo.MetaInfo.put("StartLine", flow.getCatchStartLine().toString());
+			//possibleExceptionsBlockInfo.MetaInfo.put("FilePath", flow.getCatchFilePath());
+			//possibleExceptionsBlockInfo.MetaInfo.put("StartLine", flow.getCatchStartLine().toString());
 	        
 			int kind = ASTUtilities.findKind(flow.getThrownType(), tree);
 			possibleExceptionsBlockInfo.OperationFeatures.put("Kind", kind);

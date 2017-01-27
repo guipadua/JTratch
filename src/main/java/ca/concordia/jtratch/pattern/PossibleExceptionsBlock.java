@@ -38,12 +38,12 @@ public class PossibleExceptionsBlock extends CommonFeature {
         {
             csv += (entry.getValue() + ",");
         }
-        csv += (ExceptionType + ",");
-        csv += (CaughtType + ",");
-        csv += (DeclaringMethod + ",");
-        csv += (InvokedMethod + ",");
+        csv += '"' + (ExceptionType.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (CaughtType.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (DeclaringMethod.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (InvokedMethod.replace(String.valueOf('"'),"") + '"' + ",");
         csv += (InvokedMethodLine + ",");
-        csv += (FilePath + ",");
+        csv += '"' + (FilePath.replace(String.valueOf('"'),"") + '"' + ",");
         csv += (StartLine);
         
         return csv;

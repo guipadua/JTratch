@@ -45,15 +45,15 @@ public class PossibleExceptionsDic extends HashMap<String, PossibleExceptionsLis
     	logger.info("Writing PossibleExceptionsBlock features into file...");
     	Charset charset = Charset.forName("UTF-8");
     	Path fileCSV = Paths.get(IOFile.CompleteFileNameOutput("PossibleExceptionsBlock.csv"));
-    	Path fileMetaCSV = Paths.get(IOFile.CompleteFileNameOutput("PossibleExceptionsBlock_Meta.csv"));
+//    	Path fileMetaCSV = Paths.get(IOFile.CompleteFileNameOutput("PossibleExceptionsBlock_Meta.csv"));
     	
     	Integer possibleExceptionsId = 0;
-        String metaKey = "";
+//        String metaKey = "";
         
-        for ( String meta : PossibleExceptionsBlock.MetaKeys)
-        {
-            metaKey += (meta + ",");
-        }
+//        for ( String meta : PossibleExceptionsBlock.MetaKeys)
+//        {
+//            metaKey += (meta + ",");
+//        }
         
         String OpFeaturesKey = "";
         
@@ -65,13 +65,13 @@ public class PossibleExceptionsDic extends HashMap<String, PossibleExceptionsLis
     	try 
     	(
 			BufferedWriter csvBW = Files.newBufferedWriter(fileCSV, charset);
-    		BufferedWriter metaCSVBW = Files.newBufferedWriter(fileMetaCSV, charset);
+    		//BufferedWriter metaCSVBW = Files.newBufferedWriter(fileMetaCSV, charset);
 		)
     	{
-    		csvBW.write("id," + OpFeaturesKey + "ThrownType,CaughtType,DeclaringMethod,InvokedMethod,InvokedMethodLine,CatchFilePath,CatchStartLine");
+    		csvBW.write("id," + OpFeaturesKey + "ThrownType,CaughtType,DeclaringMethod,InvokedMethod,InvokedMethodLine,FilePath,StartLine");
     		csvBW.newLine();
-    		metaCSVBW.write("id," + metaKey);
-    		metaCSVBW.newLine();
+//    		metaCSVBW.write("id," + metaKey);
+//    		metaCSVBW.newLine();
     		
     		for (Map.Entry<String,PossibleExceptionsList> entry : this.entrySet())
     		{
@@ -81,16 +81,16 @@ public class PossibleExceptionsDic extends HashMap<String, PossibleExceptionsLis
             		possibleExceptionsId++;
             		csvBW.write(possibleExceptionsId + "," + possibleExceptionsBlock.PrintFeaturesCSV());
             		csvBW.newLine();
-            		metaCSVBW.write(possibleExceptionsId + "," + possibleExceptionsBlock.PrintMetaInfoCSV());
-            		metaCSVBW.newLine();
+//            		metaCSVBW.write(possibleExceptionsId + "," + possibleExceptionsBlock.PrintMetaInfoCSV());
+//            		metaCSVBW.newLine();
             		
             	}
             	csvBW.flush();
-            	metaCSVBW.flush();
+//            	metaCSVBW.flush();
     		}
     		
     		csvBW.close();
-    		metaCSVBW.close();
+//    		metaCSVBW.close();
     		logger.info("Writing done.");
         	
     	} catch (IOException e) {

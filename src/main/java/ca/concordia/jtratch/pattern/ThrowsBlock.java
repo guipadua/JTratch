@@ -2,6 +2,7 @@ package ca.concordia.jtratch.pattern;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ThrowsBlock extends CommonFeature {
 	public static List<String> MetaKeys;
@@ -23,5 +24,36 @@ public class ThrowsBlock extends CommonFeature {
         MetaKeys = new ArrayList<String>(MetaInfo.keySet());
         OpFeaturesKeys = new ArrayList<String>(OperationFeatures.keySet());
     }
-   
+    
+    @Override
+    public String PrintFeaturesCSV()
+    {
+        String csv = "";
+        
+        for (Map.Entry<String, Integer> entry : OperationFeatures.entrySet())
+        {
+            csv += (entry.getValue() + ",");
+        }
+        csv += '"' + (ExceptionType.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (FilePath.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += (StartLine);
+        
+        return csv;
+    }
+    
+    @Override
+    public String PrintMetaInfoCSV()
+    {
+        String csv = "";
+        
+        for (Map.Entry<String, String> entry : MetaInfo.entrySet())
+        {
+        	csv += '"' + (entry.getValue().replace(String.valueOf('"'),"") + '"' + ",");
+        }
+        csv += '"' + (ExceptionType.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (FilePath.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += (StartLine);
+        
+        return csv;
+    }
 }

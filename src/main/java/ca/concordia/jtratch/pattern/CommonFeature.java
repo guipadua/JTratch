@@ -36,11 +36,11 @@ public class CommonFeature {
         OperationFeatures.put("MethodEndLine", 0);
         OperationFeatures.put("MethodLOC", 0);
         
-        MetaInfo.put("FilePath", "'-filepath");
-        MetaInfo.put("StartLine", "'-startline");
-        MetaInfo.put("ExceptionType", "'-exceptiontype");
-        MetaInfo.put("ParentType", "'-parenttype");
-        MetaInfo.put("ParentMethod", "'-parentmethod");
+//        MetaInfo.put("FilePath", "'-filepath");
+//        MetaInfo.put("StartLine", "'-startline");
+//        MetaInfo.put("ExceptionType", "'-exceptiontype");
+//        MetaInfo.put("ParentType", "'-parenttype");
+//        MetaInfo.put("ParentMethod", "'-parentmethod");
         
         MetaInfo.put("TryLine", "'-tryline");
         
@@ -84,10 +84,10 @@ public class CommonFeature {
         {
             csv += (entry.getValue() + ",");
         }
-        csv += (ExceptionType + ",");
-        csv += (ParentMethod + ",");
-        csv += (ParentType + ",");
-        csv += (FilePath + ",");
+        csv += '"' + (ExceptionType.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (ParentMethod.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (ParentType.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (FilePath.replace(String.valueOf('"'),"") + '"' + ",");
         csv += (StartLine);
         
         return csv;
@@ -100,11 +100,11 @@ public class CommonFeature {
         {
             csv += '"' + (entry.getValue().replace(String.valueOf('"'),"") + '"' + ",");
         }
-//        csv += (ExceptionType + ",");
-//        csv += (ParentMethod + ",");
-//        csv += (ParentType + ",");
-//        csv += (FilePath + ",");
-//        csv += (StartLine);
+        csv += '"' + (ExceptionType.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (ParentMethod.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (ParentType.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += '"' + (FilePath.replace(String.valueOf('"'),"") + '"' + ",");
+        csv += (StartLine);
         
         return csv;
     }

@@ -113,7 +113,7 @@ public class CatchDic extends HashMap<String, CatchList> {
     	{
     		csvBW.write("id," + OpFeaturesKey + "ExceptionType,ParentMethod,ParentType,FilePath,StartLine");
     		csvBW.newLine();
-    		metaCSVBW.write("id," + metaKey);
+    		metaCSVBW.write("id," + metaKey + "ExceptionType,ParentMethod,ParentType,FilePath,StartLine");
     		metaCSVBW.newLine();
     		
     		for (Map.Entry<String,CatchList> entry : this.entrySet())
