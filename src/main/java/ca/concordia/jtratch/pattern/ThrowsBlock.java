@@ -10,6 +10,10 @@ public class ThrowsBlock extends CommonFeature {
 
     public ThrowsBlock() 
     {
+    	OperationFeatures.put("Binded", -9);
+    	OperationFeatures.put("RecoveredBinding", -9);
+    	OperationFeatures.put("Kind", -9);
+    	
     	OperationFeatures.put("Line", 0);
 		OperationFeatures.put("LOC", 0);
 		OperationFeatures.put("Start", 0);

@@ -7,10 +7,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Type;
 
 import ca.concordia.jtratch.pattern.ThrowsBlock;
+import ca.concordia.jtratch.utility.ASTUtilities;
 
 public class MethodDeclarationVisitor extends ASTVisitor{
 	List<ThrowsBlock> throwsList = new ArrayList<ThrowsBlock>();
@@ -51,7 +54,23 @@ public class MethodDeclarationVisitor extends ASTVisitor{
 				{
 			    	ThrowsBlock throwsBlockInfo = new ThrowsBlock();
 			    	throwsBlockInfo.ExceptionType = type.toString();
-			    					    	
+			    	
+			    	ITypeBinding exceptionTypeBinding = type.resolveBinding();
+			    	
+			    	//Binding info:
+			        if(exceptionTypeBinding != null)
+			        {
+			        	throwsBlockInfo.ExceptionType = exceptionTypeBinding.getQualifiedName();
+			        	throwsBlockInfo.OperationFeatures.put("Binded", 1);
+			        	throwsBlockInfo.OperationFeatures.put("RecoveredBinding", exceptionTypeBinding.isRecovered() ? 1 : 0 );
+			        	int kind = ASTUtilities.findKind(exceptionTypeBinding, tree);
+			        	throwsBlockInfo.OperationFeatures.put("Kind", kind);
+			        } else 
+			        {	
+			        	throwsBlockInfo.ExceptionType = type.toString();
+			        	throwsBlockInfo.OperationFeatures.put("Binded", 0);
+			        }
+			    	
 			    	Integer startLine = tree.getLineNumber(node.getStartPosition() + 1);
 			    	Integer endLine = tree.getLineNumber(node.getStartPosition() + node.getLength() + 1);
 			    	
