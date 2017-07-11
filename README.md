@@ -14,10 +14,12 @@ localMavenRepo=[the maven repo to include in the classpath generation]
 
 java -jar jtratch.jar ByFolder $f $localMavenRepo;
 
+# Research
 
-# Anti-patterns detection:
+See related research papers:
 
-I used these metrics to identify exception handling anti-patterns.
-See my paper at: https://guipadua.github.io/icpc2017/
+## Anti-patterns detection
+
+Guilherme B. de Pádua and Weiyi Shang. *Studying the Prevalence of Exception Handling Anti-Patterns*. 2017 IEEE/ACM 25th International Conference on Program Comprehension (ICPC 2017), ERA Track. **Best ERA Paper Award** . [Website](https://guipadua.github.io/icpc2017/) [Paper](https://guipadua.github.io/resources/icpc2017-era_prevalence-eh-anti-patterns_cr.pdf) [Slides](https://www.slideshare.net/GuilhermePadua/ieee-icpc-2017-studying-the-prevalence-of-exception-handling-antipatterns)
 
 
