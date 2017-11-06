@@ -1,6 +1,8 @@
 package ca.concordia.jtratch;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -9,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBException;
@@ -38,7 +43,7 @@ import ca.concordia.jtratch.visitors.MethodDeclarationVisitor;
 public final class CodeAnalyzer {
 
 	private static final Logger logger = LogManager.getLogger(CodeAnalyzer.class.getName());
-
+	
 	public static HashMap<String, MyMethod> AllMyMethods = new HashMap<String, MyMethod>();
 	
 	//InvokedMethods:
@@ -53,31 +58,13 @@ public final class CodeAnalyzer {
 		logger.trace("Running AnalyzeAllTrees.");
 		
 		String[] sourceFilePaths = sourceFilePathList.toArray(new String [] {});
-		String[] sourceFolder = { IOFile.InputFolderPath }; 
-		
-		ASTParser parser = ASTParser.newParser(AST.JLS8);
-		Map options = JavaCore.getOptions();		
-		
-		String unitName = "bogus_unit_name";
 		final String[] emptyArray = new String[0];
-		String[] classJarList = getClassJarList();
 		
-		//set environment assumtion - this being run by folder, and each folder is one single project
-		//to run multiple projects, required extra loop basically
-		//classpath empty - maybe will be required if desired to combine binary calls together
-		//using default encodings
-		
-		//start as resolve binding false - very costly and not required for getting method declarations
-		parser.setResolveBindings(true); 
-		parser.setKind(ASTParser.K_COMPILATION_UNIT);
-		parser.setBindingsRecovery(true);
-		parser.setCompilerOptions(options);
-		parser.setUnitName(unitName); 
-		parser.setEnvironment(classJarList, sourceFolder, null, true);
-				
+		final String[] sourceFolders = inferSourceFolders(sourceFilePaths);
+		ASTParser parser = buildAstParser(sourceFolders);
+
 		List<Tuple<CompilationUnit, TreeStatistics>> codeStatsFromMethodsList = new ArrayList<Tuple<CompilationUnit, TreeStatistics>>();
 		List<HashMap<String, MyMethod>> allMethodDeclarations = new ArrayList<HashMap<String, MyMethod>>();
-		
 		FileASTRequestor fileASTRequestorDeclarations = new FileASTRequestor() { 
 			@Override
 			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
@@ -110,26 +97,14 @@ public final class CodeAnalyzer {
 		{
 			Dic.MergeDic2( AllMyMethods, methoddeclar);
 		}
-		
 		logger.info("Cached all method declarations: " + AllMyMethods.size());
-		
-		
+				
 		CodeStatistics allStatsFromMethods = new CodeStatistics(codeStatsFromMethodsList);
-		// Log statistics
-        //Logger.Log("Num of syntax nodes: " + treeNode.Sum());
-        //Logger.Log("Num of source files: " + numFiles);
 		allStatsFromMethods.PrintStatistics();     
 		
-		//resolve binding true - required for type comparison
-        parser.setResolveBindings(true); 
-		parser.setKind(ASTParser.K_COMPILATION_UNIT);
-		parser.setBindingsRecovery(true);
-		parser.setCompilerOptions(options);
-		parser.setUnitName(unitName); 
-		parser.setEnvironment(classJarList, sourceFolder, null, true);
+		parser = buildAstParser(sourceFolders);
 		
 		List<Tuple<CompilationUnit, TreeStatistics>> codeStatsFromCatchsList = new ArrayList<Tuple<CompilationUnit, TreeStatistics>>();
-		
 		FileASTRequestor fileASTRequestorStats = new FileASTRequestor() { 
 			@Override
 			public void acceptAST(String sourceFilePath, CompilationUnit ast) {
@@ -156,6 +131,68 @@ public final class CodeAnalyzer {
 		allStatsFromCatchs.PrintStatistics();       
 	}
 
+	
+	private static ASTParser buildAstParser(String[] sourceFolders) {
+		
+		String[] classJarList = getClassJarList();
+		
+		ASTParser parser = ASTParser.newParser(AST.JLS8);
+		Map options = JavaCore.getOptions();
+		JavaCore.setComplianceOptions(JavaCore.VERSION_1_8, options);
+		String unitName = "bogus_unit_name";
+		
+		parser.setResolveBindings(true);
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setBindingsRecovery(true);
+		parser.setCompilerOptions(options);
+		parser.setUnitName(unitName); 
+		parser.setEnvironment(classJarList, sourceFolders, null, true);			
+		
+		return parser;
+	}
+	
+	private static String[] inferSourceFolders(String[] filesArray) {
+		Set<String> sourceFolders = new TreeSet<String>();
+		nextFile: for (String file : filesArray) {
+			for (String sourceFolder : sourceFolders) {
+				if (file.startsWith(sourceFolder)) {
+					continue nextFile;
+				}
+			}
+			String otherSourceFolder = extractSourceFolderFromPath(file);
+			if (otherSourceFolder != null) {
+				sourceFolders.add(otherSourceFolder);
+//				System.out.print("source folder: ");
+//				System.out.println(otherSourceFolder);
+			}
+		}
+		return sourceFolders.toArray(new String[sourceFolders.size()]);
+	}
+
+	private static String extractSourceFolderFromPath(String sourceFilePath) {
+		try (BufferedReader scanner = new BufferedReader(new FileReader(sourceFilePath))) {
+			String lineFromFile;
+			while ((lineFromFile = scanner.readLine()) != null) {
+				if (lineFromFile.startsWith("package ")) { 
+					// a match!
+					//System.out.print("package declaration: ");
+					String packageName = lineFromFile.substring(8, lineFromFile.indexOf(';'));
+					//System.out.println(packageName);
+					
+					String packagePath = packageName.replace('.', File.separator.charAt(0));
+					int indexOfPackagePath = sourceFilePath.lastIndexOf(packagePath + File.separator);
+					if (indexOfPackagePath >= 0) {
+						return sourceFilePath.substring(0, indexOfPackagePath - 1);
+					}
+					return null;
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return null;
+	}
+	
 	public static void AnalyzeAllTreesAndComments(List<String> sourceFilePathList) {
 		logger.trace("Running AnalyzeAllTreesAndComments.");
 
