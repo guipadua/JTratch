@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -59,6 +60,15 @@ public class ASTUtilities {
 		  if(parentNodeType == ASTNode.TYPE_DECLARATION)
 		  {
 			  TypeDeclaration type = (TypeDeclaration) node.getParent();
+			  if(type.resolveBinding() != null)
+				  return type.resolveBinding().getQualifiedName();
+			  else		  
+				  return type.getName().getFullyQualifiedName();
+		  }
+		  
+		  if(parentNodeType == ASTNode.ENUM_DECLARATION)
+		  {
+			  EnumDeclaration type = (EnumDeclaration) node.getParent();
 			  if(type.resolveBinding() != null)
 				  return type.resolveBinding().getQualifiedName();
 			  else		  
